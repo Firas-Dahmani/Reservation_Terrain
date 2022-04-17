@@ -1,5 +1,10 @@
 .navbar{
     padding-bottom: 60px;
+    color: white;
+}
+
+.navbar a{
+    color: white !important;
 }
 
 .dropdownmenu{

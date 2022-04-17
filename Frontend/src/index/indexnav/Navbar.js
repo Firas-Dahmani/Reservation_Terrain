@@ -1,4 +1,4 @@
-import {AppBar,Button,Box,Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme} from "@mui/material"
+import {AppBar,Box,Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme} from "@mui/material"
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import Navbarcss from './Navbar.module.css'
@@ -13,7 +13,7 @@ function Navbar() {
   return (
     <div className={Navbarcss.navbar}>
         <React.Fragment >
-        <AppBar sx= {{background : "#063970"}}>
+        <AppBar sx= {{background : "#0a192f"}}>
             <Toolbar>
                 <Typography fontSize="25px" fontWeight="900px">SoccerLand</Typography>
                 {
@@ -26,15 +26,13 @@ function Navbar() {
                     : 
                     
                     (
-                        <Box  sx={{ display:'flex', width: '100%', marginLeft:'150px' }}>
+                        <Box  sx={{ display:'inline-flex', width: '100%', marginLeft:'150px' }}>
                             <Tabs textColor="inherit" value={value} onChange={(e,val)=> setValue(val)} indicatorColor="secondary">
                                 <Tab label="Home" to='/' component={Link}/>                                
                                 <Tab label="About" to='/about' component={Link} />                                
                                 <Tab label="Contact" to='/contact' component={Link} />                                
+                                <Tab label="Register/Login" to='/registerlogin' component={Link} />                                
                             </Tabs>
-
-                            <Button sx={{ marginLeft:"auto"}} variant="contained" to='/login' component={Link}>Login</Button>
-                            <Button sx={{ marginLeft:"10px"}} variant="contained" to='/register' component={Link}>SignUp</Button>
                             <MenuNav />
                         </Box>
                     )

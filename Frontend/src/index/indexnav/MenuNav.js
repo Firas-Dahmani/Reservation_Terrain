@@ -25,7 +25,7 @@ export default function MenuNav() {
 
     const logoutHandler = () =>{
         dispatch(logout())
-        navigate('/login')
+        navigate('/registerlogin')
     }
 
   return (

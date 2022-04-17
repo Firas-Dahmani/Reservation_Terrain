@@ -4,12 +4,10 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register,login } from '../../Redux-dep/actions/userActions';
-import RenderImage from './Image/Image';
 import './loginregister.css'
 
 function LoginRegister() {
     const [LoginORregiterClass, setLoginORregiterClass ] = useState("sign-in-mode")
-
     /* Register Code  */
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
@@ -23,7 +21,7 @@ function LoginRegister() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [role, setRole] = useState("Role");
-    const [pic, setPicRegister] = useState("https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg");
+    const [pic] = useState("https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg");
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const userRegister = useSelector((state) => state.userRegister)
@@ -75,15 +73,16 @@ function LoginRegister() {
             <div className="signin-signup ">
                 {/* register */}
                 <Form onSubmit={handleSubmitRegister} className="sign-up-form " >
-                    <h2 class="title">Sign in</h2>
-                    <div className="Photo">
-                        <Form.Group className="photo"   controlId="pic">
+                    <h2 class="title">Register</h2>
+                    <div className="formAll">
+                    {/* <div className="Photo">
+                        <Form.Group className=" mb-3 photo"   controlId="pic">
                         <RenderImage setPicRegister = {setPicRegister}  pic = {pic}/>
                         </Form.Group >
-                    </div>
+                    </div> */}
                     <div className="formRegister ">
                         <div className="firstlastname">
-                            <Form.Group className="firstname" controlId="firstname">
+                            <Form.Group className=" mb-3 firstname" controlId="firstname">
                             <Form.Label>First Name</Form.Label>
                             <Form.Control className="input-field"
                                 autoFocus
@@ -92,7 +91,7 @@ function LoginRegister() {
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
                             </Form.Group >
-                            <Form.Group className="lastname"  controlId="lastname">
+                            <Form.Group className=" mb-3 lastname"  controlId="lastname">
                             <Form.Label>Last Name</Form.Label>
                             <Form.Control className="input-field"
                                 autoFocus
@@ -102,7 +101,7 @@ function LoginRegister() {
                             />
                             </Form.Group >
                         </div>
-                        <Form.Group className="email"  controlId="email">
+                        <Form.Group className=" mb-3 email"  controlId="email">
                         <Form.Label>Email</Form.Label>
                         <Form.Control className="input-field"
                             autoFocus
@@ -112,7 +111,7 @@ function LoginRegister() {
                         />
                         </Form.Group >
                         <div className="telDate">
-                            <Form.Group className="tel"  controlId="tel">
+                            <Form.Group className=" mb-3 tel"  controlId="tel">
                             <Form.Label>Phone Number</Form.Label>
                             <Form.Control className="input-field"
                                 autoFocus
@@ -121,9 +120,10 @@ function LoginRegister() {
                                 onChange={(e) => setTel(e.target.value)}
                             />
                             </Form.Group >
-                            <Form.Group className="birthday"  controlId="dob">
+                            <Form.Group className=" mb-3 "  controlId="dob">
                                 <Form.Label>Select Date</Form.Label>
                                 <Form.Control
+                                className="birthday"
                                 type="date" 
                                 name="dob" 
                                 placeholder="Date of Birth"
@@ -132,8 +132,8 @@ function LoginRegister() {
                                 />
                             </Form.Group>
                         </div>
-                        <div className="genreRole">
-                            <Form.Group className="genre"  controlId="genre">
+                        <div className="genreRole " >
+                            <Form.Group className=" mb-3 genre"  controlId="genre">
                                 <Form.Control 
                                     as="select"
                                     custom ="true"
@@ -144,7 +144,7 @@ function LoginRegister() {
                                     <option value="Femme">Femme</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group className="role"  controlId="role">
+                            <Form.Group className=" mb-3 role"  controlId="role">
                                 <Form.Control 
                                     as="select"
                                     custom ="true"
@@ -157,7 +157,7 @@ function LoginRegister() {
                             </Form.Group>
                         </div>
                         <div className="Ville">
-                        <Form.Group className="adress"  controlId="adress">
+                        <Form.Group className=" mb-3 adress"  controlId="adress">
                         <Form.Label>Adress</Form.Label>
                         <Form.Control className="input-field"
                             autoFocus
@@ -166,7 +166,7 @@ function LoginRegister() {
                             onChange={(e) => setAdress(e.target.value)}
                         />
                         </Form.Group >
-                        <Form.Group className="ville"  controlId="ville">
+                        <Form.Group className=" mb-3 ville"  controlId="ville">
                         <Form.Label>Ville</Form.Label>
                         <Form.Control className="input-field"
                             autoFocus
@@ -175,7 +175,7 @@ function LoginRegister() {
                             onChange={(e) => setVille(e.target.value)}
                         />
                         </Form.Group >
-                        <Form.Group className="codepostale"  controlId="codePostale">
+                        <Form.Group className=" mb-3 codepostale"  controlId="codePostale">
                         <Form.Label>Code Postale</Form.Label>
                         <Form.Control className="input-field"
                             autoFocus
@@ -186,7 +186,7 @@ function LoginRegister() {
                         </Form.Group >
                         </div>
                         <div className="Password">
-                            <Form.Group className="pass"   controlId="password">
+                            <Form.Group className=" mb-3 pass"   controlId="password">
                             <Form.Label>Password</Form.Label>
                             <Form.Control className="input-field"
                                 type="password"
@@ -194,7 +194,7 @@ function LoginRegister() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             </Form.Group >
-                            <Form.Group className="confirmepass"   controlId="confirmPassword">
+                            <Form.Group className=" mb-3 confirmepass"   controlId="confirmPassword">
                             <Form.Label>Confirme Password</Form.Label>
                             <Form.Control className="input-field"
                                 type="Password"
@@ -204,13 +204,15 @@ function LoginRegister() {
                             </Form.Group >
                         </div>
                     </div>
+                    </div>
                     <Button   type="submit"  className="btn solid"/* disabled={!validateForm() || loading} */>
                         Register
                     </Button>
                 </Form>
                 {/* login */}
                 <Form onSubmit={handleSubmitLogin}  className="sign-in-form">
-                    <Form.Group className="emailLogin"  controlId="emailLogin">
+                <h2 class="title">Login</h2>
+                    <Form.Group className=" mb-3 emailLogin"  controlId="emailLogin">
                     <Form.Label>Email</Form.Label>
                     <Form.Control className="input-field"
                         autoFocus
@@ -219,7 +221,7 @@ function LoginRegister() {
                         onChange={(e) => setEmailLogin(e.target.value)}
                     />
                     </Form.Group >
-                    <Form.Group className="passwordLogin"   controlId="passwordLogin">
+                    <Form.Group className=" mb-3 passwordLogin"   controlId="passwordLogin">
                     <Form.Label>Password</Form.Label>
                     <Form.Control className="input-field"
                         type="password"

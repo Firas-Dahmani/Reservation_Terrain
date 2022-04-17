@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 
 
-const PAGES = ["Home", "About", "Contact", "Login", "SignUp"];
+
 
 function DrawerCom() {
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -20,7 +20,7 @@ function DrawerCom() {
                         <ListItemText>Profile</ListItemText>
                     </ListItemIcon>
                 </ListItemButton>
-                <ListItemButton onClick={()=> setOpenDrawer(false) } to='/login' component={Link}>
+                <ListItemButton onClick={()=> setOpenDrawer(false) } to='/registerlogin' component={Link}>
                     <ListItemIcon>
                         <ListItemText>Logout</ListItemText>
                     </ListItemIcon>

@@ -52,7 +52,7 @@ form {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 0rem 5rem;
+  padding: 0rem 8rem;
   transition: all 0.2s 0.7s;
   overflow: hidden;
   grid-column: 1 / 2;
@@ -76,14 +76,68 @@ form.sign-in-form {
   font-family: "Poppins";
   text-decoration: none;
   text-transform: capitalize;
+  -webkit-animation: vibrate-1 1.5s linear infinite both;
+	        animation: vibrate-1 1.5s linear infinite both;
 
+}
+@-webkit-keyframes vibrate-1 {
+  0% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+  20% {
+    -webkit-transform: translate(-2px, 2px);
+            transform: translate(-2px, 2px);
+  }
+  40% {
+    -webkit-transform: translate(-2px, -2px);
+            transform: translate(-2px, -2px);
+  }
+  60% {
+    -webkit-transform: translate(2px, 2px);
+            transform: translate(2px, 2px);
+  }
+  80% {
+    -webkit-transform: translate(2px, -2px);
+            transform: translate(2px, -2px);
+  }
+  100% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+@keyframes vibrate-1 {
+  0% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+  20% {
+    -webkit-transform: translate(-2px, 2px);
+            transform: translate(-2px, 2px);
+  }
+  40% {
+    -webkit-transform: translate(-2px, -2px);
+            transform: translate(-2px, -2px);
+  }
+  60% {
+    -webkit-transform: translate(2px, 2px);
+            transform: translate(2px, 2px);
+  }
+  80% {
+    -webkit-transform: translate(2px, -2px);
+            transform: translate(2px, -2px);
+  }
+  100% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
 }
 
 .input-field {
   max-width: 380px;
-  width: 90%;
+  width: 95%;
   background-color: #f0f0f0;
-  height: 47px;
+  height: 45px;
   border-radius: 55px;
   display: grid;
   grid-template-columns: 15% 85%;
@@ -343,9 +397,24 @@ form.sign-in-form {
   pointer-events: all;
 }
 
+@media (max-width: 1148px) {
+  form{
+    padding: 0 2rem ;
+  }
+}
+
+@media (max-width: 970px) {
+  form{
+    padding: 0 2rem ;
+  }
+}
+
 @media (max-width: 870px) {
+  form{
+    padding: 0 12rem ;
+  }
   .containerr {
-    min-height: 800px;
+    min-height: 1000px;
     height: 100vh;
   }
   .signin-signup {
@@ -446,6 +515,17 @@ form.sign-in-form {
   }
 }
 
+@media (max-width: 717px) {
+  form{
+    padding: 0 9rem ;
+  }
+}
+@media (max-width: 621px) {
+  form{
+    padding: 0 7rem ;
+  }
+}
+
 @media (max-width: 570px) {
   form {
     padding: 0 1.5rem;
@@ -458,7 +538,7 @@ form.sign-in-form {
     padding: 0.5rem 1rem;
   }
   .containerr {
-    padding: 1.5rem;
+    padding: 14.5rem;
   }
 
   .containerr:before {
@@ -510,4 +590,34 @@ form.sign-in-form {
 }
 .Ville{
   display: flex;
+}
+.formAll{
+  display: flex;
+
+}
+
+.Photo{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.genre{
+    margin-left: 35px;
+    margin-right: 117px;
+    border-radius: 6%;
+}
+
+.genre:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.7);
+}
+
+.role:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.7);
+}
+
+.birthday:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.7);
 }

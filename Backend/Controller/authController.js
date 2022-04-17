@@ -20,7 +20,7 @@ exports.registerUser = async (req, res) =>{
         }else{
             
             const uploadPic = await cloudinary.uploader.upload(req.body.pic || req.file.path , {
-                public_id: Date.now()+"-"+req.body.firstname+"-"+req.body.lastname,
+                public_id: req.body.tel+"-"+req.body.firstname+"-"+req.body.email,
                 folder:"photoProfile"
             })
 
@@ -49,7 +49,7 @@ exports.registerUser = async (req, res) =>{
                     token: Token.generateToken(userResult._id)
                 })
             })
-            .catch(err => {
+            .catch(() => {
                 res.json({
                     status: "FAILED",
                     message: "An error occured while saving user account!"
@@ -89,7 +89,7 @@ exports.logIn = async (req, res) => {
                     })
                 }
             })
-            .catch(e => {
+            .catch(() => {
                 res.json({
                     status: "FAILED",
                     message: "An error occured while comparing Password!"
@@ -103,7 +103,7 @@ exports.logIn = async (req, res) => {
             })
         }
     })
-    .catch(err => {
+    .catch(() => {
         res.json({
             status: "FAILED",
             message: "An error occured while checking for existing user!"
