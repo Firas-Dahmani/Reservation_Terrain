@@ -5,6 +5,11 @@ import { USER_LOGIN_REQUEST,
          USER_REGISTER_REQUEST,
          USER_REGISTER_SUCCESS,
          USER_REGISTER_FAIL,
+         USER_EMAIL_VERIFICATION_SEND_REQUEST,
+         USER_EMAIL_VERIFICATION_SEND_FAIL,
+         USER_RESET_PASSWORD_SEND_REQUEST,
+         USER_RESET_PASSWORD_SEND_SUCCESS,
+         USER_RESET_PASSWORD_SEND_FAIL,
     } from './../constant/userConstant';
 
 export const userLoginReducer = (state = {}, action) => {
@@ -36,6 +41,35 @@ export const userRegisterReducer = (state = {}, action) => {
         
         case USER_REGISTER_FAIL:
             return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const userEmailVerifReducer = (state = {}, action) => {
+    switch (action.type){
+        case USER_EMAIL_VERIFICATION_SEND_REQUEST:
+            return {loading : true};
+        
+        case USER_EMAIL_VERIFICATION_SEND_FAIL:
+            return {loading : false, error: action.error};
+
+        default:
+            return state;
+    }
+}
+
+export const userResetPasswordReducer = (state = {}, action) => {
+    switch (action.type){
+        case USER_RESET_PASSWORD_SEND_REQUEST:
+            return {loading : true};
+
+        case USER_RESET_PASSWORD_SEND_SUCCESS:
+            return {loading : false, message: action.payload};
+        
+        case USER_RESET_PASSWORD_SEND_FAIL:
+            return {loading : false, error: action.error};
 
         default:
             return state;

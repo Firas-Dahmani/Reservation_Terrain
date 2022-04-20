@@ -1,12 +1,14 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { userLoginReducer, userRegisterReducer } from './reducer/userReduces';
+import { userLoginReducer, userRegisterReducer, userEmailVerifReducer, userResetPasswordReducer } from './reducer/userReduces';
 import { sessionReducer, sessionService } from 'redux-react-session' 
 
 const reducer = combineReducers({
     userLogin : userLoginReducer,
     userRegister: userRegisterReducer,
+    userEmailVerif:userEmailVerifReducer,
+    userResetPassword: userResetPasswordReducer,
     session : sessionReducer
 })
 

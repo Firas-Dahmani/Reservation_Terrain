@@ -2,68 +2,65 @@ import { useParams, Link  } from 'react-router-dom'
 import './emailSent.css'
 
 function EmailSent() {
-    const {userEmail} = useParams()
+    const {userEmail, reset} = useParams()
   return (
-    <div>
-        <div className='text'>
-            Email has been verified 
+        <div className="emailsent">
+            <div className='card text-center' >
+                {reset && userEmail && 
+                    <>
+                        <div className="card-body">
+                        <h1 className='title'>Password Reset</h1> 
+                        <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" className='iconImg  top-70 start-50 translate-middle' alt=''/>
+                        </div>
+                        <p className=''>
+                            An email with a password reset link has been sent to your email : 
+                            <strong>{userEmail}</strong> ✔
+                        </p>
+                        <p>
+                            check your email and click on the link to proceed 
+                        </p>
+                        <Link to={`/registerlogin`}  className='btnconfirm top-70 start-50 translate-middle'>
+                                Confirm Account
+                        </Link>
+                    </>
+                }
+                {!reset && userEmail && 
+                    <>
+                        <div className="card-body">
+                        <h1 className='title'>Account Confirmation</h1> 
+                        <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" className='iconImg  top-70 start-50 translate-middle' alt=''/>
+                        </div>
+                        <p className=''>
+                            An email with your account confirmation link has been sent to your email : 
+                            <strong>{userEmail}</strong> ✔
+                        </p>
+                        <p>
+                            check your email and click on the link to proceed 
+                        </p>
+                        <Link to={`/registerlogin`}  className='btnconfirm top-70 start-50 translate-middle'>
+                                Confirm Account
+                        </Link>
+                    </>
+                }
+                {!reset && !userEmail && 
+                    <>
+                        <div className="card-body">
+                        <h1 className='title'>Password Reset</h1> 
+                        <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" className='iconImg  top-70 start-50 translate-middle' alt=''/>
+                        </div>
+                        <p className=''>
+                            Your Password has been Reset Successfuly ✔
+                        </p>
+                        <p>
+                            You may now log in  
+                        </p>
+                        <Link to={`/registerlogin`}  className='btnconfirm top-70 start-50 translate-middle'>
+                                Login
+                        </Link>
+                    </>
+                }
+            </div>
         </div>
-        <table border="0" cellPadding="0" cellSpacing="0" width="100%">
-            <tr>
-                <td bgcolor="#0a192f" align="center">
-                    <table border="0" cellPadding="0" cellSpacing="0" width="100%" className='elamentTable'>
-                        <tr>
-                            <td align="center" valign="top" className='firstelement'> </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td bgcolor="#0a192f" align="center" className='texttr'>
-                    <table border="0" cellPadding="0" cellSpacing="0" width="100%" className='elamentTable'>
-                        <tr>
-                            <td bgcolor="#ffffff" align="center" valign="top" className='icon'>
-                                <h1 className='title'>Account Confirmation</h1> 
-                                <img src=" https://img.icons8.com/clouds/100/000000/handshake.png" width="125" height="120" className='iconImg' alt=''/>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td bgcolor="#f4f4f4" align="center" className='texttr'>
-                    <table border="0" cellPadding="0" cellSpacing="0" width="100%" className='elamentTable'>
-                        <tr>
-                            <td bgcolor="#ffffff" align="center" className='paragraphTD'>
-                                <p className='paragraph'>
-                                    An email with your account confirmation link has been sent to your email : <strong>{userEmail}</strong> ✔
-                                </p>
-                            </td>
-                        </tr> 
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td bgcolor="#ffffff" align="left">
-                    <table width="100%" border="0" cellSpacing="0" cellPadding="0">
-                        <tr>
-                            <td bgcolor="#ffffff" align="center" className='buttonTR'>
-                                <table border="0" cellSpacing="0" cellPadding="0">
-                                    <tr>
-                                        <td align="center" className='buttonTD' bgcolor="#0a192f">
-                                            <Link to={`/registerlogin`}  className='button'>
-                                                Confirm Account
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
   )
 }
 

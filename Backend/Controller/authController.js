@@ -433,8 +433,8 @@ exports.resetPassword = (req, res) => {
                                 // hash password again
                                 const saltRounds = 10
                                 bcrypt.hash(newPassword, saltRounds)
-                                    .then((hashedResetPassword)=> {
-                                        User.updateOne({_id: userId}, {password:hashedResetPassword})
+                                    .then((hashedPassword)=> {
+                                        User.updateOne({_id: userId}, {password:hashedPassword})
                                             .then(()=> {
                                             // Update complete, Delete reset record
                                             PasswordReset.deleteOne({userId})
@@ -460,7 +460,8 @@ exports.resetPassword = (req, res) => {
                                             })
                                         })
                                     })
-                                    .catch(()=> {
+                                    .catch((err)=> {
+                                        console.log(err);
                                         res.json({
                                             status: "FAILED",
                                             message: "An error occured while hashing password !"

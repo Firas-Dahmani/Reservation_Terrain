@@ -7,6 +7,8 @@ import Navbar from './index/indexnav/Navbar';
 import LoginRegister from './auth/loginregister/LoginRegister';
 import AuthRoute from "./Utils/AuthRoute";
 import EmailSent from './auth/EmailSent/EmailSent';
+import Reset from './auth/reset/reset';
+import ResetPasswordDone from './auth/reset-password-done/RsetPasswordDone';
 
 
 
@@ -18,12 +20,23 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="*" element={<NotFound />} />
+        {/* Root */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        {/* Login Register */}
         <Route path="/registerlogin/" element={<AuthRoute><LoginRegister /></AuthRoute>} />
-        <Route path="/emailsent/:userEmail" element={<AuthRoute><EmailSent /></AuthRoute>} />
+        {/* Reset Password */}
+        <Route path="registerlogin/reset" element={<AuthRoute><Reset /></AuthRoute>} />
+        <Route path="registerlogin/resetPasswordDone/:userId/:resetString" element={<AuthRoute><ResetPasswordDone /></AuthRoute>} />
+        {/* Email Confimation */}
+        <Route path="/emailsent">
+          <Route path="" element={<AuthRoute><EmailSent /></AuthRoute>} />
+          <Route path=":userEmail" element={<AuthRoute><EmailSent /></AuthRoute>} />
+          <Route path=":userEmail/:reset" element={<AuthRoute><EmailSent /></AuthRoute>} />
+        </Route>
+        {/* ERROR */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   </div>

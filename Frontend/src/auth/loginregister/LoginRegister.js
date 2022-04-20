@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register,login } from '../../Redux-dep/actions/userActions';
 import './loginregister.css'
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
-import { Link } from 'react-router-dom';
 
 function LoginRegister() {
     const [LoginORregiterClass, setLoginORregiterClass ] = useState("sign-in-mode")
@@ -244,7 +243,9 @@ function LoginRegister() {
                                     onChange={(e) => setPasswordLogin(e.target.value)}
                                 />
                                 </Form.Group >
-                                <p className="social-text" sx={{fontWeight: 'bold'}}><Link to='forgettenpassword'>Forgot password?</Link></p>
+                                <p className="social-text" sx={{fontWeight: 'bold'}}>
+                                    <Link to='reset'>Forgot password?</Link>
+                                </p>
                                 <Button  type="submit"  className="btn solid">
                                 Login
                                 </Button>
