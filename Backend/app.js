@@ -11,6 +11,7 @@ var userRoutes = require('./routes/userRoute')
 var adminRoutes = require('./routes/adminRoutes')
 const authRoutes = require('./routes/authRoutes')
 const ownerRoutes = require('./routes/ownerRoutes')
+const contactRoutes = require('./routes/contactRoute')
 
 
 // some dependency
@@ -30,6 +31,7 @@ app.get('/',(req,res)=>{
 // use all routes
 app.use('/api', authRoutes)
 app.use('/', userRoutes)
+app.use('/', contactRoutes)
 app.use('/admin', adminRoutes)
 app.use('/owner', ownerRoutes)
 

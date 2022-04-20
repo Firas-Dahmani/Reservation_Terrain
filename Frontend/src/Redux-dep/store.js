@@ -3,12 +3,14 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { userLoginReducer, userRegisterReducer, userEmailVerifReducer, userResetPasswordReducer } from './reducer/userReduces';
 import { sessionReducer, sessionService } from 'redux-react-session' 
+import { contactReducer } from './reducer/contactReducer';
 
 const reducer = combineReducers({
     userLogin : userLoginReducer,
     userRegister: userRegisterReducer,
     userEmailVerif:userEmailVerifReducer,
     userResetPassword: userResetPasswordReducer,
+    contact : contactReducer,
     session : sessionReducer
 })
 

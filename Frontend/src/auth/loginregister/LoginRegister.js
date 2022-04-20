@@ -44,7 +44,8 @@ function LoginRegister() {
                 password,
                 role,
                 pic,
-                navigate]
+                navigate
+            ]
             dispatch(register(variableRegister)) 
     }
 
