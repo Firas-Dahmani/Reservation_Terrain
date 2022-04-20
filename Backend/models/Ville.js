@@ -1,6 +1,4 @@
 var mongoose = require('mongoose')
-
-
 var villeSchema = mongoose.Schema({
     userId: {
         type: String,
@@ -9,8 +7,5 @@ var villeSchema = mongoose.Schema({
     villeName: {
         type: String,
         required:true
-    }
-}
-)
-
+    }})
 module.exports = mongoose.model('ville', villeSchema)

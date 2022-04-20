@@ -3,6 +3,9 @@
   scroll-behavior: smooth;
 }
 
+body{
+    padding-top:48px; 
+}
 
 :root {
 

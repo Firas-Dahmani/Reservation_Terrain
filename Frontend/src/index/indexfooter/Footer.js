@@ -7,7 +7,7 @@ function Footer() {
     <div className={HeaderCSS.content}>
         <div className={HeaderCSS.top}>
             <div className={HeaderCSS.logo_details}>
-                <i class="fab fa-slack"></i>
+                <i className="fab fa-slack"></i>
                 <span style={{ marginLeft:"10px"}} className={HeaderCSS.logo_name}>SoccerLand</span>
             </div>
             <div className={HeaderCSS.mediaIcons}>

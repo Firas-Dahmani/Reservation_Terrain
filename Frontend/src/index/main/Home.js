@@ -1,18 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import HomeCss from "./Home.module.css";
-import BannerImage from "../../assets/terrain.png";
+import "./Home.css";
 
 function Home() {
   return (
-    <div className={HomeCss.home} style={{ backgroundImage: `url(${BannerImage})`   }}>
-      <div className={HomeCss.headerContainer}>
-        <h1 style={{ fontWeight: "bold" }}> Réservation du terrain </h1>
-        <p>RESERVATION AT A CLICK</p>
-        <Link to="/about">
-          <button> ORDER NOW </button>
-        </Link>
-      </div>
+    <div className="homeContainer">
+      <header className="masthead">
+      <div className="image"></div>
+        <div className="container h-100">
+          <div className="row h-100 align-items-center">
+            <div className="col-12 text-center">
+              <h1 className="font-weight-bold">Welcome to SoccerLand!</h1>
+              <h3 className="lead">
+              Football isn’t just about the game on the field. It’s about leadership and teamwork.
+              </h3>
+            </div>
+          </div>
+        </div>
+      </header>
     </div>
   );
 }

@@ -54,6 +54,9 @@ var userSchema = mongoose.Schema({
     },
     isAvail: {
         type: Boolean, default: false
+    },
+    verified: {
+        type: Boolean, default: false
     }
 }, { timestamp: true }
 )
