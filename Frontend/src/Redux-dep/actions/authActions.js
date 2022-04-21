@@ -11,7 +11,7 @@ import {
     USER_RESET_PASSWORD_SEND_REQUEST,
     USER_RESET_PASSWORD_SEND_SUCCESS,
     USER_RESET_PASSWORD_SEND_FAIL,
-} from './../constant/userConstant';
+} from '../constant/authConstant';
 import  axios  from 'axios';
 import { sessionService } from 'redux-react-session';
 

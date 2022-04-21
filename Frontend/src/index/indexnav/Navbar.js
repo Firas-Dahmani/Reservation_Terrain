@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css'
 import  DrawerCom  from './DrawerCom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from "../../Redux-dep/actions/userActions";
+import { logout } from "../../Redux-dep/actions/authActions";
 
 
 function Navbar() {
@@ -23,8 +23,8 @@ function Navbar() {
 
   return (
     <div className="navbarHome">
-        <AppBar sx= {{background : "#0a192f"}}>
-            <Toolbar>
+        <AppBar sx= {{background : "#0a192f"}} >
+            <Toolbar >
                 <Typography fontSize="25px" fontWeight="900px">SoccerLand</Typography>
                 {
                     isMatch ? (

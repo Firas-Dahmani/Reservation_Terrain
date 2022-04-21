@@ -3,7 +3,7 @@ import '../loginregister/loginregister.css'
 import  Button  from 'react-bootstrap/Button';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ResetPassword } from '../../Redux-dep/actions/userActions';
+import { ResetPassword } from '../../Redux-dep/actions/authActions';
 import { useState } from 'react';
 import AlertCompnenet from '../../Error/Alert/AlertCompnenet';
 

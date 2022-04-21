@@ -10,9 +10,9 @@ import { USER_LOGIN_REQUEST,
          USER_RESET_PASSWORD_SEND_REQUEST,
          USER_RESET_PASSWORD_SEND_SUCCESS,
          USER_RESET_PASSWORD_SEND_FAIL,
-    } from './../constant/userConstant';
+    } from './../constant/authConstant';
 
-export const userLoginReducer = (state = {}, action) => {
+export const authLoginReducer = (state = {}, action) => {
     switch (action.type){
         case USER_LOGIN_REQUEST:
             return {loading : true};
@@ -31,7 +31,7 @@ export const userLoginReducer = (state = {}, action) => {
     }
 }
 
-export const userRegisterReducer = (state = {}, action) => {
+export const authRegisterReducer = (state = {}, action) => {
     switch (action.type){
         case USER_REGISTER_REQUEST:
             return {loading : true};
@@ -47,7 +47,7 @@ export const userRegisterReducer = (state = {}, action) => {
     }
 }
 
-export const userEmailVerifReducer = (state = {}, action) => {
+export const authEmailVerifReducer = (state = {}, action) => {
     switch (action.type){
         case USER_EMAIL_VERIFICATION_SEND_REQUEST:
             return {loading : true};
@@ -60,7 +60,7 @@ export const userEmailVerifReducer = (state = {}, action) => {
     }
 }
 
-export const userResetPasswordReducer = (state = {}, action) => {
+export const authResetPasswordReducer = (state = {}, action) => {
     switch (action.type){
         case USER_RESET_PASSWORD_SEND_REQUEST:
             return {loading : true};

@@ -5,7 +5,6 @@ const AuthRoute = ({children}) => {
     const session = useSelector((state) => state.session);
     const { authenticated } = session;
     let location = useLocation()
-  
     if(authenticated){
         return <Navigate
             replace 

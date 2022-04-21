@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate,Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { register,login } from '../../Redux-dep/actions/userActions';
+import { register,login } from '../../Redux-dep/actions/authActions';
 import './loginregister.css'
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
 
@@ -26,7 +26,7 @@ function LoginRegister() {
     const [pic] = useState("https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg");
     let navigate = useNavigate();
     const dispatch = useDispatch();
-    const userRegister = useSelector((state) => state.userRegister);
+    const userRegister = useSelector((state) => state.authRegister);
     const { error } = userRegister;
 
     const handleSubmitRegister = async (event) =>{
@@ -55,7 +55,7 @@ function LoginRegister() {
     /* Login code  */
     const [emailLogin, setEmailLogin] = useState("");
     const [passwordLogin, setPasswordLogin] = useState("");
-    const userLogin = useSelector((state) => state.userLogin);
+    const userLogin = useSelector((state) => state.authLogin);
     const err = userLogin.error;
 
   

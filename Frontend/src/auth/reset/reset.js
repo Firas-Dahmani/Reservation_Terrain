@@ -4,7 +4,7 @@ import  Button  from 'react-bootstrap/Button';
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { forgetPassword } from '../../Redux-dep/actions/userActions';
+import { forgetPassword } from '../../Redux-dep/actions/authActions';
 import { useState } from 'react';
 
 function Reset() {
