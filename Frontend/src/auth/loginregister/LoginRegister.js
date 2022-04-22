@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register,login } from '../../Redux-dep/actions/authActions';
 import './loginregister.css'
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
+import Navbar from './../../index/indexnav/Navbar';
 
 function LoginRegister() {
     const [LoginORregiterClass, setLoginORregiterClass ] = useState("sign-in-mode")
@@ -66,7 +67,7 @@ function LoginRegister() {
 
   return (
         <>
-        <div className="clearfix"></div>
+            <Navbar />
                 <div className= {`containerr ${LoginORregiterClass}`}>
                     <div className="forms-container">
                         <div className="signin-signup ">
@@ -155,7 +156,7 @@ function LoginRegister() {
                                                 defaultValue={role}
                                                 onChange={(e) => setRole(e.target.value)}>
                                                 <option  disabled="disabled">Role</option>
-                                                <option value="Equipe">Equipe</option>
+                                                <option value="Owner">Owner Center</option>
                                                 <option value="User">User</option>
                                             </Form.Control >
                                         </Form.Group>

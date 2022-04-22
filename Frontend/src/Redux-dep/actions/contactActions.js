@@ -8,7 +8,7 @@ import  axios  from 'axios';
 
 
 
-export const contactAction = (variableContact, navigate) => async (dispatch) => {
+export const contactAction = (variableContact, navigate) => async (dispatch, getState) => {
     const [
         name,
         email,
@@ -20,11 +20,17 @@ export const contactAction = (variableContact, navigate) => async (dispatch) => 
     try {
 
         dispatch({ type: CONTACT_SEND_REQUEST })
+        
+        const {
+          session: { user },
+        } = getState();
+    
         const config = {
-          headers : {
-            "Content-type": "application/json",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
           },
-        }
+        };
+
         await axios.post(
           "http://localhost:5000/sendmessage",
           {

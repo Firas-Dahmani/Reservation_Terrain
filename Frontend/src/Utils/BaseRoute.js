@@ -1,23 +1,24 @@
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom'
 
-const AuthRoute = ({children}) => {
+const BaseRoute = ({children}) => {
     const session = useSelector((state) => state.session);
-    const { authenticated } = session;
-    console.log(authenticated)
+    const { authenticated, user } = session;
     let location = useLocation()
-    if(authenticated){
+    
+
+    if(!authenticated && user.data[0].role === "Admin"){
         return <Navigate
             replace 
-            to = "/"
+            to = "/admin"
             state= {{
                 from: location
             }}
         />
-    }else{
+    } else {
         return children
     }
-
+    
 }
 
-export default AuthRoute
+export default BaseRoute

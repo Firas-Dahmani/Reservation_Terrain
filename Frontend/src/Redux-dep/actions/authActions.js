@@ -36,7 +36,6 @@ export const login = (email, password, navigate) => async (dispatch) => {
           },
           config ).then(response => {
             const {data} = response
-
             if(data.status === 'FAILED'){
               const { message } = data
 
@@ -48,13 +47,21 @@ export const login = (email, password, navigate) => async (dispatch) => {
               const userDATA = data.data[0]
               dispatch({ type: USER_LOGIN_SUCCESS, payload: userDATA })
 
-              const token = userDATA._id
-
+              const token = data.token
               sessionService.saveSession(token).then(()=> {
-                sessionService.saveUser(userDATA).then(()=> {
-                  navigate('/')
+
+                sessionService.saveUser(data).then(()=> {
+                  if(userDATA.role == 'Admin'){
+                    navigate('/admin')
+                  } else if (userDATA.role == 'Owner'){
+                    navigate('/owner')
+                  }else if (userDATA.role == 'User'){
+                    navigate('/user')
+                  }
                 })
+
               })
+
             }
           })
 

@@ -1,5 +1,5 @@
 require('dotenv').config()
-const Token = require('../Utlis/generateToken')
+const generateToken = require("../Utlis/generateToken");
 const User = require('../models/user')
 const UserVerification = require('../models/userVerification')
 const PasswordReset = require('../models/PasswordReset')
@@ -62,7 +62,8 @@ exports.registerUser = async (req, res) =>{
             .then(userResult => {
                 sendVerificationEmail(userResult, res)
             })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err);
                 res.json({
                     status: "FAILED",
                     message: "An error occured while saving user account!"
@@ -251,7 +252,7 @@ exports.logIn = async (req, res) => {
                             status: "SUCCESS",
                             message: "Login successful",
                             data: data,
-                            token: Token.generateToken(data._id)
+                            token: generateToken(data[0]._id)
                         })
                     }else {
                         res.json({
@@ -260,7 +261,8 @@ exports.logIn = async (req, res) => {
                         })
                     }
                 })
-                .catch(() => {
+                .catch((err) => {
+                    console.log(err);
                     res.json({
                         status: "FAILED",
                         message: "An error occured while comparing Password!"

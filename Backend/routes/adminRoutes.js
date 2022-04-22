@@ -10,7 +10,7 @@ router.get('/getstade', verifyToken.protect, adminController.getAllStade)
 router.delete('/removeVille', verifyToken.protect, adminController.deleteVille)
 router.delete('/removeStade', verifyToken.protect, adminController.deleteStade)
 router.get('/seeUser', verifyToken.protect, adminController.seeUser)
-router.put('/acceptUser',verifyToken.protect,adminController.acceptUser)
+router.put('/acceptUser/:id',verifyToken.protect,adminController.acceptUser)
 
 
 module.exports = router;

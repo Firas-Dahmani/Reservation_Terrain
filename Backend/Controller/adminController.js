@@ -2,6 +2,52 @@ const User = require('../models/user')
 const Ville = require('../models/Ville')
 const Stade = require('../models/stade')
 
+// Home page 
+// See user owner and player ==> accept -- delete user
+
+exports.seeUser = async (req, res) => {
+    const { roles } = req.body
+    if(roles && roles !== 'Admin') {
+        await User.find({ role: roles , isAvail: false})
+        .then((result) => {
+            res.json({
+                status: "SUCCESS",
+                message: "All users are available !",
+                users : result
+            })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while displaying users!"
+            })
+        })
+    } else {
+        res.json({
+            status: "FAILED",
+            message: "Role not found or not Authorized!"
+        })
+    }
+   
+}
+
+exports.acceptUser = async (req, res) => {
+    const { id } = req.params
+        await User.updateOne({ _id: id }, { isAvail: true })
+        .then(()=> {
+            res.json({
+                status: "SUCCESS",
+                message: "User acceptes successfuly!"
+            })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while accepting user !"
+            })
+        })
+}
+
 
 // Add Ville 
 exports.addVille = async (req, res) => {
@@ -139,32 +185,3 @@ exports.deleteStade =  async (req, res) => {
     }   
 }
 
-exports.seeUser = async (req, res) => {
-
-    try {
-        await User.find({ role: "User" , isAvail: false})
-        .then(result => res.json({ user: result }))
-    } catch (error) {
-        res.json({ message: "Somthing went wrong in finding User!!" })
-    }
-}
-
-exports.seeOwners = async (req, res) => {
-
-    try {
-        await User.find({ role: "Owner" , isAvail: false})
-        .then(result => res.json({ user: result }))
-    } catch (error) {
-        res.json({ message: "Somthing went wrong in finding User!!" })
-    }
-}
-
-exports.acceptUser = async (req, res) => {
-    var id = req.body.id
-    try {
-        await User.updateOne({ _id: id }, { isAvail: true })
-        .then(result => res.status(201).json({ message: " user Accepted!" }))
-    } catch (error) {
-        res.json({ message: "Somthing went wrong in finding User!!" })
-    }
-}

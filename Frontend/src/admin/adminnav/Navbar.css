@@ -1,0 +1,14 @@
+.tab:hover,.tab{
+    color: white !important;
+}
+
+.navbarHome{
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .navbarHome {
+        padding-bottom: 0px !important;
+    }
+}

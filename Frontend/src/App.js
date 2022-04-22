@@ -3,12 +3,12 @@ import NotFound from './Error/NotFound/NotFound';
 import Home from './index/main/Home';
 import About from './index/about/About';
 import Contact from './index/contact/Contact';
-import Navbar from './index/indexnav/Navbar';
 import LoginRegister from './auth/loginregister/LoginRegister';
 import AuthRoute from "./Utils/AuthRoute";
 import EmailSent from './auth/EmailSent/EmailSent';
 import Reset from './auth/reset/reset';
 import ResetPasswordDone from './auth/reset-password-done/RsetPasswordDone';
+import AdminHome from './admin/adminhome/AdminHome';
 
 
 
@@ -18,7 +18,6 @@ function App() {
   return (
     <div className="App">
     <Router>
-      <Navbar />
       <Routes>
         {/* Root */}
         <Route path="/" element={<Home />} />
@@ -35,6 +34,8 @@ function App() {
           <Route path=":userEmail" element={<AuthRoute><EmailSent /></AuthRoute>} />
           <Route path=":userEmail/:reset" element={<AuthRoute><EmailSent /></AuthRoute>} />
         </Route>
+        {/* Admin Router */}
+        <Route path="/admin" element={<AdminHome />} />
         {/* ERROR */}
         <Route path="*" element={<NotFound />} />
       </Routes>
