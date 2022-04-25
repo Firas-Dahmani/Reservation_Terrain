@@ -6,13 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { forgetPassword } from '../../Redux-dep/actions/authActions';
 import { useState } from 'react';
+import Navbar from '../../index/indexnav/Navbar';
 
 function Reset() {
     const [email, setEmail] = useState("");
     let navigate = useNavigate();
     const dispatch = useDispatch();
-    const userEmailVerif = useSelector((state) => state.userEmailVerif);
-    const err = userEmailVerif.error;
+    const authEmailVerif = useSelector((state) => state.authEmailVerif);
+    const { error } = authEmailVerif
 
     const handleSubmit = async (event) =>{
         event.preventDefault();
@@ -20,12 +21,14 @@ function Reset() {
     }
 
   return (
-        <div className="containerr sign-up-mode">
+    <>
+        <Navbar/>
+         <div className="containerr sign-up-mode">
             <div className="forms-container">
                 <div className="signin-signup">
                 <Form onSubmit={handleSubmit}  className="sign-up-form">
                     <h2 className="title">Forgot Password?</h2>
-                    {err && <AlertCompnenet error={err}/>}
+                    {error && <AlertCompnenet error={error}/>}
                         <Form.Group className=" mb-3 emailLogin"  controlId="emailLogin">
                             <Form.Label>Enter your email adress</Form.Label>
                             <Form.Control 
@@ -61,6 +64,7 @@ function Reset() {
                 </div>
             </div>
         </div>
+    </>
   )
 }
 

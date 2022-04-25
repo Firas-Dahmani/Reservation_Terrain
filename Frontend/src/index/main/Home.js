@@ -1,26 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import Navbar from './../indexnav/Navbar';
+import { Link } from 'react-router-dom';
+import AdminHome from './../../admin/adminhome/AdminHome';
+import { sessionService } from 'redux-react-session';
 
 function Home() {
+    const [Role, setRole] = useState("")
+    
+    
+    useEffect(()=> {
+      sessionService.loadUser()
+        .then(user => setRole(user.data[0].role))
+        .catch(()=> console.log("Not Connected"))
+    },[Role])
   return (
     <>
-      <Navbar />
-      <div className="homeContainer">
-        <header className="masthead">
-        <div className="image"></div>
-          <div className="container h-100">
-            <div className="row h-100 align-items-center">
-              <div className="col-12 text-center">
-                <h1 className="font-weight-bold">Welcome to SoccerLand!</h1>
-                <h3 className="lead">
-                Football isn’t just about the game on the field. It’s about leadership and teamwork.
-                </h3>
-              </div>
+      {Role === 'Admin' ?
+      <AdminHome/>
+      :
+      <>
+        <Navbar />
+      <div className="shape shape-1"></div>
+      <div className="shape shape-2"></div>
+      <div className="shape shape-3"></div>
+      <div className="shape shape-4"></div>
+      <div className="shape shape-5"></div>
+      <div className="shape shape-6"></div>
+      <div className="container containerHome">
+        <div className="row align-items-center justify-content-left justify-content-lg-between">
+          <div className="col-lg-6 col-md-10 firstcolm">
+            <div className="header-hero-content">
+              <h1 className="header-title wow fadeInLeftBig" data-wow-duration="3s" data-wow-delay="0.2s">
+                <span>Launch YourApp</span> With Confidence and Creative</h1>
+              <p className="text wow fadeInLeftBig" data-wow-duration="3s" data-wow-delay="0.4s">
+                Lorem ipsum dolor sit amet
+                consectetur adipisicing elit. Aspernatur fugiat qui tenetur sit vero delectus vitae suscipit nostrum
+                aliquam exercitationem necessitatibus veniam placeat, voluptatibus harum.
+              </p>
+              <ul className="d-flex">
+                <li>
+                  <Link className="main-btn fadeInLeftBig"  to='/registerlogin' >Rejoignez-nous ici</Link>
+                </li>
+              </ul>
             </div>
           </div>
-        </header>
+          <div className="col-lg-3 col-md-6">
+            <div className="header-image">
+              <img src={require("../../assets/header-app.png")} alt="" className="image-1  wow fadeInRightBig"
+                data-wow-duration="3s" data-wow-delay="0.5s" />
+            </div>
+          </div>
+        </div>
       </div>
+      <div className="container">
+        <div className="header-shape-1"></div>
+        <div className="header-shape-2"></div>
+      </div>
+      </>  
+    }
     </>
   );
 }

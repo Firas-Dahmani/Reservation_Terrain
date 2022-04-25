@@ -23,5 +23,6 @@ var stadeSchema = mongoose.Schema({
     isAvail: {
         type: Boolean, default: false
     }
+    //email pass
 })
 module.exports = mongoose.model('stade',stadeSchema)

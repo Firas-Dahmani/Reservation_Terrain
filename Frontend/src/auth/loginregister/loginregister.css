@@ -28,12 +28,12 @@ input {
 }
 a{
   text-decoration: none;
-  color: #0a192f;
+  color: #fe5f59;
 }
 a:hover
 {
   text-decoration: none;
-  color: #0a192f;
+  color: #fe5f59;
 }
 .signin-signup {
   position: absolute;
@@ -71,7 +71,7 @@ form.sign-in-form {
 
 .title {
   font-size: 38px !important;
-  color:#0a192f;
+  color:#fe5f59;
   margin-bottom: 10px;
   font-family: "Poppins";
   text-decoration: none;
@@ -148,7 +148,7 @@ form.sign-in-form {
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
-  color:#0a192f;
+  color:#fe5f59;
 }
 
 .input-field:hover{
@@ -159,7 +159,7 @@ form.sign-in-form {
 .input-field i {
   text-align: center;
   line-height: 55px;
-  color: #0a192f;
+  color: #fe5f59;
   /* color: palegreen; */
   transition: 0.5s;
   font-size: 1.1rem;
@@ -182,7 +182,7 @@ form.sign-in-form {
 
 .btn {
   width: 150px;
-  background-color: #0a192f;
+  background-color: #fe5f59;
   border: none;
   outline: none;
   height: 49px;
@@ -295,7 +295,7 @@ form.sign-in-form {
   right: 48%;
   transform: translateY(-50%);
   /* background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%); */
-  background-image: linear-gradient(-45deg,#0a192f 0%, #0c1b2b 100%);
+  background-image: linear-gradient(-45deg,#F56E69 0%, #e55039 100%);
   /* background-image: linear-gradient(-45deg, #f15525 0%, #e47820 100%); */
 
   transition: 1.8s ease-in-out;
@@ -304,7 +304,7 @@ form.sign-in-form {
 }
 
 .image {
-  width: 89%;
+  width: 60%;
   transition: transform 1.1s ease-in-out;
   transition-delay: 0.4s;
 }
@@ -320,7 +320,7 @@ form.sign-in-form {
 
 .left-panel {
   pointer-events: all;
-  padding: 0rem 36% 3rem 0%;
+  padding: 4rem 36% 9rem 2%;
 }
 
 .right-panel {
@@ -335,12 +335,14 @@ form.sign-in-form {
 }
 
 .panel h3 {
+  color: #fff;
   font-weight: 600;
   line-height: 1;
   font-size: 1.5rem;
 }
 
 .panel p {
+  color: #fff;
   font-size: 0.95rem;
   padding: 0.7rem 0;
 }
@@ -453,7 +455,7 @@ form.sign-in-form {
   }
 
   .image {
-    width: 200px;
+    width: 40%;
     transition: transform 0.9s ease-in-out;
     transition-delay: 0.6s;
   }

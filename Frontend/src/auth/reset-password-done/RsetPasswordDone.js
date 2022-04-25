@@ -13,8 +13,8 @@ function ResetPasswordDone() {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const userResetPassword = useSelector((state) => state.userResetPassword);
-    const err = userResetPassword.error;
+  const authResetPassword = useSelector((state) => state.authResetPassword);
+    const err = authResetPassword.error;
 
   const handleSubmit = async (event) =>{
     event.preventDefault();

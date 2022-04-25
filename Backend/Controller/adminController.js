@@ -6,29 +6,30 @@ const Stade = require('../models/stade')
 // See user owner and player ==> accept -- delete user
 
 exports.seeUser = async (req, res) => {
-    const { roles } = req.body
-    if(roles && roles !== 'Admin') {
-        await User.find({ role: roles , isAvail: false})
-        .then((result) => {
-            res.json({
-                status: "SUCCESS",
-                message: "All users are available !",
-                users : result
+    const { userRole } = req.body
+    try {
+        if(userRole && userRole !=='Admin'){
+            await User.find({ role: userRole , isAvail: false})
+            .then((result) => {
+                console.log(result);
+                res.json({
+                    status: "SUCCESS",
+                    message: "All users are available !",
+                    users : result
+                })
             })
-        })
-        .catch(()=> {
+        }else{
             res.json({
                 status: "FAILED",
-                message: "An error occured while displaying users!"
+                message: "Role not found !"
             })
-        })
-    } else {
+        }
+    } catch (error) {
         res.json({
             status: "FAILED",
-            message: "Role not found or not Authorized!"
+            message: "An error occured while displaying users!"
         })
     }
-   
 }
 
 exports.acceptUser = async (req, res) => {

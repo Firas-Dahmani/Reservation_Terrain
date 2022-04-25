@@ -1,5 +1,3 @@
-import {AppBar,Box,Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme} from "@mui/material"
-import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css'
 import  DrawerCom  from './DrawerCom';
@@ -8,9 +6,6 @@ import { logout } from "../../Redux-dep/actions/authActions";
 
 
 function Navbar() {
-    const [value, setValue] = useState(0);
-    const theme = useTheme();
-    const isMatch = useMediaQuery(theme.breakpoints.down('md'));
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
@@ -22,36 +17,38 @@ function Navbar() {
     }
 
   return (
-    <div className="navbarHome">
-        <AppBar sx= {{background : "#0a192f"}} >
-            <Toolbar >
-                <Typography fontSize="25px" fontWeight="900px">SoccerLand</Typography>
-                {
-                    isMatch ? (
-                        <>
-                            <DrawerCom />
-                        </>
-                    ) 
-                    
-                    : 
-                    
-                    (
-                        
-                        <Box  sx={{ display:'inline-flex', width: 'top', marginLeft:'150px' }}>
-                            <Tabs textColor="inherit" value={value} onChange={(e,val)=> setValue(val)} indicatorColor="secondary">
-                                <Tab className="tab" label="Home" to='/' component={Link}/>                                
-                                <Tab className="tab" label="About" to='/about' component={Link} />                                
-                                <Tab className="tab" label="Contact" to='/contact' component={Link} />                                
-                                {authenticated && <Tab className="tab" onClick={logoutHandler} label="LOGOUT" /* to='/registerlogin' component={Link} */ /> }                               
-                                {!authenticated && <Tab className="tab" label="Register/Login" to='/registerlogin' component={Link} />}                                
-                            </Tabs>
-                        </Box>
-                        
-                    )
-                }
-                
-            </Toolbar>
-        </AppBar>
+    <div className="navbar-area">
+        <div className="container">
+            <nav className="navbar navbar-expand-lg navbar-light">
+            <div className="container-fluid">
+                <a className="navbar-brand" href="#"><img className="image" src={require('../../assets/logo.png')} alt="" /></a>
+                <DrawerCom />
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav ms-auto">
+                        <li className="nav-item">
+                        <Link className="nav-link "  to='/' >Home</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link "  to='/about' >About Us</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link "  to='/contact' >Contact Us</Link>
+                        </li>
+                        {authenticated &&
+                            <li className="nav-item">
+                                <Link className="nav-link " onClick={logoutHandler} label="LOGOUT" to='/registerlogin' >LOGOUT</Link>
+                            </li>                  
+                        }
+                        {!authenticated &&
+                            <li className="nav-item">
+                                <Link className="nav-link "  to='/registerlogin' >LOG IN</Link>
+                            </li>                  
+                        }
+                    </ul>
+                </div>
+            </div>
+            </nav>
+        </div>
     </div>
   )
 }

@@ -1,10 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
-*{
-  scroll-behavior: smooth;
+/* -------------- font google --------- */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+/* ----------- global ---------------- */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    color: #747e74;
+    overflow-x: hidden;
 }
 
-body{
-    padding-top:48px; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+h1,
+h3,
+h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #38424d;
+}
+
+h3 {
+    font-size: 28px;
+}
+
+h4 {
+    font-size: 22px;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #747e74;
+    margin: 0;
 }
 
 :root {
@@ -12,27 +61,5 @@ body{
 /* --animation-function: cubic-bezier(.15,.3,.14,1.36); */
 --animation-function: cubic-bezier(0.15, 0.3, 0.04, 1.09);
 }
-/************************************* scroll start****************************************************** */
-      /* width */
-      ::-webkit-scrollbar {
-        width: 15px;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background-color: #ffffff;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background:#f1f1f1;
-        border-radius: 10px;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #dddddd;
-    }
 
 
-    /************************************* scroll end****************************************************** */

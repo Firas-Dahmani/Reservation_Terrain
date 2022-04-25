@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import {Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText} from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu';
+import {Drawer, List, ListItemButton, ListItemIcon, ListItemText} from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../Redux-dep/actions/authActions';
@@ -22,45 +21,54 @@ function DrawerCom() {
     
 
   return (
-    <React.Fragment>
+    <React.Fragment >
         <Drawer 
         anchor="top"
         open={openDrawer}
         onClose={()=> setOpenDrawer(false)}
         
         >
-            <List sx={{backgroundColor: "#0a192f", textAlign:'center',alignItems:"center", paddingLeft:'100px'}}>
+            <List className='navbar-nav  align-items-center justify-content-center' sx={{backgroundColor: "#fff", textAlign:'center',alignItems:"center"}}>
                 <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/' component={Link}>
                     <ListItemIcon>
-                        <ListItemText sx={{color:"#fff ", fontWeight:'700', borderBottom:'2px solid #fff', borderLeft:'2px solid #fff', paddingLeft:'5px'}} >HOME</ListItemText>
+                        <ListItemText className="nav-link "  >HOME</ListItemText>
                     </ListItemIcon>
                 </ListItemButton>
-                {!authenticated && <ListItemButton onClick={()=> setOpenDrawer(false) } to='/registerlogin' component={Link}>
+                <ListItemButton onClick={()=> {setOpenDrawer(false); logoutHandler()} } to='/registerlogin'  component={Link}>
                     <ListItemIcon>
-                        <ListItemText sx={{color:"#fff ", fontWeight:'700', borderBottom:'2px solid #fff', borderLeft:'2px solid #fff', paddingLeft:'5px'}}>REGISTER/LOGIN</ListItemText>
-                    </ListItemIcon>
-                </ListItemButton>}
-                <ListItemButton onClick={()=> setOpenDrawer(false) } to='/about' component={Link}>
-                    <ListItemIcon>
-                        <ListItemText sx={{color:"#fff ", fontWeight:'700', borderBottom:'2px solid #fff', borderLeft:'2px solid #fff', paddingLeft:'5px'}}>ABOUT</ListItemText>
+                        <ListItemText >LOGOUT</ListItemText>
                     </ListItemIcon>
                 </ListItemButton>
-                <ListItemButton onClick={()=> setOpenDrawer(false) } to='/contact' component={Link}>
-                    <ListItemIcon>
-                        <ListItemText sx={{color:"#fff ", fontWeight:'700', borderBottom:'2px solid #fff', borderLeft:'2px solid #fff', paddingLeft:'5px'}}>CONTACT</ListItemText>
-                    </ListItemIcon>
-                </ListItemButton>
-                {authenticated && <ListItemButton onClick={()=> {setOpenDrawer(false); logoutHandler()} } to='/registerlogin'  component={Link}>
-                    <ListItemIcon>
-                        <ListItemText sx={{color:"#fff ", fontWeight:'700', borderBottom:'2px solid #fff', borderLeft:'2px solid #fff', paddingLeft:'5px'}}>LOGOUT</ListItemText>
-                    </ListItemIcon>
-                </ListItemButton>}
             </List>
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav ms-auto">
+                        <li className="nav-item">
+                        <Link className="nav-link "  to='/' >Home</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link "  to='/about' >About Us</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link "  to='/contact' >Contact Us</Link>
+                        </li>
+                        {authenticated &&
+                            <li className="nav-item">
+                                <Link className="nav-link " onClick={logoutHandler} label="LOGOUT" to='/registerlogin' >LOGOUT</Link>
+                            </li>                  
+                        }
+                        {!authenticated &&
+                            <li className="nav-item">
+                                <Link className="nav-link "  to='/registerlogin' >LOG IN</Link>
+                            </li>                  
+                        }
+                    </ul>
+                </div>
         </Drawer>
-
-        <IconButton sx={{ color: "white", marginLeft:"auto"}} onClick={()=> setOpenDrawer(!openDrawer)}>
-            <MenuIcon />
-        </IconButton>
+        <button className="navbar-toggler " type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation" onClick={()=> setOpenDrawer(!openDrawer)}>
+        <span className="navbar-toggler-icon "></span>
+        </button>
     </React.Fragment>
   )
 }

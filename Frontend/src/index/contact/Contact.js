@@ -110,7 +110,7 @@ function Contact() {
                         />
                       </Form.Group >
                     </div>
-                    <Button type="submit" className='btn btn-primary rounded-6 py-2 buttonContact px-4'>
+                    <Button type="submit" className='main-btn'>
                           Send
                     </Button>
                   </Form>
