@@ -5,7 +5,7 @@ import { logout } from "../../Redux-dep/actions/authActions";
 import { useDispatch } from 'react-redux';
 
 
-function Navbar() {
+function AdminNavbar() {
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
@@ -23,7 +23,10 @@ function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                        <Link className="nav-link "  to='/' >Home</Link>
+                            <Link className="nav-link "  to='/' >Home</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link "  to='/addowner' >Add Owner</Link>
                         </li>
                         <li className="nav-item">
                                 <Link className="nav-link " onClick={logoutHandler} label="LOGOUT" to='/registerlogin' >LOGOUT</Link>
@@ -37,4 +40,4 @@ function Navbar() {
   )
 }
 
-export default Navbar
+export default AdminNavbar

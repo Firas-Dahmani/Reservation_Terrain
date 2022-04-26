@@ -51,11 +51,11 @@ export const login = (email, password, navigate) => async (dispatch) => {
               sessionService.saveSession(token).then(()=> {
 
                 sessionService.saveUser(data).then(()=> {
-                  if(userDATA.role == 'Admin'){
+                  if(userDATA.role === 'Admin'){
                     navigate('/')
-                  } else if (userDATA.role == 'Owner'){
+                  } else if (userDATA.role === 'Owner'){
                     navigate('/owner')
-                  }else if (userDATA.role == 'User'){
+                  }else if (userDATA.role === 'User'){
                     navigate('/user')
                   }
                 })
@@ -95,9 +95,8 @@ export const register = (variableRegister) => async dispatch => {
             genre,
             adress,
             ville,
-            codePostale,
+            poste,
             password,
-            role,
             pic,
             navigate
           ] = variableRegister
@@ -119,9 +118,8 @@ export const register = (variableRegister) => async dispatch => {
                 genre,
                 adress,
                 ville,
-                codePostale,
+                poste,
                 password,
-                role,
                 pic
               },
               config

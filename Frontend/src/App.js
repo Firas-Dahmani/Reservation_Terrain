@@ -10,6 +10,7 @@ import ResetPasswordDone from './auth/reset-password-done/RsetPasswordDone';
 import BasicRoute from './Utils/BasicRoute';
 import AuthRoute from './Utils/AuthRoute';
 import { useSelector } from 'react-redux';
+import AddOwner from './admin/addOwner/AddOwner';
 
 
 
@@ -23,7 +24,10 @@ function App() {
       {checked && (
         <Routes>
         {/* Root */}
-        <Route path="/" element={<Home />} />
+        <Route path="/">
+          <Route path="" element={<Home />} />
+          <Route path=":id" element={<Home />} />
+        </Route>
         <Route path="/about" element={<BasicRoute><About /></BasicRoute>} />
         <Route path="/contact" element={<BasicRoute><Contact /></BasicRoute>} />
         {/* Login Register */}
@@ -38,6 +42,7 @@ function App() {
           <Route path=":userEmail/:reset" element={<BasicRoute><EmailSent /></BasicRoute>} />
         </Route>
         {/* Admin Router */}
+        <Route path="/addowner" element={<AuthRoute><AddOwner/> </AuthRoute>} />
         {/* ERROR */}
         <Route path="*" element={<NotFound />} />
       </Routes>

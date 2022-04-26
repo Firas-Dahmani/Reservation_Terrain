@@ -20,10 +20,9 @@ function LoginRegister() {
     const [genre, setGenre] = useState("Genre");
     const [adress, setAdress] = useState("");
     const [ville, setVille] = useState("");
-    const [codePostale, setCodePostale] = useState("");
+    const [poste, setPoste] = useState("Poste");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [role, setRole] = useState("Role");
     const [pic] = useState("https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg");
     let navigate = useNavigate();
     const dispatch = useDispatch();
@@ -41,9 +40,8 @@ function LoginRegister() {
                 genre,
                 adress,
                 ville,
-                codePostale,
+                poste,
                 password,
-                role,
                 pic,
                 navigate
             ]
@@ -149,15 +147,19 @@ function LoginRegister() {
                                                 <option value="Femme">Femme</option>
                                             </Form.Control >
                                         </Form.Group>
-                                        <Form.Group className=" mb-3 role"  controlId="role">
+                                        <Form.Group className=" mb-3 role"  controlId="poste">
                                             <Form.Control required  
                                                 as="select"
                                                 custom ="true"
-                                                defaultValue={role}
-                                                onChange={(e) => setRole(e.target.value)}>
-                                                <option  disabled="disabled">Role</option>
-                                                <option value="Owner">Owner Center</option>
-                                                <option value="User">User</option>
+                                                defaultValue={poste}
+                                                onChange={(e) => setPoste(e.target.value)}>
+                                                <option  disabled="disabled">Poste</option>
+                                                <option value="Gardien">Gardien</option>
+                                                <option value="Libero">Libero</option>
+                                                <option value="Défenseur">Défenseur</option>
+                                                <option value="Milieu">Milieu</option>
+                                                <option value="Ailier">Ailier</option>
+                                                <option value="Attaquant">Attaquant</option>
                                             </Form.Control >
                                         </Form.Group>
                                     </div>
@@ -178,15 +180,6 @@ function LoginRegister() {
                                         type="ville"
                                         value={ville}
                                         onChange={(e) => setVille(e.target.value)}
-                                    />
-                                    </Form.Group >
-                                    <Form.Group className=" mb-3 codepostale"  controlId="codePostale">
-                                    <Form.Label>Code Postale</Form.Label>
-                                    <Form.Control required  className="input-field"
-                                        autoFocus
-                                        type="codePostale"
-                                        value={codePostale}
-                                        onChange={(e) => setCodePostale(e.target.value)}
                                     />
                                     </Form.Group >
                                     </div>

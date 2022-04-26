@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { authLoginReducer, authRegisterReducer, authEmailVerifReducer, authResetPasswordReducer } from './reducer/authReduces';
 import { sessionReducer, sessionService } from 'redux-react-session' 
 import { contactReducer } from './reducer/contactReducer';
-import { userSeenReducer } from './reducer/AdminReducers';
+import { userAccepteReducer, userSeenReducer, userDeleteReducer, addOwnerReducer } from './reducer/AdminReducers';
 
 const reducer = combineReducers({
     authLogin : authLoginReducer,
@@ -13,6 +13,9 @@ const reducer = combineReducers({
     authResetPassword: authResetPasswordReducer,
     contact : contactReducer,
     userSeen:userSeenReducer,
+    userAccepte:userAccepteReducer,
+    userDelete:userDeleteReducer,
+    addOwner:addOwnerReducer,
     session : sessionReducer
 })
 

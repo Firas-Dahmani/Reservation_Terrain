@@ -35,9 +35,8 @@ var userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    codePostal: {
-        type: Number,
-        required: true,
+    Poste: {
+        type: String,
     },
     password: {
         type: String,

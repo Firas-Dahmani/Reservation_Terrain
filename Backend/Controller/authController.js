@@ -52,9 +52,9 @@ exports.registerUser = async (req, res) =>{
                 Genre: req.body.genre,
                 adress: req.body.adress,
                 Ville: req.body.ville,
-                codePostal: req.body.codePostale,
+                Poste: req.body.poste,
                 password: req.body.password,
-                role: req.body.role,
+                role: 'User',
                 pic: uploadPic.secure_url,
             })
 

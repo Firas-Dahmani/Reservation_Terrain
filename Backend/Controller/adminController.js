@@ -1,52 +1,138 @@
 const User = require('../models/user')
 const Ville = require('../models/Ville')
 const Stade = require('../models/stade')
+const { v4: uuidv4 } = require('uuid');
 
 // Home page 
 // See user owner and player ==> accept -- delete user
 
 exports.seeUser = async (req, res) => {
-    const { userRole } = req.body
-    try {
-        if(userRole && userRole !=='Admin'){
-            await User.find({ role: userRole , isAvail: false})
-            .then((result) => {
-                console.log(result);
-                res.json({
-                    status: "SUCCESS",
-                    message: "All users are available !",
-                    users : result
-                })
-            })
-        }else{
-            res.json({
-                status: "FAILED",
-                message: "Role not found !"
-            })
-        }
-    } catch (error) {
-        res.json({
-            status: "FAILED",
-            message: "An error occured while displaying users!"
-        })
-    }
-}
 
-exports.acceptUser = async (req, res) => {
-    const { id } = req.params
-        await User.updateOne({ _id: id }, { isAvail: true })
-        .then(()=> {
+        await User.find({ role: 'User', isAvail: false})
+        .then((result) => {
             res.json({
                 status: "SUCCESS",
-                message: "User acceptes successfuly!"
+                message: "All users are available !",
+                users : result
             })
         })
         .catch(()=> {
             res.json({
                 status: "FAILED",
-                message: "An error occured while accepting user !"
+                message: "An error occured while displaying users!"
             })
         })
+
+}
+
+exports.acceptUser = async (req, res) => {
+    const { id } = req.params
+
+        await User.find({ _id : id })
+        .then(()=> {
+                User.updateOne({ _id: id }, { isAvail: true })
+                .then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "User acceptes successfuly!"
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while Updating user !"
+                    })
+                })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding user !"
+            })
+        })
+
+}
+
+exports.deleteUser = async (req, res) => {
+    const { id } = req.params
+
+    await User.find({ _id : id })
+    .then(()=> {
+            User.deleteOne({ _id: id }, { isAvail: true })
+            .then(() =>{
+                res.json({
+                    status: "SUCCESS",
+                    message: "User deleted successfuly !"
+                })
+            })
+            .catch(()=> {
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while Deleting user !"
+                })
+            })
+    })
+    .catch(() =>{
+        res.json({
+            status: "FAILED",
+            message: "An error occured while finding user!"
+        })
+    })        
+}
+
+exports.addOwner = async (req, res) =>{
+    // Checking if user already existe
+    await User.find({email : req.body.email})
+    .then( async (result) => {
+        // A user aleady existe
+        if(result.length){
+            res.json({
+                status: "FAILED",
+                message: "User with the provided email already existes"
+            })
+        }else{
+            const Pass = uuidv4()
+            const user = new User({
+                firstName: req.body.firstname,
+                lastName: req.body.lastname,
+                email: req.body.email,
+                tel: req.body.tel,
+                birthDay: new Date(req.body.date),
+                Genre: req.body.genre,
+                adress: req.body.adress,
+                Ville: req.body.ville,
+                password: Pass,
+                role: 'User',
+                pic:"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+                isAvail:true,
+                verified:true
+            })
+
+            await user.save()
+            .then(userResult => {
+                res.json({
+                    status: "SUCCESS",
+                    message: "Account saved successfuly !",
+                    user : userResult,
+                    Password : Pass
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while saving user account!"
+                })
+            })
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.json({
+            status: "FAILED",
+            message: "An error occured while checking for existing user!"
+        })
+    })
 }
 
 
