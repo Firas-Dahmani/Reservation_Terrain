@@ -102,7 +102,7 @@ exports.addOwner = async (req, res) =>{
                 adress: req.body.adress,
                 Ville: req.body.ville,
                 password: Pass,
-                role: 'User',
+                role: 'Owner',
                 pic:"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
                 isAvail:true,
                 verified:true
@@ -202,16 +202,25 @@ exports.showVille =  async (req, res ) => {
 }
 
 exports.deleteVille = async (req, res) => {
-    const { id } = req.params
+    const { id } = req.body
 
     await Ville.find({ _id : id })
-    .then(()=> {
-            Ville.deleteOne({ _id: id })
-            .then(() =>{
-                res.json({
-                    status: "SUCCESS",
-                    message: "Ville deleted successfuly !"
-                })
+    .then(async()=> {
+            await Ville.deleteOne({ _id: id })
+            .then(async() =>{
+                await Stade.deleteMany({villeid : id})
+                    .then(()=> {
+                        res.json({
+                            status: "SUCCESS",
+                            message: "Ville deleted successfuly !"
+                        })
+                    })
+                    .catch(()=> {
+                        res.json({
+                            status: "FAILED",
+                            message: "An error occured while deliting stades !"
+                        })
+                    })
             })
             .catch(()=> {
                 res.json({
@@ -231,56 +240,112 @@ exports.deleteVille = async (req, res) => {
 
 // Add Stade 
 exports.addStade =  async (req, res) => {
-     await Ville.find({_id : req.body.villeid})
-     .catch(result => res.status(404).json({ messsage: "some error in finding ville id!" }))
-        
-        await Stade.find({ villeid: req.body.villeid }, async (err, s) => {
-            if (err) {
-                res.json({ msg: "some error in finding stade!" });
-            }
-        else {
-            let stade = new Stade ({
-                userId : req.user._id,
-                villeid : req.body.villeid, 
-                stadeId : s.length + 1,
-                stadeName : req.body.stadename, 
-                stadetel : req.body.stadetel
-            })
+    const {User_ID, Ville_ID, stadeName, Tel} = req.body
+    const StadeUpper = stadeName.toUpperCase()
 
-            await stade.save((error, st) => {
-                if (error){
-                    console.log(error);
-                    res.json({ messsage: "some error in save!" });
-                }
-                else {
-                    res.status(200).json({ message: "Stade added!!" })
-                }
+    await User.find({_id : User_ID})
+        .then(async ()=> {
+            await Ville.find({_id : Ville_ID})
+            .then(async ()=> {
+                await Stade.find({stadeName: StadeUpper })
+                    .then((result)=> {
+                        if(result.length > 0){
+                            res.json({
+                                status: "FAILED",
+                                message: "Stade name has been aded !!"
+                            })
+                        } else {
+                            const stade = new Stade ({
+                                userId : User_ID,
+                                villeid : Ville_ID, 
+                                stadeName : stadeName, 
+                                stadetel : Tel
+                            })
+                            
+                            stade.save()
+                                .then((resultat)=> {
+                                    res.json({
+                                        status: "SUCCESS",
+                                        message: "Ville has been saved successfuly!",
+                                        stade : resultat
+                                    })
+                                })
+                                .catch(()=> {
+                                    res.json({
+                                        status: "FAILED",
+                                        message: "An error occured while saving Stade !!"
+                                    })
+                                })
+                        }
+                    })
+                    .catch((err)=> {
+                        console.log(err);
+                        res.json({
+                            status: "FAILED",
+                            message: "An error occured while finding Stade !!"
+                        })
+                    })
             })
-        }
-    })
+            .catch(()=> {
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while finding ville !!"
+                })
+            })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding User !!"
+            })
+        })
 }
 
 exports.getAllStade = async (req, res) => {
+    const {Ville_ID} = req.body
 
-    try {
-        await Stade.find({ villeid: req.body.id })
-        .then(result => res.json({ message: result }))
-    } catch (error) {
-        console.log(error);
-        res.json({ message: "some error!" })
-    } 
+    await Stade.find({ villeid: Ville_ID })
+        .then((result)=> {
+            res.json({
+                status: "SUCCESS",
+                message: "Stade find successfuly!",
+                stade : result
+            })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding stade !"
+            })
+        })
 }
 
 
 
 exports.deleteStade =  async (req, res) => {
-    const id = req.body.id
-     try {
-        await Stade.deleteOne({ _id: id })
+    const { id } = req.body
 
-        res.status(200).json({ msg: "yes deleted user by admin" })
-    } catch (error) {
-        res.json({ message: "Somthing went wrong in delete Stade!!" })
-    }   
+    await Stade.find({ _id : id })
+    .then(()=> {
+            Stade.deleteOne({ _id: id })
+            .then(() =>{
+                res.json({
+                    status: "SUCCESS",
+                    message: "Stade deleted successfuly !"
+                })
+            })
+            .catch(()=> {
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while Deleting Stade !"
+                })
+            })
+    })
+    .catch(() => {
+        res.json({
+            status: "FAILED",
+            message: "An error occured while finding stade !!"
+        })
+    })   
 }
 

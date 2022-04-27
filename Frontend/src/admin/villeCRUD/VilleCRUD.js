@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { villeAddAction, villeDeleteAction, villeSeenAction } from '../../Redux-dep/actions/AdminActions';
 import Button  from 'react-bootstrap/Button';
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
-
+import './VilleCRUD.css'
 
 function VilleCRUD() {
     const dispatch = useDispatch()
@@ -91,7 +91,7 @@ function VilleCRUD() {
                 <thead>
                   <tr>
                     <th scope="col">Ville Name</th>
-                    <th scope="col">Delete User</th>
+                    <th scope="col">Delete Ville</th>
                   </tr>
                 </thead>
                 {
@@ -100,7 +100,7 @@ function VilleCRUD() {
                           <tbody key={i}>
                           <tr>
                             <th scope="row">{item.villeName}</th>
-                            <td><Link to={`/ville/${item._id}`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></td>
+                            <td><Link to={`/ville`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></td>
                           </tr>
                         </tbody>
                         ))

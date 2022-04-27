@@ -231,7 +231,6 @@ function LoginRegister() {
                                 <Form.Group className=" mb-3 passwordLogin"   controlId="passwordLogin">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control required  
-                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                 className="input-field"
                                     type="password"
                                     value={passwordLogin}

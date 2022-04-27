@@ -85,8 +85,8 @@ function AdminHome() {
                         <tr>
                           <th scope="row">{item.email}</th>
                           <td >{item.firstName}</td>
-                          <td><Link to={`/${item._id}`}  onClick={()=>handleAccepte(item._id)}><i className="fa fa-check check" ></i></Link></td>
-                          <td><Link to={`/${item._id}`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></td>
+                          <td><Link to={`/`}  onClick={()=>handleAccepte(item._id)}><i className="fa fa-check check" ></i></Link></td>
+                          <td><Link to={`/`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></td>
                         </tr>
                       </tbody>
                       ))

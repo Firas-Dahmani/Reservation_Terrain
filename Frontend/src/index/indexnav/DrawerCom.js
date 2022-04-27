@@ -29,7 +29,7 @@ function DrawerCom() {
         
         >
             <List className='navbar-nav  align-items-center justify-content-center' sx={{backgroundColor: "#fff", textAlign:'center',alignItems:"center"}}>
-                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/home' component={Link}>
+                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/' component={Link}>
                     <ListItemIcon>
                         <ListItemText className="nav-link "  >HOME</ListItemText>
                     </ListItemIcon>

@@ -1,4 +1,13 @@
 import { 
+    STADE_ADD_FAIL,
+    STADE_ADD_REQUEST,
+    STADE_ADD_SUCCESS,
+    STADE_DELETE_FAIL,
+    STADE_DELETE_REQUEST,
+    STADE_DELETE_SUCCESS,
+    STADE_SEEN_FAIL,
+    STADE_SEEN_REQUEST,
+    STADE_SEEN_SUCCESS,
     USERS_ACCEPTE_FAIL,
     USERS_ACCEPTE_REQUEST,
     USERS_ACCEPTE_SUCCESS,
@@ -128,6 +137,54 @@ export const villeAddReducer = (state = {}, action) => {
             return {loading : false, success: true};
         
         case VILLE_ADD_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const stadeSeenReducer = (state = {}, action) => {
+    switch (action.type){
+        case STADE_SEEN_REQUEST:
+            return {loading : true};
+        
+        case STADE_SEEN_SUCCESS:
+            return {loading : false, stade: action.payload};
+        
+        case STADE_SEEN_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const stadeAddReducer = (state = {}, action) => {
+    switch (action.type){
+        case STADE_ADD_REQUEST:
+            return {loading : true};
+        
+        case STADE_ADD_SUCCESS:
+            return {loading : false, success: true};
+        
+        case STADE_ADD_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const stadeDeleteReducer = (state = {}, action) => {
+    switch (action.type){
+        case STADE_DELETE_REQUEST:
+            return {loading : true};
+        
+        case STADE_DELETE_SUCCESS:
+            return {loading : false, success: true};
+        
+        case STADE_DELETE_FAIL:
             return {loading : false, error: action.payload};
 
         default:

@@ -7,11 +7,11 @@ const verifyRole = require("../middlewares/verifyRole")
 //Ville
 router.post('/addVille', verifyToken.protect,verifyRole("Admin"), adminController.addVille)
 router.post('/getVille', verifyToken.protect,verifyRole("Admin"), adminController.showVille)
-router.post('/removeVille/:id', verifyToken.protect,verifyRole("Admin"), adminController.deleteVille)
+router.post('/removeVille', verifyToken.protect,verifyRole("Admin"), adminController.deleteVille)
 
 //Stade
 router.post('/addstade', verifyToken.protect,verifyRole("Admin"), adminController.addStade)
-router.get('/getstade', verifyToken.protect,verifyRole("Admin"), adminController.getAllStade)
+router.post('/getstade', verifyToken.protect,verifyRole("Admin"), adminController.getAllStade)
 router.post('/removeStade', verifyToken.protect,verifyRole("Admin"), adminController.deleteStade)
 
 //User

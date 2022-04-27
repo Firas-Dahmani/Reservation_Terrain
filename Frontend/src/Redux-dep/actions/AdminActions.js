@@ -19,7 +19,16 @@ import {
     VILLE_DELETE_FAIL,
     VILLE_ADD_REQUEST,
     VILLE_ADD_FAIL,
-    VILLE_ADD_SUCCESS
+    VILLE_ADD_SUCCESS,
+    STADE_SEEN_REQUEST,
+    STADE_SEEN_FAIL,
+    STADE_SEEN_SUCCESS,
+    STADE_ADD_REQUEST,
+    STADE_ADD_FAIL,
+    STADE_ADD_SUCCESS,
+    STADE_DELETE_REQUEST,
+    STADE_DELETE_FAIL,
+    STADE_DELETE_SUCCESS
 } from "../constant/AdminConstant";
 import  axios  from 'axios';
 import { sessionService } from 'redux-react-session';
@@ -276,8 +285,10 @@ export const villeDeleteAction = (id) => async (dispatch, getState) => {
           Authorization: `Bearer ${user.token}`,
       }};
 
-      await axios.post(`http://localhost:5000/admin/removeVille/${id}`,
-      {},
+      await axios.post(`http://localhost:5000/admin/removeVille`,
+      {
+        id
+      },
       config
 
       ).then(response => {
@@ -345,6 +356,147 @@ export const villeAddAction = (villeName) => async (dispatch, getState) => {
         console.log(error);
           dispatch({
               type: VILLE_ADD_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+//Stade
+export const stadeSeenAction = (Ville_ID) => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: STADE_SEEN_REQUEST })
+      sessionService.loadUser()
+        .then(async (User) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${User.token}`,
+          }}
+
+          await axios.post("http://localhost:5000/admin/getstade",
+            {
+              Ville_ID
+            },
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: STADE_SEEN_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const {stade} = data
+                dispatch({ type: STADE_SEEN_SUCCESS, payload: stade })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: STADE_SEEN_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const stadeAddAction = (User_ID, Ville_ID, stadeName, Tel) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: STADE_ADD_REQUEST })
+      
+      const {
+        session: { user },
+      } = getState();
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+      }};
+
+      await axios.post(`http://localhost:5000/admin/addstade`,
+      {
+        User_ID, 
+        Ville_ID, 
+        stadeName, 
+        Tel
+      },
+      config
+
+      ).then(response => {
+          const {data} = response
+
+          if(data.status === 'FAILED'){
+            dispatch({
+              type: STADE_ADD_FAIL,
+              payload: data.message})
+
+          }else if(data.status === 'SUCCESS') {
+            const {ville} = data
+            dispatch({ type: STADE_ADD_SUCCESS, payload: ville })
+          }
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: STADE_ADD_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const stadeDeleteAction = (id) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: STADE_DELETE_REQUEST })
+      
+      const {
+        session: { user },
+      } = getState();
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+      }};
+
+      await axios.post(`http://localhost:5000/admin/removeStade`,
+      {
+        id
+      },
+      config
+
+      ).then(response => {
+          const {data} = response
+
+          if(data.status === 'FAILED'){
+            dispatch({
+              type: STADE_DELETE_FAIL,
+              payload: data.message})
+
+          }else if(data.status === 'SUCCESS') {
+            const {ville} = data
+            dispatch({ type: STADE_DELETE_SUCCESS, payload: ville })
+          }
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: STADE_DELETE_FAIL,
               payload:
                   error.response && error.response.data.message
                   ? error.response.data.message

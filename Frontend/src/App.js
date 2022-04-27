@@ -12,23 +12,32 @@ import AuthRoute from './Utils/AuthRoute';
 import { useSelector } from 'react-redux';
 import AddOwner from './admin/addOwner/AddOwner';
 import VilleCRUD from './admin/villeCRUD/VilleCRUD';
-
-
+import { sessionService } from 'redux-react-session';
+import { useState } from 'react';
+import StadeCrud from './admin/stadeCRUD/StadeCrud';
 
 
 function App() {
   const session = useSelector((state) => state.session);
   const { checked } = session;
+
+  const [Role, setRole] = useState("")
+
+  sessionService.loadUser()
+    .then((User) => {
+      setRole(User.data[0].role)
+    })
+    .catch(()=> {
+      setRole("No User")
+    })
+
   return (
     <div className="App">
     <Router>
       {checked && (
         <Routes>
         {/* Root */}
-        <Route path="/home">
-          <Route path="" element={<Home />} />
-          <Route path=":id" element={<Home />} />
-        </Route>
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<BasicRoute><About /></BasicRoute>} />
         <Route path="/contact" element={<BasicRoute><Contact /></BasicRoute>} />
         {/* Login Register */}
@@ -43,11 +52,14 @@ function App() {
           <Route path=":userEmail/:reset" element={<BasicRoute><EmailSent /></BasicRoute>} />
         </Route>
         {/* Admin Router */}
-        <Route path="/addowner" element={<AuthRoute><AddOwner/> </AuthRoute>} />
-        <Route path="/ville">
-          <Route path="" element={<AuthRoute><VilleCRUD /> </AuthRoute>} />
-          <Route path=":id" element={<AuthRoute><VilleCRUD /> </AuthRoute>} />
-        </Route>
+        {
+          Role === "Admin"  && 
+            <>
+              <Route path="/addowner" element={<AuthRoute><AddOwner/> </AuthRoute>} />
+              <Route path="/stade" element={<AuthRoute><StadeCrud /> </AuthRoute>} />
+              <Route path="/ville" element={<AuthRoute><VilleCRUD /> </AuthRoute>} />
+            </>
+        }
         {/* ERROR */}
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -8,21 +8,14 @@ var stadeSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    stadeId: {
-        type: String,
-        required: true
-    },
     stadeName:{
         type: String, 
+        uppercase: true,
         required: true
     },
     stadetel: {
         type: Number,
         required: true
-    },
-    isAvail: {
-        type: Boolean, default: false
     }
-    //email pass
 })
 module.exports = mongoose.model('stade',stadeSchema)
