@@ -29,9 +29,19 @@ function DrawerCom() {
         
         >
             <List className='navbar-nav  align-items-center justify-content-center' sx={{backgroundColor: "#fff", textAlign:'center',alignItems:"center"}}>
-                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/' component={Link}>
+                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/home' component={Link}>
                     <ListItemIcon>
                         <ListItemText className="nav-link "  >HOME</ListItemText>
+                    </ListItemIcon>
+                </ListItemButton>
+                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/addowner' component={Link}>
+                    <ListItemIcon>
+                        <ListItemText className="nav-link "  >ADD OWNER</ListItemText>
+                    </ListItemIcon>
+                </ListItemButton>
+                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/ville' component={Link}>
+                    <ListItemIcon>
+                        <ListItemText className="nav-link "  >VILLE</ListItemText>
                     </ListItemIcon>
                 </ListItemButton>
                 <ListItemButton onClick={()=> {setOpenDrawer(false); logoutHandler()} } to='/registerlogin'  component={Link}>

@@ -9,7 +9,7 @@ const BasicRoute = ({children}) => {
     if(authenticated){
         return <Navigate
             replace 
-            to = "/"
+            to = "/home"
             state= {{
                 from: location
             }}

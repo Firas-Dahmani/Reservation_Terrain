@@ -11,6 +11,7 @@ import BasicRoute from './Utils/BasicRoute';
 import AuthRoute from './Utils/AuthRoute';
 import { useSelector } from 'react-redux';
 import AddOwner from './admin/addOwner/AddOwner';
+import VilleCRUD from './admin/villeCRUD/VilleCRUD';
 
 
 
@@ -24,7 +25,7 @@ function App() {
       {checked && (
         <Routes>
         {/* Root */}
-        <Route path="/">
+        <Route path="/home">
           <Route path="" element={<Home />} />
           <Route path=":id" element={<Home />} />
         </Route>
@@ -43,6 +44,10 @@ function App() {
         </Route>
         {/* Admin Router */}
         <Route path="/addowner" element={<AuthRoute><AddOwner/> </AuthRoute>} />
+        <Route path="/ville">
+          <Route path="" element={<AuthRoute><VilleCRUD /> </AuthRoute>} />
+          <Route path=":id" element={<AuthRoute><VilleCRUD /> </AuthRoute>} />
+        </Route>
         {/* ERROR */}
         <Route path="*" element={<NotFound />} />
       </Routes>

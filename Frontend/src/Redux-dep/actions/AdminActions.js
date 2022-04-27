@@ -10,11 +10,21 @@ import {
     USERS_SEEN_SUCCESS, 
     USER_REGISTER_OWNER_FAIL, 
     USER_REGISTER_OWNER_REQUEST,
-    USER_REGISTER_OWNER_SUCCESS
+    USER_REGISTER_OWNER_SUCCESS,
+    VILLE_SEEN_FAIL,
+    VILLE_SEEN_SUCCESS,
+    VILLE_SEEN_REQUEST,
+    VILLE_DELETE_SUCCESS,
+    VILLE_DELETE_REQUEST,
+    VILLE_DELETE_FAIL,
+    VILLE_ADD_REQUEST,
+    VILLE_ADD_FAIL,
+    VILLE_ADD_SUCCESS
 } from "../constant/AdminConstant";
 import  axios  from 'axios';
+import { sessionService } from 'redux-react-session';
 
-
+// User
 
 export const userSeenAction = () => async (dispatch, getState) => {
     try {
@@ -147,6 +157,8 @@ export const userDeleteAction = (id) => async (dispatch, getState) => {
       }
 }
 
+//Owner
+
 export const addOwnerAction = (variableRegister) => async (dispatch, getState) => {
   const [
         firstname,
@@ -205,4 +217,138 @@ export const addOwnerAction = (variableRegister) => async (dispatch, getState) =
           : error.message,
   })
   }
+}
+
+//Ville
+export const villeSeenAction = () => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: VILLE_SEEN_REQUEST })
+      sessionService.loadUser()
+        .then(async (User) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${User.token}`,
+          }}
+
+          await axios.post("http://localhost:5000/admin/getVille",
+            {},
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: VILLE_SEEN_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const {ville} = data
+                dispatch({ type: VILLE_SEEN_SUCCESS, payload: ville })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: VILLE_SEEN_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const villeDeleteAction = (id) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: VILLE_DELETE_REQUEST })
+      
+      const {
+        session: { user },
+      } = getState();
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+      }};
+
+      await axios.post(`http://localhost:5000/admin/removeVille/${id}`,
+      {},
+      config
+
+      ).then(response => {
+          const {data} = response
+
+          if(data.status === 'FAILED'){
+            dispatch({
+              type: VILLE_DELETE_FAIL,
+              payload: data.message})
+
+          }else if(data.status === 'SUCCESS') {
+            const {ville} = data
+            dispatch({ type: VILLE_DELETE_SUCCESS, payload: ville })
+          }
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: VILLE_DELETE_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const villeAddAction = (villeName) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: VILLE_ADD_REQUEST })
+      
+      const {
+        session: { user },
+      } = getState();
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+      }};
+
+      await axios.post(`http://localhost:5000/admin/addVille`,
+      {
+        villeName,
+      },
+      config
+
+      ).then(response => {
+          const {data} = response
+
+          if(data.status === 'FAILED'){
+            dispatch({
+              type: VILLE_ADD_FAIL,
+              payload: data.message})
+
+          }else if(data.status === 'SUCCESS') {
+            const {ville} = data
+            dispatch({ type: VILLE_ADD_SUCCESS, payload: ville })
+          }
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: VILLE_ADD_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
 }

@@ -138,50 +138,95 @@ exports.addOwner = async (req, res) =>{
 
 // Add Ville 
 exports.addVille = async (req, res) => {
-    if (!(req.body.ville)){
-        res.status(404).json({message : "Ville not found"});
-    }
-
-    try {
-        const ville = await new Ville({
-            villeName : req.body.ville
+    const {villeName} = req.body
+    const VilleUpper = villeName.toUpperCase()
+    if (!villeName){
+        res.json({
+            status: "FAILED",
+            message: "Ville name not found!"
         })
-        await ville.save(); 
-        res.json({message : "Ville added"});
-    } catch (error) {
-        res.status(404).json({message : "some error while adding Ville by admin"});
     }
-}
 
-//update ville 
-exports.updateVille = async (req, res) => {
-  
-    const ville = await Ville.findById(req.params.id);
-  
-    if (ville.userId.toString() !== req.user._id.toString()) {
-      res.status(401);
-      throw new Error("You can't perform this action");
-    }
-  
-    if (ville) {
-        ville.villeid = req.body.villeid 
-  
-      const updatedStade = await stade.save();
-      res.json(updatedStade);
-    } else {
-      res.status(404);
-      throw new Error("Stade not found");
-    }
-  };
+    await Ville.find({ villeName : VilleUpper })
+        .then(villes => {
+            if(villes.length > 0){
+                res.json({
+                    status: "FAILED",
+                    message: "Ville name has been aded before!"
+                })
+            } else {
+                const ville = new Ville({
+                    villeName : villeName
+                })
+                ville.save()
+                    .then((result)=> {
+                        res.json({
+                            status: "SUCCESS",
+                            message: "Ville has been saved successfuly!",
+                            ville : result
+                        })
+                    })
+                    .catch(()=>{
+                        res.json({
+                            status: "FAILED",
+                            message: "An error occured while saving ville!"
+                        })
+                    })
+            }
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding ville!"
+            })
+        })
+}
 
 // Show Ville 
 exports.showVille =  async (req, res ) => {
-    try {
-        await Ville.find({}).then(v => res.json(v))
-    } catch (error) {
-        console.log(error);
-        res.status(404).json({message : "some error while finding Ville by admin"});
-    }
+
+    await Ville.find({})
+        .then((result)=> {
+            res.json({
+                status: "SUCCESS",
+                message: "Ville find successfuly!",
+                ville : result
+            })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding ville !"
+            })
+        })
+}
+
+exports.deleteVille = async (req, res) => {
+    const { id } = req.params
+
+    await Ville.find({ _id : id })
+    .then(()=> {
+            Ville.deleteOne({ _id: id })
+            .then(() =>{
+                res.json({
+                    status: "SUCCESS",
+                    message: "Ville deleted successfuly !"
+                })
+            })
+            .catch(()=> {
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while Deleting ville !"
+                })
+            })
+    })
+    .catch((err) => {
+        console.log(err);
+        res.json({
+            status: "FAILED",
+            message: "An error occured while finding ville !!"
+        })
+    })        
 }
 
 // Add Stade 
@@ -215,29 +260,6 @@ exports.addStade =  async (req, res) => {
     })
 }
 
-// update Stade
-exports.updateStade = async (req, res) => {
-  
-    const stade = await Stade.findById(req.params.id);
-  
-    if (stade.userId.toString() !== req.user._id.toString()) {
-      res.status(401);
-      throw new Error("You can't perform this action");
-    }
-  
-    if (stade) {
-        stade.villeid = req.body.villeid
-        stade.stadeName = req.body.stadename 
-        stade.stadetel = req.body.stadetel
-  
-      const updatedStade = await stade.save();
-      res.json(updatedStade);
-    } else {
-      res.status(404);
-      throw new Error("Stade not found");
-    }
-  };
-
 exports.getAllStade = async (req, res) => {
 
     try {
@@ -249,17 +271,7 @@ exports.getAllStade = async (req, res) => {
     } 
 }
 
-exports.deleteVille =  async (req, res) => {
-    const id = req.body.id
-     try {
-        await Ville.deleteOne({ _id: id })
-        await Stade.deleteMany({ villeid: id })
 
-        res.status(200).json({ msg: "yes deleted user by admin" })
-    } catch (error) {
-        res.json({ message: "Somthing went wrong in delete Ville!!" })
-    }   
-}
 
 exports.deleteStade =  async (req, res) => {
     const id = req.body.id

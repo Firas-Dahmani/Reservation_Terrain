@@ -6,8 +6,8 @@ exports.protect = async (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization
 
     if (!authHeader?.startsWith("Bearer ")) {
-        res.status(401).json({
-            status: "Unauthorized",
+        res.json({
+            status: "FAILED",
             message: "Not authorized, no token!"
         })
     }
@@ -21,8 +21,8 @@ exports.protect = async (req, res, next) => {
 
         next()
     } catch (error) {
-        res.status(401).json({
-            status: "Unauthorized",
+        res.json({
+            status: "FAILED",
             message: "Not authorized, token failed!"
         })
     }

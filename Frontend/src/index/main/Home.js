@@ -14,6 +14,8 @@ function Home() {
         .then(user => setRole(user.data[0].role))
         .catch(()=> console.log("Not Connected"))
     },[Role])
+
+    
   return (
     <>
       {Role === 'Admin' ?
