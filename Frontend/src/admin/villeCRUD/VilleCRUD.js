@@ -90,8 +90,8 @@ function VilleCRUD() {
                 <table className="table table-image">
                 <thead>
                   <tr>
-                    <th scope="col">Ville Name</th>
-                    <th scope="col">Delete Ville</th>
+                    <td scope="row">Ville Name</td>
+                    <td scope="row">Delete Ville</td>
                   </tr>
                 </thead>
                 {
@@ -99,8 +99,8 @@ function VilleCRUD() {
                     ville.map((item, i) => ( 
                           <tbody key={i}>
                           <tr>
-                            <th scope="row">{item.villeName}</th>
-                            <td><Link to={`/ville`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></td>
+                            <th >{item.villeName}</th>
+                            <th><Link to={`/ville`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></th>
                           </tr>
                         </tbody>
                         ))

@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const Ville = require('../models/Ville')
 const Stade = require('../models/stade')
+const ContactMessage = require('../models/Contact')
 const { v4: uuidv4 } = require('uuid');
 
 // Home page 
@@ -349,3 +350,125 @@ exports.deleteStade =  async (req, res) => {
     })   
 }
 
+// User
+exports.contactMessageView = async (req, res)=> {
+    const { id } = req.body
+
+    await User.find({_id : id})
+        .then(async ()=> {
+            await ContactMessage.find({})
+                .then((result) => {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Contact message finded successfuly ",
+                        messages : result
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while finding contact message !!"
+                    })
+                })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding user !!"
+            })
+        })
+}
+
+exports.deleteMessage = async (req, res) => {
+    const { MESSAGE_ID } = req.body
+
+    await ContactMessage.find({})
+        .then(async() => {
+            await ContactMessage.deleteOne({_id : MESSAGE_ID})
+                .then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Message deleted successfuly !!"
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while delting message !!"
+                    })
+                })
+        })
+        .catch(() => {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding contact message!"
+            })
+        })
+}
+
+exports.profileUserView = async (req, res) => {
+    const { USER_ID } = req.body
+
+    await User.find({_id: USER_ID})
+    .select("-password").select("-isAvail").select("-role")
+        .then((result)=> {
+            res.json({
+                status: "SUCCESS",
+                message: "User finded successfuly !!",
+                User : result
+            })
+        })
+        .catch((err)=> {
+            console.log(err);
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding user Profile !!"
+            })
+        })
+}
+
+exports.editProfile = async (req, res) => {
+    const {
+        USER_ID,
+        firstName,
+        lastName,
+        email, 
+        tel,
+        date,
+        genre,
+        adress,
+        ville
+    } = req.body
+
+    await User.find({_id: USER_ID})
+        .then(async ()=> {
+            await User.updateOne({ _id: USER_ID}, {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                tel: tel,
+                birthDay: new Date(date),
+                Genre: genre,
+                adress: adress,
+                Ville: ville
+            })
+            .then(()=> {
+                res.json({
+                    status: "SUCCESS",
+                    message: "User updated successfuly !!"
+                })
+            })
+            .catch(()=> {
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while Updating user !!"
+                })
+            })
+        })
+        .catch(() => {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding user !!!"
+            })
+        })
+}

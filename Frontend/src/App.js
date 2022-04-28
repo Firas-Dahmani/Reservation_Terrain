@@ -15,6 +15,7 @@ import VilleCRUD from './admin/villeCRUD/VilleCRUD';
 import { sessionService } from 'redux-react-session';
 import { useState } from 'react';
 import StadeCrud from './admin/stadeCRUD/StadeCrud';
+import Profile from './admin/Profile/Profile';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
               <Route path="/addowner" element={<AuthRoute><AddOwner/> </AuthRoute>} />
               <Route path="/stade" element={<AuthRoute><StadeCrud /> </AuthRoute>} />
               <Route path="/ville" element={<AuthRoute><VilleCRUD /> </AuthRoute>} />
+              <Route path="/profile" element={<AuthRoute><Profile /> </AuthRoute>} />
             </>
         }
         {/* ERROR */}

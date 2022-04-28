@@ -20,5 +20,8 @@ router.post('/acceptUser/:id', verifyToken.protect,verifyRole("Admin"), adminCon
 router.post('/deleteUser/:id', verifyToken.protect,verifyRole("Admin"), adminController.deleteUser)
 router.post('/addOwner', verifyToken.protect,verifyRole("Admin") , adminController.addOwner)
 
+//Profile
+router.post('/profile', verifyToken.protect,verifyRole("Admin"), adminController.profileUserView)
+
 
 module.exports = router;

@@ -35,6 +35,9 @@ function AdminNavbar() {
                             <Link className="nav-link "  to='/stade' >Stade</Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link "  to='/profile' >Profile</Link>
+                        </li>
+                        <li className="nav-item">
                                 <Link className="nav-link " onClick={logoutHandler} label="LOGOUT" to='/registerlogin' >LOGOUT</Link>
                         </li> 
                     </ul>

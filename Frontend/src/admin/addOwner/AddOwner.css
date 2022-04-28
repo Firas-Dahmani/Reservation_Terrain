@@ -1,6 +1,6 @@
 .avatar-container {
-	width: 300px;
-	height: 300px;
+	width: 200px;
+	height: 200px;
 	position: relative;
     padding: 30px 40px 26px 0px;
 }
@@ -21,7 +21,6 @@
     background-color: #fff;
 }
 .userInfo{
-    padding: 30px;
     color: #000;
 }
 
@@ -45,7 +44,7 @@
     font-size: 2.5rem;
     font-weight: 900; }
   
-  .form-control {
+  .contentContact .form-control {
     border: none;
     border-bottom: 1px solid #ccc;
     padding-left: 0;
@@ -56,15 +55,48 @@
 .contact-wrap {
     padding: 43px 14px 0px 28px;
 }
-    .form-control:active, .form-control:focus {
+    .contentContact .form-control:active, .form-control:focus {
       outline: none;
       -webkit-box-shadow: none;
       box-shadow: none;
       border-color: #000; 
     }
   
-  .col-form-label {
+ .contentContact .col-form-label {
     color: #000;
     font-size: 13px; 
+}
+
+@media (max-width: 570px)
+{form {
+    padding: 0 ;
+}} 
+
+@media (max-width: 621px)
+{form {
+    padding: 0;
+}}
+@media (max-width: 717px)
+{form {
+    padding: 0 ;
+}}
+@media (max-width: 870px)
+{form {
+    padding: 0 ;
+}}
+@media (max-width: 970px)
+{form {
+    padding: 0 ;
+}}
+@media (max-width: 1148px)
+{form {
+    padding: 0 ;
+}}
+form {
+    padding: 0;
+}
+
+.contact-wrap .form h3 {
+  padding-left: 14px;
 }
 

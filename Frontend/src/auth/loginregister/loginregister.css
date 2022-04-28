@@ -1,11 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body,
 input {
   font-family: "Poppins", sans-serif;
@@ -26,10 +20,11 @@ input {
   top: 0;
   left: 0;
 }
-a{
+
+/* a{
   text-decoration: none;
   color: #fe5f59;
-}
+} */
 a:hover
 {
   text-decoration: none;
@@ -47,7 +42,7 @@ a:hover
   z-index: 5;
 }
 
-form {
+ form {
   display: flex;
   align-items: center;
   justify-content: center;

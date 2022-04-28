@@ -23,7 +23,7 @@ function LoginRegister() {
     const [poste, setPoste] = useState("Poste");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [pic] = useState("https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg");
+    const [pic] = useState("https://bootdey.com/img/Content/avatar/avatar7.png");
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const userRegister = useSelector((state) => state.authRegister);
