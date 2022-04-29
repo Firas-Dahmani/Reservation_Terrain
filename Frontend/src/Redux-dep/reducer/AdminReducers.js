@@ -1,4 +1,7 @@
 import { 
+    PROFILE_SEEN_FAIL,
+    PROFILE_SEEN_REQUEST,
+    PROFILE_SEEN_SUCCESS,
     STADE_ADD_FAIL,
     STADE_ADD_REQUEST,
     STADE_ADD_SUCCESS,
@@ -8,6 +11,9 @@ import {
     STADE_SEEN_FAIL,
     STADE_SEEN_REQUEST,
     STADE_SEEN_SUCCESS,
+    UPDATE_PIC_FAIL,
+    UPDATE_PIC_REQUEST,
+    UPDATE_PIC_SUCCESS,
     USERS_ACCEPTE_FAIL,
     USERS_ACCEPTE_REQUEST,
     USERS_ACCEPTE_SUCCESS,
@@ -185,6 +191,38 @@ export const stadeDeleteReducer = (state = {}, action) => {
             return {loading : false, success: true};
         
         case STADE_DELETE_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const profileSeenReducer = (state = {}, action) => {
+    switch (action.type){
+        case PROFILE_SEEN_REQUEST:
+            return {loading : true};
+        
+        case PROFILE_SEEN_SUCCESS:
+            return {loading : false, seeProfile : action.payload};
+        
+        case PROFILE_SEEN_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const updatePicReducer = (state = {}, action) => {
+    switch (action.type){
+        case UPDATE_PIC_REQUEST:
+            return {loading : true};
+        
+        case UPDATE_PIC_SUCCESS:
+            return {loading : false, success: true};
+        
+        case UPDATE_PIC_FAIL:
             return {loading : false, error: action.payload};
 
         default:

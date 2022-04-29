@@ -2,6 +2,7 @@ const User = require('../models/user')
 const Ville = require('../models/Ville')
 const Stade = require('../models/stade')
 const ContactMessage = require('../models/Contact')
+const cloudinary = require("../Utlis/cloudinary")
 const { v4: uuidv4 } = require('uuid');
 
 // Home page 
@@ -410,7 +411,7 @@ exports.profileUserView = async (req, res) => {
     const { USER_ID } = req.body
 
     await User.find({_id: USER_ID})
-    .select("-password").select("-isAvail").select("-role")
+    .select("-password").select("-isAvail")
         .then((result)=> {
             res.json({
                 status: "SUCCESS",
@@ -423,6 +424,39 @@ exports.profileUserView = async (req, res) => {
             res.json({
                 status: "FAILED",
                 message: "An error occured while finding user Profile !!"
+            })
+        })
+}
+
+exports.changePhoto = async (req, res) => {
+    const { USER_ID } = req.body
+
+    await User.find({_id : USER_ID})
+        .then(async ()=> {
+            const uploadPic = await cloudinary.uploader.upload(req.body.pic || req.file.path , {
+                public_id: req.body.tel+"-"+req.body.firstname+"-"+req.body.email,
+                folder:"photoProfile"
+            })
+            await User.updateOne({_id : USER_ID}, {
+                pic: uploadPic.secure_url
+            }).then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Update pic successfuly !!"
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while Update pic!!"
+                    })
+                })
+        })
+        .catch((err)=> {
+            console.log(err);
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding user!!"
             })
         })
 }

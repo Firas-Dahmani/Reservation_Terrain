@@ -22,6 +22,7 @@ router.post('/addOwner', verifyToken.protect,verifyRole("Admin") , adminControll
 
 //Profile
 router.post('/profile', verifyToken.protect,verifyRole("Admin"), adminController.profileUserView)
+router.post('/updatepic', verifyToken.protect,verifyRole("Admin"), adminController.changePhoto)
 
 
 module.exports = router;

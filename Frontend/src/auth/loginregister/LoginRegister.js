@@ -260,7 +260,7 @@ function LoginRegister() {
                                 REGISTER
                             </Button>
                         </div>
-                        <img src={require('../../assets/login.png')} className="image" alt="" />
+                        <img src={require('../../assets/login.png')} className="image grand" alt="" />
                         </div>
 
                         <div className="panel right-panel">

@@ -56,12 +56,12 @@ function AddOwner() {
                 <div className="col-lg-4">
                         <div className="profile-card-4 z-depth-3">
                             <div className="card">
-                                <div className="card-body text-center bg-primary rounded-top ">
-                                    <div className="user-box">
+                                <div className="card-body text-center  rounded-top ">
+                                    <div className="user-box mb-3">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user avatar" />
                                     </div>
-                                    <h5 className="mb-1 text-white">{userInfo?.user?.firstName} {userInfo?.user?.lastName}</h5>
-                                    <h6 className="text-light">{userInfo?.user?.role}</h6>
+                                    <h5 className="mb-1 text-black">{userInfo?.user?.firstName} {userInfo?.user?.lastName}</h5>
+                                    <h6 className="text-black">{userInfo?.user?.role}</h6>
                                 </div>
                                 <div className="card-body">
                                     <ul className="list-group shadow-none">
@@ -79,9 +79,9 @@ function AddOwner() {
                         </div>
                     </div>
                     <div className="col-lg-8">
-                        <div className="card z-depth-3">
+                        <div className="card">
                             <div className="card-body">
-                                <h3>Send us a message</h3>
+                                <h3>ADD OWner</h3>
                                 <Form onSubmit={handleSubmit} id="" >
                                 {error && <AlertCompnenet error={error}/>}
                                     <div className="row">
@@ -123,7 +123,7 @@ function AddOwner() {
                                     </Form.Group >
                                     </div>
                                     <div className="row">
-                                    <Form.Group className="col-md-6 form-group mb-5"  controlId="phone">
+                                    <Form.Group className="mb-3"  controlId="phone">
                                         <Form.Label className='col-form-label'>Phone</Form.Label>
                                         <Form.Control 
                                         required 
@@ -158,6 +158,19 @@ function AddOwner() {
                                             <option value="Femme">Femme</option>
                                         </Form.Control >
                                     </Form.Group>
+                                    </div>
+                                    <div className="row">
+                                    <Form.Group className="col-md-6 form-group mb-5"  controlId="ville">
+                                        <Form.Label className='col-form-label'>Ville</Form.Label>
+                                        <Form.Control 
+                                        required 
+                                        placeholder="Ville" 
+                                        className="form-control"
+                                        type="ville"
+                                        value={ville}
+                                        onChange={(e) => setVille(e.target.value)}
+                                        />
+                                    </Form.Group >
                                     <Form.Group className="col-md-6 form-group mb-5"  controlId="adress">
                                         <Form.Label className='col-form-label'>Adress</Form.Label>
                                         <Form.Control 
@@ -170,17 +183,6 @@ function AddOwner() {
                                         />
                                     </Form.Group >
                                     </div>
-                                    <Form.Group className="col-md-6 form-group mb-5"  controlId="ville">
-                                        <Form.Label className='col-form-label'>Ville</Form.Label>
-                                        <Form.Control 
-                                        required 
-                                        placeholder="Ville" 
-                                        className="form-control"
-                                        type="ville"
-                                        value={ville}
-                                        onChange={(e) => setVille(e.target.value)}
-                                        />
-                                    </Form.Group >
 
                                     <Button type="submit" className='main-btn'>
                                         Save

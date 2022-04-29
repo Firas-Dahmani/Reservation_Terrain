@@ -9,6 +9,8 @@
     background-color: #fe5f59 !important;
 }
 
+
+
 .user-box img {
     width: 100%;
     border-radius: 50%;
@@ -19,6 +21,19 @@
     -ms-box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
 }
+
+
+ .messages-list  {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 10px
+}
+
+
+
 
 .profile-card-2 .card {
 	position:relative;

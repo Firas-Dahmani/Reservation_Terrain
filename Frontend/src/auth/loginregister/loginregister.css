@@ -41,6 +41,10 @@ a:hover
   grid-template-columns: 1fr;
   z-index: 5;
 }
+@media (max-width: 870px)
+{form {
+    padding: 0;
+}}
 
  form {
   display: flex;
@@ -409,9 +413,7 @@ form.sign-in-form {
 }
 
 @media (max-width: 870px) {
-  form{
-    padding: 0 12rem ;
-  }
+  
   .containerr {
     min-height: 1082px;
     height: 100vh;
@@ -453,6 +455,10 @@ form.sign-in-form {
     width: 40%;
     transition: transform 0.9s ease-in-out;
     transition-delay: 0.6s;
+  }
+
+  .grand {
+    padding-right: 136px;
   }
 
   .panel .content {

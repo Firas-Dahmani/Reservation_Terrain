@@ -28,7 +28,13 @@ import {
     STADE_ADD_SUCCESS,
     STADE_DELETE_REQUEST,
     STADE_DELETE_FAIL,
-    STADE_DELETE_SUCCESS
+    STADE_DELETE_SUCCESS,
+    PROFILE_SEEN_REQUEST,
+    PROFILE_SEEN_FAIL,
+    PROFILE_SEEN_SUCCESS,
+    UPDATE_PIC_FAIL,
+    UPDATE_PIC_SUCCESS,
+    UPDATE_PIC_REQUEST
 } from "../constant/AdminConstant";
 import  axios  from 'axios';
 import { sessionService } from 'redux-react-session';
@@ -497,6 +503,98 @@ export const stadeDeleteAction = (id) => async (dispatch, getState) => {
         console.log(error);
           dispatch({
               type: STADE_DELETE_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+
+//User
+export const profileSeenAction = (USER_ID) => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: PROFILE_SEEN_REQUEST })
+      sessionService.loadUser()
+        .then(async (Users) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${Users.token}`,
+          }}
+
+          await axios.post("http://localhost:5000/admin/profile",
+            {
+              USER_ID
+            },
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: PROFILE_SEEN_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const { User } = data
+                dispatch({ type: PROFILE_SEEN_SUCCESS, payload: User[0] })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: PROFILE_SEEN_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const updatePicAction = (USER_ID, pic) => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: UPDATE_PIC_REQUEST })
+      sessionService.loadUser()
+        .then(async (Users) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${Users.token}`,
+          }}
+
+          await axios.post("http://localhost:5000/admin/updatepic",
+            {
+              USER_ID,
+              pic
+            },
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: UPDATE_PIC_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                dispatch({ type: UPDATE_PIC_SUCCESS, payload: data })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: UPDATE_PIC_FAIL,
               payload:
                   error.response && error.response.data.message
                   ? error.response.data.message
