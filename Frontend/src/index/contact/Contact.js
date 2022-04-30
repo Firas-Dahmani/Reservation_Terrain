@@ -12,7 +12,6 @@ function Contact() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
-  const [company, setCompany] = useState("")
   const [messageContact, setMessage] = useState("")
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -25,7 +24,6 @@ function Contact() {
       name,
       email,
       phone,
-      company,
       messageContact
     ]
     dispatch(contactAction(variableContact, navigate))
@@ -69,8 +67,8 @@ function Contact() {
                       </Form.Group >
                     </div>
 
-                    <div className="row">
-                      <Form.Group className="col-md-6 form-group mb-5"  controlId="phone">
+                    <div className="">
+                      <Form.Group className="mb-5"  controlId="phone">
                         <Form.Label className='col-form-label'>Phone</Form.Label>
                         <Form.Control 
                         required 
@@ -81,21 +79,10 @@ function Contact() {
                         onChange={(e) => setPhone(e.target.value)}
                         />
                       </Form.Group >
-                      <Form.Group className="col-md-6 form-group mb-5"  controlId="company">
-                        <Form.Label className='col-form-label'>Company</Form.Label>
-                        <Form.Control 
-                        required 
-                        placeholder="Company" 
-                        className="form-control"
-                        type="company"
-                        value={company}
-                        onChange={(e) => setCompany(e.target.value)}
-                        />
-                      </Form.Group >
                     </div>
 
-                    <div className="row " >
-                      <Form.Group className=" form-group mb-3 "  controlId="message">
+                    <div className="" >
+                      <Form.Group className=" mb-3 "  controlId="message">
                         <Form.Label className='col-form-label'>Message *</Form.Label>
                         <Form.Control 
                         as="textarea" 

@@ -21,7 +21,10 @@
     display: contents;
     color: #fe5f59;
 }
-
+.navbar-toggler {
+    font-size: 2rem;
+    color: black !important;
+}
 .navbar-brand .image {
     max-width: 150px;
 }

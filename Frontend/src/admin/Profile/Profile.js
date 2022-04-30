@@ -7,7 +7,7 @@ import RenderImage from './Image/Image';
 import './Profile.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionService } from 'redux-react-session';
-import { profileSeenAction, updatePicAction } from '../../Redux-dep/actions/AdminActions';
+import { contactMeesageDeleteAction, contactMeesageSeenAction, profileSeenAction, updatePicAction, updateUserProfile } from '../../Redux-dep/actions/AdminActions';
 import Loading from '../../loading/Loading';
 
 function Profile() {
@@ -24,20 +24,29 @@ function Profile() {
     const [pic, setPic] = useState("");
     const [UserID, setUserID] = useState("")
 
-    
     const dispatch = useDispatch()
+
+    
 
     const profileSeen = useSelector((state) => state.profileSeen)
     const { seeProfile, loading, error } = profileSeen
 
+    const contactMessageSeen = useSelector((state) => state.contactMessageSeen)
+    const { Message, loading:contactMessageSeenLoading, error:contactMessageSeenERROR } = contactMessageSeen
+
     const updatePic = useSelector((state) => state.updatePic)
     const { success : UploadPhotoSUCCESS, loading : LoadUploadPhoto, error: errorPhotoUpload } = updatePic
 
+    const contactMessageDelete = useSelector((state) => state.contactMessageDelete)
+    const { success : deleteMessageSUCCESS, loading : deleteMessageLoading, error: deleteMessageError } = contactMessageDelete
+
+    const userUpdate = useSelector((state) => state.userUpdate)
+    const { success : userUpdateSUCCESS, loading : userUpdateLoading, error: userUpdateError } = userUpdate
     sessionService.loadUser()
         .then((User) => {
             setUserID(User.data[0]._id)
-            /* setPic(seeProfile?.pic) */
         })
+
     useEffect(()=> {
         dispatch(updatePicAction(UserID, pic))
     }, [pic])
@@ -46,7 +55,43 @@ function Profile() {
         dispatch(profileSeenAction(UserID))
         },[dispatch,
             UploadPhotoSUCCESS,
-            UserID])
+            UserID,
+            userUpdateSUCCESS
+    ])
+
+
+    useEffect(()=> {
+        dispatch(contactMeesageSeenAction(UserID))
+        },[dispatch,
+            UserID,
+            deleteMessageSUCCESS
+    ])
+
+    const handleDelete = (id) =>{
+        dispatch(contactMeesageDeleteAction(id))
+      }
+
+      const handleSubmit = async (event) =>{
+        event.preventDefault();
+            // set default value of date !!! 
+            if(date === ""){
+                setDate(seeProfile?.birthDay.split('T')[0])
+            }
+
+            const variableUpdateProfile = [
+                UserID,
+                firstname,
+                lastname,
+                email, 
+                tel,
+                date,
+                genre,
+                adress,
+                ville,
+                password
+            ]
+            dispatch(updateUserProfile(variableUpdateProfile)) 
+    }
 
 
     return (
@@ -62,7 +107,7 @@ function Profile() {
                         <div className="col-lg-4">
                             <div className="profile-card-4 z-depth-3">
                                 <div className="card text-center">
-                                    <div className="col-sm mb-3">
+                                    <div className=" mb-3">
                                         <RenderImage setPicRegister = {setPic}  pic = {seeProfile?.pic}/>
                                         <h5 className=" text-black">{seeProfile?.firstName + " " + seeProfile?.lastName}</h5>
                                         <h6 className="text-black">{seeProfile?.role}</h6>
@@ -138,151 +183,172 @@ function Profile() {
                                         </div>
                                         <div className="tab-pane" id="messages">
                                             <table className="table table-hover table-striped">
-                                                <tbody>                                    
-                                                    <tr>
-                                                        <td>
-                                                            <div className='text-left '><strong>Name : </strong> your name </div>
-                                                            <div className='text-left '><strong>From : </strong> your email</div>
-                                                            <div className='text-left '><strong>Phone : </strong> your phone</div>
-                                                            <div className=''>
-                                                                <div className="messages-list">
-                                                                    Here is your a link to the latest summary report from the last kingdom march 
-                                                                    foijezofijezoifjezoi^jfêziojfoiezjfoiêzjfoiezjfoiêzjfoiezjfoîezjfôiezjfoiezjfoiez
-                                                                    fejkzbfljkezbflkjzenfkejznfkmezjnfezjk
-                                                                </div>
-                                                                <span className=" text-primary float-left font-weight-bold ">3 hrs ago</span> 
-                                                                <i className="fa fa-trash delete float-right" /* onClick={()=>handleDelete(item._id)} */></i>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                <tbody> 
+                                                    {
+                                                        Message && Message.length !== 0 ? 
+
+                                                        Message.map((item, i)=> (                                   
+                                                            <tr key={i}>
+                                                                <td>
+                                                                    <div className='text-left '><strong>Name : </strong> {item.name} </div>
+                                                                    <div className='text-left '><strong>From : </strong> {item.email}</div>
+                                                                    <div className='text-left '><strong>Phone : </strong> {item.phone}</div>
+                                                                    <div className=''>
+                                                                        <div className="messages-list">{item.message}</div>
+                                                                        <span className=" text-primary float-left font-weight-bold ">{item.createAt.split('T')[0]}</span> 
+                                                                        <i className="fa fa-trash delete float-right" onClick={()=>handleDelete(item._id)}></i>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        )) 
+                                                    :
+                                                        <tr><td><strong>NO meesage !</strong></td></tr>
+                                                    }
                                                 </tbody> 
                                             </table>
                                         </div>
                                         <div className="tab-pane"  id="edit">
                                             <div className="card">
                                                 <div className="card-body">
-                                                <h5 className="mb-3">Edit Profile</h5>
-                                                    <Form /* onSubmit={handleSubmitRegister} */  >
-                                                    
-                                                    {/* {error && <AlertCompnenet error={error}/>} */}
-                                                    
-                                                        <div className="row">
-                                                            <Form.Group className="col-md-6 form-group mb-5" controlId="firstname">
-                                                                <Form.Label>First Name</Form.Label>
-                                                                <Form.Control required  className="form-control"
-                                                                    autoFocus
-                                                                    type="firstName"
-                                                                    value={firstname}
-                                                                    onChange={(e) => setFirstName(e.target.value)}
-                                                                />
-                                                            </Form.Group >
-                                                            <Form.Group className="col-md-6 form-group mb-5"  controlId="lastname">
-                                                                <Form.Label>Last Name</Form.Label>
-                                                                <Form.Control required  className="form-control"
-                                                                    autoFocus
-                                                                    type="lastName"
-                                                                    value={lastname}
-                                                                    onChange={(e) => setLastName(e.target.value)}
-                                                                />
-                                                            </Form.Group >
+                                                    <ul className="nav nav-pills nav-pills-primary nav-justified">
+                                                        <li className="nav-item">
+                                                            <Link to="#" data-target="#update" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">Edit Profile</span></Link>
+                                                        </li>
+                                                        <li className="nav-item">
+                                                            <Link to="#" data-target="#change" data-toggle="pill" className="nav-link"><i className="icon-envelope-open"></i> <span className="hidden-xs">Change Password</span></Link>
+                                                        </li>
+                                                    </ul>
+                                                    <div className="tab-content p-3">
+                                                        <div className="tab-pane active" id="update">
+                                                            <h5 className="mb-3">Edit Profile</h5>
+                                                            <Form onSubmit={handleSubmit}  >
+                                                                {/* {error && <AlertCompnenet error={error}/>} */}
+                                                                <div className="row">
+                                                                    <Form.Group className="col-md-6 form-group mb-5" controlId="firstname">
+                                                                        <Form.Label>First Name</Form.Label>
+                                                                        <Form.Control   className="form-control"
+                                                                            autoFocus
+                                                                            type="firstName"
+                                                                            defaultValue={seeProfile?.firstName}
+                                                                            onChange={(e) => setFirstName(e.target.value)}
+                                                                        />
+                                                                    </Form.Group >
+                                                                    <Form.Group className="col-md-6 form-group mb-5"  controlId="lastname">
+                                                                        <Form.Label>Last Name</Form.Label>
+                                                                        <Form.Control   
+                                                                            className="form-control"
+                                                                            autoFocus
+                                                                            type="lastName"
+                                                                            defaultValue={seeProfile?.lastName}
+                                                                            onChange={(e) => setLastName(e.target.value)}
+                                                                        />
+                                                                    </Form.Group >
+                                                                </div>
+                                                                <div className="row">
+                                                                    <Form.Group className=" col-md-8 form-group mb-5 "  controlId="email">
+                                                                            <Form.Label>Email</Form.Label>
+                                                                            <Form.Control   className="form-control"
+                                                                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                                                                autoComplete="off" 
+                                                                                spellCheck="false"
+                                                                                autoFocus
+                                                                                type="email"
+                                                                                defaultValue={seeProfile?.email}
+                                                                                onChange={(e) => setEmail(e.target.value)}
+                                                                            />
+                                                                        </Form.Group >
+                                                                        <Form.Group className=" col-md-4 form-group mb-5"  controlId="genre">
+                                                                        <Form.Label>Genre</Form.Label>
+                                                                            <Form.Control  
+                                                                                className="form-control" 
+                                                                                as="select"
+                                                                                custom ="true"
+                                                                                defaultValue={seeProfile?.Genre}
+                                                                                onChange={(e) => setGenre(e.target.value)}>
+                                                                                <option disabled="disabled">Genre</option>
+                                                                                <option value="Homme">Homme</option>
+                                                                                <option value="Femme">Femme</option>
+                                                                            </Form.Control >
+                                                                        </Form.Group>
+                                                                    </div>
+                                                                    <div className="row">
+                                                                        <Form.Group className="col-md-6 form-group mb-5tel"  controlId="tel">
+                                                                            <Form.Label>Phone Number</Form.Label>
+                                                                            <Form.Control   className="form-control"
+                                                                                pattern="((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})"
+                                                                                autoFocus
+                                                                                type="tel"
+                                                                                defaultValue={seeProfile?.tel}
+                                                                                onChange={(e) => setTel(e.target.value)}
+                                                                            />
+                                                                        </Form.Group >
+                                                                        <Form.Group className="col-md-6 form-group mb-5"  controlId="dob">
+                                                                            <Form.Label>Select Date</Form.Label>
+                                                                            <Form.Control  
+                                                                            className='form-control'
+                                                                            type="date" 
+                                                                            name="dob" 
+                                                                            defaultValue={seeProfile?.birthDay.split('T')[0]}
+                                                                            placeholder="Date of Birth"
+                                                                            onChange={(e) => setDate(e.target.value)} 
+                                                                            />
+                                                                        </Form.Group>
+                                                                    </div>
+                                                                    <div className="row">
+                                                                        <Form.Group className="col-md-6 form-group mb-5adress"  controlId="adress">
+                                                                            <Form.Label>Adress</Form.Label>
+                                                                            <Form.Control   className="form-control"
+                                                                                autoFocus
+                                                                                type="adress"
+                                                                                defaultValue={seeProfile?.adress}
+                                                                                onChange={(e) => setAdress(e.target.value)}
+                                                                            />
+                                                                        </Form.Group >
+                                                                        <Form.Group className="col-md-6 form-group mb-5ville"  controlId="ville">
+                                                                            <Form.Label>Ville</Form.Label>
+                                                                            <Form.Control   className="form-control"
+                                                                                autoFocus
+                                                                                type="ville"
+                                                                                defaultValue={seeProfile?.Ville}
+                                                                                onChange={(e) => setVille(e.target.value)}
+                                                                            />
+                                                                        </Form.Group >
+                                                                    </div>
+                                                                <Button  type="submit"  className="btn solid"/* disabled={!validateForm() || loading} */>
+                                                                    EDIT
+                                                                </Button>
+                                                            </Form>
                                                         </div>
-                                                        <div className="row ">
-                                                            <Form.Group className=" col-md-6 form-group mb-5 "  controlId="email">
-                                                                <Form.Label>Email</Form.Label>
-                                                                <Form.Control required  className="form-control"
-                                                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                                                    autoComplete="off" 
-                                                                    spellCheck="false"
-                                                                    autoFocus
-                                                                    type="email"
-                                                                    value={email}
-                                                                    onChange={(e) => setEmail(e.target.value)}
-                                                                />
-                                                            </Form.Group >
-                                                            <Form.Group className=" col-md-6 form-group mb-5"  controlId="genre">
-                                                            <Form.Label>Genre</Form.Label>
-                                                                <Form.Control required 
-                                                                    className="form-control" 
-                                                                    as="select"
-                                                                    custom ="true"
-                                                                    defaultValue={genre}
-                                                                    onChange={(e) => setGenre(e.target.value)}>
-                                                                    <option disabled="disabled">Genre</option>
-                                                                    <option value="Homme">Homme</option>
-                                                                    <option value="Femme">Femme</option>
-                                                                </Form.Control >
-                                                            </Form.Group>
+                                                        <div className="tab-pane"  id="change">
+                                                            <h5 className="mb-3">Change Password</h5>
+                                                            <Form onSubmit={handleSubmit}>
+                                                                <div className="row">
+                                                                    <Form.Group className="col-md-6 form-group mb-5pass"   controlId="Password">
+                                                                        <Form.Label>Password</Form.Label>
+                                                                        <Form.Control 
+                                                                            className="form-control"
+                                                                            placeholder="Enter Password"
+                                                                            type="Password"
+                                                                            value={password}
+                                                                            onChange={(e) => setPassword(e.target.value)}
+                                                                        />
+                                                                    </Form.Group >
+                                                                    <Form.Group className="col-md-6 form-group mb-5confirmepass"   controlId="confirmPassword">
+                                                                        <Form.Label>Confirme Password</Form.Label>
+                                                                        <Form.Control  
+                                                                            className="form-control"
+                                                                            type="Password"
+                                                                            value={confirmPassword}
+                                                                            onChange={(e) => setConfirmPassword(e.target.value) }
+                                                                        />
+                                                                    </Form.Group >
+                                                                </div>
+                                                                <Button  type="submit"  className="btn solid"/* disabled={!validateForm() || loading} */>
+                                                                    Change
+                                                                </Button>
+                                                            </Form>
                                                         </div>
-                                                        <div className="row">
-                                                            <Form.Group className="col-md-6 form-group mb-5tel"  controlId="tel">
-                                                                <Form.Label>Phone Number</Form.Label>
-                                                                <Form.Control required  className="form-control"
-                                                                    pattern="((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})"
-                                                                    autoFocus
-                                                                    type="tel"
-                                                                    value={tel}
-                                                                    onChange={(e) => setTel(e.target.value)}
-                                                                />
-                                                            </Form.Group >
-                                                            <Form.Group className="col-md-6 form-group mb-5"  controlId="dob">
-                                                                <Form.Label>Select Date</Form.Label>
-                                                                <Form.Control required 
-                                                                className='form-control'
-                                                                type="date" 
-                                                                name="dob" 
-                                                                placeholder="Date of Birth"
-                                                                value={date}
-                                                                onChange={(e) => setDate(e.target.value)} 
-                                                                />
-                                                            </Form.Group>
-                                                        </div>
-                                                        <div className="row">
-                                                            <Form.Group className="col-md-6 form-group mb-5adress"  controlId="adress">
-                                                                <Form.Label>Adress</Form.Label>
-                                                                <Form.Control required  className="form-control"
-                                                                    autoFocus
-                                                                    type="adress"
-                                                                    value={adress}
-                                                                    onChange={(e) => setAdress(e.target.value)}
-                                                                />
-                                                            </Form.Group >
-                                                            <Form.Group className="col-md-6 form-group mb-5ville"  controlId="ville">
-                                                                <Form.Label>Ville</Form.Label>
-                                                                <Form.Control required  className="form-control"
-                                                                    autoFocus
-                                                                    type="ville"
-                                                                    value={ville}
-                                                                    onChange={(e) => setVille(e.target.value)}
-                                                                />
-                                                            </Form.Group >
-                                                        </div>
-                                                        <div className="row">
-                                                            <Form.Group className="col-md-6 form-group mb-5pass"   controlId="password">
-                                                                <Form.Label>Password</Form.Label>
-                                                                <Form.Control 
-                                                                required  
-                                                                className="form-control"
-                                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                                                    type="password"
-                                                                    value={password}
-                                                                    onChange={(e) => setPassword(e.target.value)}
-                                                                />
-                                                            </Form.Group >
-                                                            <Form.Group className="col-md-6 form-group mb-5confirmepass"   controlId="confirmPassword">
-                                                                <Form.Label>Confirme Password</Form.Label>
-                                                                <Form.Control required  
-                                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                                                className="form-control"
-                                                                    type="Password"
-                                                                    value={confirmPassword}
-                                                                    onChange={(e) => setConfirmPassword(e.target.value) }
-                                                                />
-                                                            </Form.Group >
-                                                        </div>
-                                                    <Button  type="submit"  className="btn solid"/* disabled={!validateForm() || loading} */>
-                                                        EDIT
-                                                    </Button>
-                                                </Form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

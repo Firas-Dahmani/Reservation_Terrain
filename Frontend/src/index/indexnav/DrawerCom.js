@@ -7,6 +7,7 @@ import { logout } from '../../Redux-dep/actions/authActions';
 
 
 
+
 function DrawerCom() {
     const [openDrawer, setOpenDrawer] = useState(false);
     const dispatch = useDispatch();
@@ -82,7 +83,7 @@ function DrawerCom() {
         <button className="navbar-toggler " type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation" onClick={()=> setOpenDrawer(!openDrawer)}>
-        <span className="navbar-toggler-icon "></span>
+        <span className="navbar-toggler-icon  "><i className="fad fa-bars"></i></span>
         </button>
     </React.Fragment>
   )

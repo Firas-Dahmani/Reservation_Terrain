@@ -5,7 +5,6 @@ exports.SendContact = async (req, res) => {
         name,
         email, 
         phone,
-        company,
         messageContact
     } = req.body
 
@@ -13,7 +12,6 @@ exports.SendContact = async (req, res) => {
         name : name, 
         email: email, 
         phone: phone,
-        company:company,
         message : messageContact
     })
     

@@ -23,6 +23,9 @@ router.post('/addOwner', verifyToken.protect,verifyRole("Admin") , adminControll
 //Profile
 router.post('/profile', verifyToken.protect,verifyRole("Admin"), adminController.profileUserView)
 router.post('/updatepic', verifyToken.protect,verifyRole("Admin"), adminController.changePhoto)
+router.post('/messageContact', verifyToken.protect,verifyRole("Admin"), adminController.contactMessageView)
+router.post('/deletemessageContact', verifyToken.protect,verifyRole("Admin"), adminController.deleteMessage)
+router.post('/updateprofile', verifyToken.protect,verifyRole("Admin"), adminController.editProfile)
 
 
 module.exports = router;

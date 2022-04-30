@@ -34,10 +34,20 @@ import {
     PROFILE_SEEN_SUCCESS,
     UPDATE_PIC_FAIL,
     UPDATE_PIC_SUCCESS,
-    UPDATE_PIC_REQUEST
+    UPDATE_PIC_REQUEST,
+    CONTACT_MESSAGE_SEEN_SUCCESS,
+    CONTACT_MESSAGE_SEEN_FAIL,
+    CONTACT_MESSAGE_SEEN_REQUEST,
+    CONTACT_MESSAGE_DELETE_REQUEST,
+    CONTACT_MESSAGE_DELETE_FAIL,
+    CONTACT_MESSAGE_DELETE_SUCCESS,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
+    USER_UPDATE_FAIL
 } from "../constant/AdminConstant";
 import  axios  from 'axios';
 import { sessionService } from 'redux-react-session';
+import { logout } from "./authActions";
 
 // User
 
@@ -601,4 +611,159 @@ export const updatePicAction = (USER_ID, pic) => async (dispatch) => {
                   : error.message,
           })
       }
+}
+
+export const contactMeesageSeenAction = (USER_ID) => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: CONTACT_MESSAGE_SEEN_REQUEST })
+      sessionService.loadUser()
+        .then(async (Users) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${Users.token}`,
+          }}
+
+          await axios.post("http://localhost:5000/admin/messageContact",
+            {
+              USER_ID
+            },
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: CONTACT_MESSAGE_SEEN_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const { messages } = data
+                dispatch({ type: CONTACT_MESSAGE_SEEN_SUCCESS, payload: messages })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: CONTACT_MESSAGE_SEEN_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const contactMeesageDeleteAction = (MESSAGE_ID) => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: CONTACT_MESSAGE_DELETE_REQUEST })
+      sessionService.loadUser()
+        .then(async (Users) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${Users.token}`,
+          }}
+
+          await axios.post("http://localhost:5000/admin/deletemessageContact",
+            {
+              MESSAGE_ID
+            },
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: CONTACT_MESSAGE_DELETE_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                dispatch({ type: CONTACT_MESSAGE_DELETE_SUCCESS, payload: data })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: CONTACT_MESSAGE_DELETE_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const updateUserProfile = (variableUpdateProfile) => async dispatch => {
+    const [
+        USER_ID,
+        firstName,
+        lastName,
+        email, 
+        tel,
+        date,
+        genre,
+        adress,
+        ville,
+        password
+    ] = variableUpdateProfile
+  try{
+    let config = {}
+    dispatch({ type: USER_UPDATE_REQUEST })
+
+    sessionService.loadUser()
+        .then(async (Users) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${Users.token}`,
+          }}
+
+          await axios.post(
+            "http://localhost:5000/admin/updateprofile",
+            {
+              USER_ID,
+              firstName,
+              lastName,
+              email, 
+              tel,
+              date,
+              genre,
+              adress,
+              ville,
+              password
+            },
+            config
+          ).then(response => {
+            const {data} = response
+            console.log(data);
+      
+            if(data.status === 'FAILED'){
+              const { message } = data
+      
+              dispatch({
+                type: USER_UPDATE_FAIL,
+                payload: message
+              })
+            }else if(data.status === 'SUCCESS') {
+              dispatch({ type: USER_UPDATE_SUCCESS, payload: data })
+            }
+          })
+    })
+    } catch(error) {
+      dispatch({
+        type: USER_UPDATE_FAIL,
+        payload:
+            error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+    })
+  }
 }

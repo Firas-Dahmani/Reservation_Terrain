@@ -13,7 +13,6 @@ export const contactAction = (variableContact, navigate) => async (dispatch, get
         name,
         email,
         phone,
-        company,
         messageContact
      ] = variableContact
   
@@ -37,7 +36,6 @@ export const contactAction = (variableContact, navigate) => async (dispatch, get
             name,
             email,
             phone,
-            company,
             messageContact
           },
           config 

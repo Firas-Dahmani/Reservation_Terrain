@@ -12,7 +12,6 @@ var contactSchema = mongoose.Schema({
         type: String,
         required:true
     },
-    company: String,
     message: {
         type: String,
         required:true

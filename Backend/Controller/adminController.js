@@ -4,6 +4,7 @@ const Stade = require('../models/stade')
 const ContactMessage = require('../models/Contact')
 const cloudinary = require("../Utlis/cloudinary")
 const { v4: uuidv4 } = require('uuid');
+var bcrypt = require('bcrypt');
 
 // Home page 
 // See user owner and player ==> accept -- delete user
@@ -471,35 +472,67 @@ exports.editProfile = async (req, res) => {
         date,
         genre,
         adress,
-        ville
+        ville,
+        password
     } = req.body
 
     await User.find({_id: USER_ID})
-        .then(async ()=> {
-            await User.updateOne({ _id: USER_ID}, {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                tel: tel,
-                birthDay: new Date(date),
-                Genre: genre,
-                adress: adress,
-                Ville: ville
-            })
-            .then(()=> {
-                res.json({
-                    status: "SUCCESS",
-                    message: "User updated successfuly !!"
+        .then(async (user)=> {
+            if(password){
+                const saltRounds = 10
+                bcrypt.hash(password, saltRounds)
+                    .then((hashedPassword)=> {
+                        User.updateOne({_id: USER_ID}, {password:hashedPassword})
+                            .then(()=> {
+                                // both user record and reset record updated
+                                res.json({
+                                    status: "SUCCESS",
+                                    message: "Password has been reset successufly"
+                                })
+                            })
+                            .catch(()=> {
+                                res.json({
+                                    status: "FAILED",
+                                    message: "An error occured while finalizing password reset!"
+                                })
+                            }) 
+                    })
+                    .catch((err)=> {
+                        console.log(err);
+                        res.json({
+                            status: "FAILED",
+                            message: "An error occured while hashing password !"
+                        })
+                    })
+            } else {
+                await User.updateOne({ _id: USER_ID}, {
+                    firstName: firstName || user[0].firstName,
+                    lastName: lastName || user[0].lastName,
+                    email: email || user[0].email,
+                    tel: tel || user[0].tel,
+                    birthDay: new Date(date) || user[0].birthDay.split('T')[0],
+                    Genre: genre || user[0].Genre,
+                    adress: adress || user[0].adress,
+                    Ville: ville || user[0].Ville
                 })
-            })
-            .catch(()=> {
-                res.json({
-                    status: "FAILED",
-                    message: "An error occured while Updating user !!"
+                .then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "User updated successfuly !!"
+                    })
                 })
-            })
+                .catch((err)=> {
+                    console.log(err);
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while Updating user !!"
+                    })
+                })
+            }
+            
         })
-        .catch(() => {
+        .catch((err) => {
+            console.log(err);
             res.json({
                 status: "FAILED",
                 message: "An error occured while finding user !!!"

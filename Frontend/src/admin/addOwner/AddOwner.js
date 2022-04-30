@@ -109,32 +109,32 @@ function AddOwner() {
                                     </Form.Group >
                                     </div>
                                     <div className="row">
-                                        <Form.Group className=" form-group mb-5"  controlId="email">
-                                        <Form.Label className='col-form-label'>Email</Form.Label>
-                                        <Form.Control 
-                                        required 
-                                        placeholder="Your email" 
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                        className="form-control"
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                    </Form.Group >
+                                        <Form.Group className="col-md-8 form-group mb-3"  controlId="email">
+                                            <Form.Label className='col-form-label'>Email</Form.Label>
+                                            <Form.Control 
+                                            required 
+                                            placeholder="Your email" 
+                                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                            className="form-control"
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            />
+                                        </Form.Group >
+                                        <Form.Group className="col-md-4 form-group mb-3"  controlId="phone">
+                                            <Form.Label className='col-form-label'>Phone</Form.Label>
+                                            <Form.Control 
+                                            required 
+                                            placeholder="Phone #" 
+                                            className="form-control"
+                                            type="phone"
+                                            value={tel}
+                                            onChange={(e) => setTel(e.target.value)}
+                                            />
+                                        </Form.Group >
                                     </div>
                                     <div className="row">
-                                    <Form.Group className="mb-3"  controlId="phone">
-                                        <Form.Label className='col-form-label'>Phone</Form.Label>
-                                        <Form.Control 
-                                        required 
-                                        placeholder="Phone #" 
-                                        className="form-control"
-                                        type="phone"
-                                        value={tel}
-                                        onChange={(e) => setTel(e.target.value)}
-                                        />
-                                    </Form.Group >
-                                    <Form.Group className="col-md-6 form-group mb-5"  controlId="dob">
+                                    <Form.Group className="col-md-8 form-group mb-5"  controlId="dob">
                                         <Form.Label className='col-form-label'>Select Date</Form.Label>
                                         <Form.Control required 
                                         className="form-control"
@@ -145,7 +145,7 @@ function AddOwner() {
                                         onChange={(e) => setDate(e.target.value)} 
                                         />
                                     </Form.Group>
-                                    <Form.Group className="col-md-6 form-group mb-5"  controlId="genre">
+                                    <Form.Group className="col-md-4 form-group mb-5"  controlId="genre">
                                     <Form.Label className='col-form-label'>Genre</Form.Label>
                                         <Form.Control required  
                                             as="select"

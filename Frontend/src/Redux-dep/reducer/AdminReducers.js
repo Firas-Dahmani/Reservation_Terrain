@@ -1,4 +1,10 @@
 import { 
+    CONTACT_MESSAGE_DELETE_FAIL,
+    CONTACT_MESSAGE_DELETE_REQUEST,
+    CONTACT_MESSAGE_DELETE_SUCCESS,
+    CONTACT_MESSAGE_SEEN_FAIL,
+    CONTACT_MESSAGE_SEEN_REQUEST,
+    CONTACT_MESSAGE_SEEN_SUCCESS,
     PROFILE_SEEN_FAIL,
     PROFILE_SEEN_REQUEST,
     PROFILE_SEEN_SUCCESS,
@@ -26,6 +32,9 @@ import {
     USER_REGISTER_OWNER_FAIL, 
     USER_REGISTER_OWNER_REQUEST,
     USER_REGISTER_OWNER_SUCCESS,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
     VILLE_ADD_FAIL,
     VILLE_ADD_REQUEST,
     VILLE_ADD_SUCCESS,
@@ -223,6 +232,54 @@ export const updatePicReducer = (state = {}, action) => {
             return {loading : false, success: true};
         
         case UPDATE_PIC_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const contactMessageSeenReducer = (state = {}, action) => {
+    switch (action.type){
+        case CONTACT_MESSAGE_SEEN_REQUEST:
+            return {loading : true};
+        
+        case CONTACT_MESSAGE_SEEN_SUCCESS:
+            return {loading : false, Message: action.payload};
+        
+        case CONTACT_MESSAGE_SEEN_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const contactMessageDeleteReducer = (state = {}, action) => {
+    switch (action.type){
+        case CONTACT_MESSAGE_DELETE_REQUEST:
+            return {loading : true};
+        
+        case CONTACT_MESSAGE_DELETE_SUCCESS:
+            return {loading : false, success: true};
+        
+        case CONTACT_MESSAGE_DELETE_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const userUpdateReducer = (state = {}, action) => {
+    switch (action.type){
+        case USER_UPDATE_REQUEST:
+            return {loading : true};
+        
+        case USER_UPDATE_SUCCESS:
+            return {loading : false, success: true};
+        
+        case USER_UPDATE_FAIL:
             return {loading : false, error: action.payload};
 
         default:
