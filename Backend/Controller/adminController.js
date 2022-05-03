@@ -434,7 +434,7 @@ exports.changePhoto = async (req, res) => {
 
     await User.find({_id : USER_ID})
         .then(async ()=> {
-            const uploadPic = await cloudinary.uploader.upload(req.body.pic || req.file.path , {
+            const uploadPic = await cloudinary.uploader.upload(req.body.pic , {
                 public_id: req.body.tel+"-"+req.body.firstname+"-"+req.body.email,
                 folder:"photoProfile"
             })

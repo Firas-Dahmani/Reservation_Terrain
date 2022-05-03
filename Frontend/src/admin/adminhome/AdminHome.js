@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userAccepteAction, userSeenAction, userDeleteAction } from './../../Redux-dep/actions/AdminActions';
 import Loading from '../../loading/Loading';
 import { Link } from 'react-router-dom';
+import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
 
 function AdminHome() {
   const dispatch = useDispatch()
@@ -56,25 +57,27 @@ function AdminHome() {
             <div className="row">
               <div className="col">
                 <h3 className="text-center text-page mb-5 animated pulse infinite" >
-                  User List 
+                  Liste d'utilisateur
                 </h3>
               </div>
+              {errorAccepte && <AlertCompnenet error={errorAccepte}/>}
+              {errorDelete && <AlertCompnenet error={errorDelete}/>}
             </div>
           </div>
         </div>
       <div className="container" id="container">
         <div className="row">
           <div className="col-12">
-            {loading ?
+            {loading || loadingAccepte || loadingDelete ?
                 <Loading/>
               :
               <table className="table table-image">
               <thead>
                 <tr>
-                  <th scope="col">User Email</th>
-                  <th scope="col">User Name</th>
-                  <th scope="col">Accept User</th>
-                  <th scope="col">Delete User</th>
+                  <th scope="col">Adresse e-mail</th>
+                  <th scope="col">Nom d'utilisateur</th>
+                  <th scope="col">Accepter l'utilisateur</th>
+                  <th scope="col">Supprimer l'utilisateur</th>
                 </tr>
               </thead>
               {

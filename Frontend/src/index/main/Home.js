@@ -19,7 +19,7 @@ function Home() {
   return (
     <>
       {Role === 'Admin' ?
-      <AdminHome/>
+        <AdminHome/>
       :
       <>
         <Navbar />

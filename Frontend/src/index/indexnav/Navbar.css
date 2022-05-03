@@ -12,6 +12,7 @@
     box-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.5);
 }
 
+
 .navbar {
     position: relative;
     padding: 5px 0;
@@ -19,7 +20,7 @@
 
 .navbar-area span {
     display: contents;
-    color: #fe5f59;
+    color: #38424d;
 }
 .navbar-toggler {
     font-size: 2rem;
@@ -66,7 +67,7 @@
 
 .navbar-nav .nav-item .nav-link.active,
 .navbar-nav .nav-item .nav-link:hover {
-    color: #ff846f;
+    color: black;
 }
 
 

@@ -6,6 +6,7 @@ import AdminNavbar from './../adminnav/Navbar';
 import './AddOwner.css'
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
 import { addOwnerAction } from '../../Redux-dep/actions/AdminActions';
+import Loading from './../../loading/Loading';
 
 function AddOwner() {
     const [firstname, setFirstName] = useState("");
@@ -16,11 +17,12 @@ function AddOwner() {
     const [genre, setGenre] = useState("Genre");
     const [adress, setAdress] = useState("");
     const [ville, setVille] = useState("");
+    const [ErrorMessage, setErrorMessage] = useState("");
     
     
     const dispatch = useDispatch();
     const addOwner = useSelector((state) => state.addOwner);
-    const { userInfo, error } = addOwner;
+    const { userInfo, error, loading } = addOwner;
 
     useEffect(()=>{
         setFirstName("")
@@ -34,17 +36,45 @@ function AddOwner() {
     },[userInfo])
     const handleSubmit = async (event) =>{
         event.preventDefault();
-            const variableRegister = [
-                firstname,
-                lastname,
-                email,
-                tel,
-                date,
-                genre,
-                adress,
-                ville
-            ]
+        const variableRegister = [
+            firstname,
+            lastname,
+            email,
+            tel,
+            date,
+            genre,
+            adress,
+            ville
+        ]
+
+        // Input validation
+        let regFirstName = /^[a-zA-Z]+$/
+        let regLastName = /^[a-zA-Z]+$/
+        let regEmail = /\S+@\S+\.\S+/
+        let regPhone = /((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})/
+        let regAdress = /^[a-zA-Z0-9\s,'-]*$/
+        if(!regFirstName.test(firstname)){
+            setErrorMessage("Prénom non valide !")
+        }else if(!regLastName.test(lastname)){
+            setErrorMessage("Nom non valide !")
+        }else if(!regEmail.test(email)){
+            setErrorMessage("Email non valide !")
+        }else if(!regPhone.test(tel)){
+            setErrorMessage("Telephone non valide !")
+        }else if(date === ""){
+            setErrorMessage("Date non valide !")
+        }else if(genre === "Genre"){
+            setErrorMessage("Genre non valide !")
+        }else if(ville === ""){
+            setErrorMessage("Ville non valide !")
+        }else if(!regAdress.test(adress) || adress === ""){
+            setErrorMessage("Adress non valide !")
+        } else {
+            setErrorMessage("")
             dispatch(addOwnerAction(variableRegister)) 
+        }
+
+            
     }
 
   return (
@@ -67,8 +97,8 @@ function AddOwner() {
                                     <ul className="list-group shadow-none">
                                         <li className="list-group-item">
                                             <div className="list-details">
-                                                <span>Password :</span>
-                                                <small>{userInfo?.Password}</small>
+                                                <span>Mot de passe : </span>
+                                                {loading ? <Loading/> : <small>{userInfo?.Password}</small>}
                                             </div>
                                         </li>
                                     </ul>
@@ -81,25 +111,25 @@ function AddOwner() {
                     <div className="col-lg-8">
                         <div className="card">
                             <div className="card-body">
-                                <h3>ADD OWner</h3>
+                                <h3 className='mb-5'>Ajouter un propriétaire</h3>
                                 <Form onSubmit={handleSubmit} id="" >
-                                {error && <AlertCompnenet error={error}/>}
+                                    {error && <AlertCompnenet error={error}/>}
+                                    {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
                                     <div className="row">
                                     <Form.Group className="col-md-6 form-group mb-5"  controlId="firstName">
-                                        <Form.Label className='col-form-label'>First Name</Form.Label>
+                                        <Form.Label className='col-form-label'>Prénom</Form.Label>
                                         <Form.Control 
-                                        required 
-                                        placeholder="First name" 
-                                        className="form-control"
-                                        type="name"
-                                        value={firstname}
-                                        onChange={(e) => setFirstName(e.target.value)}
+                                            placeholder="First name" 
+                                            className="form-control"
+                                            type="name"
+                                            value={firstname}
+                                            onChange={(e) => setFirstName(e.target.value)}
                                         />
                                     </Form.Group >
                                     <Form.Group className="col-md-6 form-group mb-5"  controlId="lastName">
-                                        <Form.Label className='col-form-label'>Last Name</Form.Label>
+                                        <Form.Label className='col-form-label'>Nom</Form.Label>
                                         <Form.Control 
-                                        required 
+ 
                                         placeholder="Last name" 
                                         className="form-control"
                                         type="name"
@@ -110,9 +140,9 @@ function AddOwner() {
                                     </div>
                                     <div className="row">
                                         <Form.Group className="col-md-8 form-group mb-3"  controlId="email">
-                                            <Form.Label className='col-form-label'>Email</Form.Label>
+                                            <Form.Label className='col-form-label'>Adresse e-mail</Form.Label>
                                             <Form.Control 
-                                            required 
+ 
                                             placeholder="Your email" 
                                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                             className="form-control"
@@ -122,9 +152,9 @@ function AddOwner() {
                                             />
                                         </Form.Group >
                                         <Form.Group className="col-md-4 form-group mb-3"  controlId="phone">
-                                            <Form.Label className='col-form-label'>Phone</Form.Label>
+                                            <Form.Label className='col-form-label'>Téléphone</Form.Label>
                                             <Form.Control 
-                                            required 
+ 
                                             placeholder="Phone #" 
                                             className="form-control"
                                             type="phone"
@@ -134,9 +164,9 @@ function AddOwner() {
                                         </Form.Group >
                                     </div>
                                     <div className="row">
-                                    <Form.Group className="col-md-8 form-group mb-5"  controlId="dob">
-                                        <Form.Label className='col-form-label'>Select Date</Form.Label>
-                                        <Form.Control required 
+                                    <Form.Group className="col-md-8  mb-3"  controlId="dob">
+                                        <Form.Label className='col-form-label'>Date de naissance</Form.Label>
+                                        <Form.Control
                                         className="form-control"
                                         type="date" 
                                         name="dob" 
@@ -145,9 +175,9 @@ function AddOwner() {
                                         onChange={(e) => setDate(e.target.value)} 
                                         />
                                     </Form.Group>
-                                    <Form.Group className="col-md-4 form-group mb-5"  controlId="genre">
-                                    <Form.Label className='col-form-label'>Genre</Form.Label>
-                                        <Form.Control required  
+                                    <Form.Group className="col-md-4  mb-3"  controlId="genre">
+                                    <Form.Label className='col-form-label'>Sexe</Form.Label>
+                                        <Form.Control  
                                             as="select"
                                             custom ="true"
                                             className="form-control"
@@ -162,25 +192,23 @@ function AddOwner() {
                                     <div className="row">
                                     <Form.Group className="col-md-6 form-group mb-5"  controlId="ville">
                                         <Form.Label className='col-form-label'>Ville</Form.Label>
-                                        <Form.Control 
-                                        required 
-                                        placeholder="Ville" 
-                                        className="form-control"
-                                        type="ville"
-                                        value={ville}
-                                        onChange={(e) => setVille(e.target.value)}
-                                        />
+                                            <Form.Control 
+                                                placeholder="Ville" 
+                                                className="form-control"
+                                                type="ville"
+                                                value={ville}
+                                                onChange={(e) => setVille(e.target.value)}
+                                            />
                                     </Form.Group >
                                     <Form.Group className="col-md-6 form-group mb-5"  controlId="adress">
                                         <Form.Label className='col-form-label'>Adress</Form.Label>
-                                        <Form.Control 
-                                        required 
-                                        placeholder="Adress" 
-                                        className="form-control"
-                                        type="adress"
-                                        value={adress}
-                                        onChange={(e) => setAdress(e.target.value)}
-                                        />
+                                            <Form.Control 
+                                                placeholder="Adress" 
+                                                className="form-control"
+                                                type="adress"
+                                                value={adress}
+                                                onChange={(e) => setAdress(e.target.value)}
+                                            />
                                     </Form.Group >
                                     </div>
 

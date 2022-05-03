@@ -9,6 +9,7 @@
     background-color: #fe5f59;
     color: #fff;
   }
+
   
   .main-btn:hover,.main-btn:focus {
     background-color: #e55039aa;
@@ -46,6 +47,7 @@
     
     th,td{
       text-align: center;
+      vertical-align: middle;
       }
     thead{
       font-size: 18px;

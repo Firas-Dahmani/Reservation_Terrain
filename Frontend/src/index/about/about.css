@@ -1,69 +1,13 @@
-.u-section-1 {
-    background-image: none;
-    overflow: hidden;
-  }
-  
-  .u-section-1 .u-sheet-1 {
-    min-height: 700px;
-  }
-  
-  .u-section-1 .u-image-1 {
-    width: 570px;
-    height: 553px;
-    margin: 60px auto 0;
-  }
-  
-  .u-section-1 .u-text-1 {
-    font-size: 10rem;
-    margin: -203px auto 0;
-  }
-  
-  .u-section-1 .u-text-2 {
-    font-weight: 700;
-    width: 654px;
-    margin: 60px auto;
-  }
-  
-  @media (max-width: 767px) {
-    .u-section-1 .u-sheet-1 {
-      min-height: 849px;
-    }
-  
-    .u-section-1 .u-image-1 {
-        margin: 62px 55px 0;
-        width: 540px;
-        height: 524px;
-    }
-  
-    .u-section-1 .u-text-1 {
-      font-size: 6rem;
-      margin-top: -174px;
-    }
-  
-    .u-section-1 .u-text-2 {
-      width: 540px;
-    }
-  }
-  
-  @media (max-width: 575px) {
-    .u-section-1 .u-sheet-1 {
-      min-height: 700px;
-      overflow-x: hidden;
-    }
-  
-    .u-section-1 .u-image-1 {
-      height: 200px;
-      margin-right: initial;
-      margin-left: initial;
-      width: auto;
-    }
-  
-    .u-section-1 .u-text-1 {
-      font-size: 4rem;
-      margin-top: -72px;
-    }
-  
-    .u-section-1 .u-text-2 {
-      width: 200px;
-    }
-  }
+.headershape {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 42.8%;
+  height: 100%;
+  background-image: url(../../assets/headershape.png);
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  overflow: hidden;
+}

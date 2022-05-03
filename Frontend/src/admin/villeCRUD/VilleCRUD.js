@@ -12,6 +12,7 @@ import './VilleCRUD.css'
 
 function VilleCRUD() {
     const dispatch = useDispatch()
+    const [ErrorMessage, setErrorMessage] = useState("");
     const [Ville, setVille] = useState("")
   
     const villeSeen = useSelector((state) => state.villeSeen)
@@ -44,7 +45,12 @@ function VilleCRUD() {
 
       const handleSubmit = async (event) =>{
         event.preventDefault();
-        dispatch(villeAddAction(Ville))
+        if (Ville === ""){
+          setErrorMessage("Ville non valide !")
+        } else {
+          setErrorMessage("")
+          dispatch(villeAddAction(Ville))
+        }
       }
 
     return (
@@ -55,11 +61,12 @@ function VilleCRUD() {
             <div className="row">
             <div className="col">
                 <h3 className="text-center text-page mb-5 animated pulse infinite" >
-                    Ville List 
+                  Liste des villes 
                 </h3>
                 {error && <AlertCompnenet error={error}/>}
                 {errorDelete && <AlertCompnenet error={errorDelete}/>}
                 {errorAdd && <AlertCompnenet error={errorAdd}/>}
+                {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
             </div>
             </div>
         </div>
@@ -68,7 +75,6 @@ function VilleCRUD() {
         <Form.Group className="col-md-6 form-group mb-5"  controlId="Ville">
             <Form.Label className='col-form-label'>Ville</Form.Label>
             <Form.Control 
-            required 
             placeholder="Ville Name" 
             className="form-control"
             type="ville"
@@ -77,21 +83,21 @@ function VilleCRUD() {
             />
         </Form.Group >
         <Button type="submit" className='main-btn'>
-            ADD
+          Ajouter
         </Button>
         </Form>
         
         <div className="container" id="container">
           <div className="row">
             <div className="col-12">
-              {loading ?
+              {loading || loadingDelete || loadingAdd ?
                   <Loading/>
                 :
                 <table className="table table-image">
                 <thead>
                   <tr>
-                    <td scope="row">Ville Name</td>
-                    <td scope="row">Delete Ville</td>
+                    <td scope="col">Nom de ville</td>
+                    <td scope="col">Supprimer Ville</td>
                   </tr>
                 </thead>
                 {
@@ -99,16 +105,16 @@ function VilleCRUD() {
                     ville.map((item, i) => ( 
                           <tbody key={i}>
                           <tr>
-                            <th >{item.villeName}</th>
-                            <th><Link to={`/ville`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></th>
+                            <td scope="row">{item.villeName}</td>
+                            <td ><Link to={`/ville`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></td>
                           </tr>
                         </tbody>
                         ))
                     :
                     <tbody>
                       <tr>
-                        <th scope="row">*</th>
-                        <td>*</td>
+                        <th>*</th>
+                        <th>*</th>
                       </tr>
                     </tbody>
                 }

@@ -19,7 +19,8 @@ function StadeCrud() {
     const [VilleID, setVilleID] = useState("Ville")
     const [UserID, setUserID] = useState("")
     const [Phone, setPhone] = useState("")
-  
+    const [ErrorMessage, setErrorMessage] = useState("");
+
     const stadeSeen = useSelector((state) => state.stadeSeen)
     const { stade, loading, error } = stadeSeen
 
@@ -71,7 +72,18 @@ function StadeCrud() {
    
       const handleSubmit = async (event) =>{
         event.preventDefault();
-        dispatch(stadeAddAction(UserID, VilleID, Stade, Phone))
+        
+        let regPhone = /((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})/
+        if(VilleID === "Ville"){
+          setErrorMessage("Ville non valide !")
+        }else if(Stade === ""){
+          setErrorMessage("Stade non valide !")
+        }else if(!regPhone.test(Phone)){
+          setErrorMessage("Telephone non valide !")
+        } else {
+          setErrorMessage("")
+          dispatch(stadeAddAction(UserID, VilleID, Stade, Phone))
+        }
       } 
 
     return (
@@ -82,19 +94,21 @@ function StadeCrud() {
             <div className="row">
             <div className="col">
                 <h3 className="text-center text-page mb-5 animated pulse infinite" >
-                    Stade List 
+                  Liste des stades
                 </h3>
                 {error && <AlertCompnenet error={error}/>}
                 {errorSeeVille && <AlertCompnenet error={errorSeeVille}/>}
                 {errorStadeAdd && <AlertCompnenet error={errorStadeAdd}/>}
                 {errorDelete && <AlertCompnenet error={errorDelete}/>}
+                {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
             </div>
             </div>
         </div>
         </div>
         <Form onSubmit={handleSubmit}>
             <Form.Group className=" mb-3 role"  controlId="poste">
-                <Form.Control required  
+                <Form.Control 
+                    required  
                     as="select"
                     custom ="true"
                     defaultValue={VilleID}
@@ -112,7 +126,6 @@ function StadeCrud() {
                 <Form.Group className="col-md-6 form-group mb-5"  controlId="stade">
                     <Form.Label className='col-form-label'>Stade</Form.Label>
                     <Form.Control 
-                    required 
                     placeholder="Stade Name" 
                     className="form-control"
                     type="Stade"
@@ -121,10 +134,9 @@ function StadeCrud() {
                     />
                 </Form.Group >
                 <Form.Group className="col-md-6 form-group mb-5"  controlId="phone">
-                    <Form.Label className='col-form-label'>Phone</Form.Label>
+                    <Form.Label className='col-form-label'>Téléphone</Form.Label>
                     <Form.Control 
-                    required 
-                    placeholder="Phone #" 
+                    placeholder="Téléphone #" 
                     className="form-control"
                     type="phone"
                     value={Phone}
@@ -140,15 +152,15 @@ function StadeCrud() {
         <div className="container" id="container">
           <div className="row">
             <div className="col-12">
-              {loading ?
+              {loading || loadingSeeVille || loadingDelete || loadingStadeAdd ?
                   <Loading />
                 :
                 <table className="table table-image">
                 <thead>
                   <tr>
-                    <th scope="col">Stade Name</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Delete Stade</th>
+                    <th scope="col">Nom du stade</th>
+                    <th scope="col">Téléphone</th>
+                    <th scope="col">Supprimer Stade</th>
                   </tr>
                 </thead>
                 {

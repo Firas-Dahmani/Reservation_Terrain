@@ -1,14 +1,12 @@
 import {  Button, IconButton, Slider} from "@mui/material";
-import {   useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Cropper from "react-easy-crop";
-import getCroppedImg, {generateDownload} from '../Utils/cropImage'
+import getCroppedImg from '../Utils/cropImage'
 import CancelIcon from '@mui/icons-material/Cancel';
 import './Cropper.css'
 import { makeStyles } from '@mui/styles';
-import CustomizedSnackbars from './../Snackbar/Snackbar';
-import { dataURLtoFile } from "../Utils/dataURLtoFile";
-import axios from "axios"
-
+import { dataURLtoFile } from "..//Utils/dataURLtoFile";
+import AlertCompnenet from './../../../../Error/Alert/AlertCompnenet';
 
 
 const useStyles = makeStyles({
@@ -19,23 +17,25 @@ const useStyles = makeStyles({
     zIndex:"99999"
 	},
 	cancelIcon: {
-		color: "#00a3c8",
-		fontSize: "50px",
+		color: "white",
+		fontSize: "35px",
 		"&:hover": {
 			color: "red",
 		},
 	},
 });
 
-export default function RenderCropper({handleCropper}) {
+export default function RenderCropper({handleCropper, setPicImage, setShowCropper}) {
   const [error, setError] = useState(false); 
   const [message, setMessage] = useState('')
   const classes = useStyles();
     const inputRef = useRef()
     const triggerFileSelectPopup = () => inputRef.current.click();
+
+
+   
   
     const [image, setImage] = useState();
-    const [pic, setPic] = useState();
       const [croppedArea, setCroppedArea] = useState(null);
       const [crop, setCrop] = useState({ x: 0, y: 0 });
       const [zoom, setZoom] = useState(1);
@@ -56,16 +56,6 @@ export default function RenderCropper({handleCropper}) {
       }
     }
 
-  
-    const onDownload = () => {
-      if(!image) {
-       setError(true)
-       setMessage("Cannot download empty image !")
-      }else{
-        generateDownload(image, croppedArea);
-      }
-        
-      };
 
       const onClear = () => {
         if (!image)
@@ -93,27 +83,20 @@ export default function RenderCropper({handleCropper}) {
         canvasDataUrl,
         "cropped-image.jpeg"
       );
-      // http://localhost:9000/api/users/setProfilePic
-        console.log(convertedUrlToFile)
-        try {
-          
-          const data = new FormData() 
-          data.append('file', convertedUrlToFile)
-          const res =await axios.post("http://localhost:9000/api/users/setProfilePic", data)
-          const res2 = await res.json();
-          console.log(res2)
-        } catch (err) {
-          console.warn(err);
-        }
+
+      const readeCovertFile = new FileReader();
+        readeCovertFile.readAsDataURL(convertedUrlToFile)
+        readeCovertFile.addEventListener("load", () => {
+          setPicImage(readeCovertFile.result);
+      });
+          setShowCropper(false)
     }
-    const callback = () => {
-      setError(false)
-  }
+
   
     return (
       
-        <div className='container'>
-          {error ?  <CustomizedSnackbars message = {message} open={error} onClose={callback} /> : <></> }
+        <div className='containerCropper'>
+          {error ?  <AlertCompnenet error = {message} /> : <></> }
           <IconButton className={classes.iconButton} onClick={handleCropper}>
             <CancelIcon className={classes.cancelIcon} />
           </IconButton>
@@ -147,6 +130,7 @@ export default function RenderCropper({handleCropper}) {
         <div className="container-buttons">
           <input 
             type="file" 
+            name="pic"
             accept="image/*"
             ref={inputRef}
             onChange= {onSelectFile}
@@ -163,18 +147,10 @@ export default function RenderCropper({handleCropper}) {
           <Button
             variant="contained"
             color="primary"
-            onClick={triggerFileSelectPopup}
+            onClick={triggerFileSelectPopup }
             style={{ marginRight: "10px" }}
           >
             Choose
-          </Button>
-          <Button 
-            variant='contained' 
-            color='secondary' 
-            onClick={onDownload }
-            style={{ marginRight: "10px" }}
-            > 
-            Download
           </Button>
           <Button
             variant='contained' 
@@ -182,7 +158,7 @@ export default function RenderCropper({handleCropper}) {
             onClick={onUpload }
             style={{ marginRight: "10px" }}
           >
-            Upload
+            Change
           </Button>
         </div>
       </div>
