@@ -2,6 +2,145 @@ const User = require('../models/user')
 const Stade = require('../models/stade')
 const Ville = require('../models/Ville')
 const Reservation = require('../models/reservation')
+const cloudinary = require("../Utlis/cloudinary")
+var bcrypt = require('bcrypt');
+
+
+/// User 
+exports.profileUserView = async (req, res) => {
+    const { USER_ID } = req.body
+
+    await User.find({_id: USER_ID})
+    .select("-password").select("-isAvail")
+        .then((result)=> {
+            res.json({
+                status: "SUCCESS",
+                message: "User finded successfuly !!",
+                User : result
+            })
+        })
+        .catch((err)=> {
+            console.log(err);
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding user Profile !!"
+            })
+        })
+}
+
+exports.changePhoto = async (req, res) => {
+    const { USER_ID } = req.body
+
+    await User.find({_id : USER_ID})
+        .then(async ()=> {
+            const uploadPic = await cloudinary.uploader.upload(req.body.pic , {
+                public_id: USER_ID,
+                folder:"photoProfile"
+            })
+            await User.updateOne({_id : USER_ID}, {
+                pic: uploadPic.secure_url
+            }).then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Update pic successfuly !!"
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while Update pic!!"
+                    })
+                })
+        })
+        .catch((err)=> {
+            console.log(err);
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding user!!"
+            })
+        })
+}
+
+exports.editProfile = async (req, res) => {
+    const {
+        USER_ID,
+        firstName,
+        lastName,
+        email, 
+        tel,
+        date,
+        genre,
+        adress,
+        ville,
+        password
+    } = req.body
+
+    let objForUpdate = {}
+
+    if(firstName) objForUpdate.firstName = firstName
+    if(lastName) objForUpdate.lastName = lastName
+    if(email) objForUpdate.email = email
+    if(tel) objForUpdate.tel = tel
+    if(date) objForUpdate.birthDay = date
+    if(genre) objForUpdate.Genre = genre
+    if(adress) objForUpdate.adress = adress
+    if(ville) objForUpdate.Ville = ville
+    if(password) objForUpdate.password = password
+
+    await User.find({_id: USER_ID})
+        .then(async (user)=> {
+            if(password){
+                const saltRounds = 10
+                bcrypt.hash(password, saltRounds)
+                    .then((hashedPassword)=> {
+                        User.updateOne({_id: USER_ID}, {password:hashedPassword})
+                            .then(()=> {
+                                // both user record and reset record updated
+                                res.json({
+                                    status: "SUCCESS",
+                                    message: "Password has been reset successufly"
+                                })
+                            })
+                            .catch(()=> {
+                                res.json({
+                                    status: "FAILED",
+                                    message: "An error occured while finalizing password reset!"
+                                })
+                            }) 
+                    })
+                    .catch((err)=> {
+                        console.log(err);
+                        res.json({
+                            status: "FAILED",
+                            message: "An error occured while hashing password !"
+                        })
+                    })
+            } else {
+                await User.updateOne({ _id: USER_ID}, {$set : objForUpdate}, { omitUndefined: 1})
+                .then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "User updated successfuly !!"
+                    })
+                })
+                .catch((err)=> {
+                    console.log(err);
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while Updating user !!"
+                    })
+                })
+            }
+            
+        })
+        .catch((err) => {
+            console.log(err);
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding user !!!"
+            })
+        })
+}
 
 
 exports.getAllStade = async (req, res) => {
@@ -14,44 +153,7 @@ exports.getAllStade = async (req, res) => {
         res.json({ message: "some error!" })
     } 
  }
- 
- exports.myProfile = async (req, res) => {
-     try {
-         User.findOne({ _id: req.user._id })
-         .select("-password").select("-isAvail").select("-role")
-         res.status(200).json({ user: user, msg: "all ok from myprofile" })
-     } catch (error) {
-         res.json({ message: "something went wrong!!" });
-     }
- }
- 
- exports.editProfile = (req, res) => {
-     let emailchange;
-     if (req.email == req.body.email) {
-         emailchange = "no"
-     }
-     else {
-         emailchange = "yes"
-     }
-     try {
-         User.updateOne({ _id: req.user._id }, {
-             firstName: req.body.firstname,
-             lastName: req.body.lastname,
-             email: req.body.email,
-             tel: req.body.tel,
-             birthDay: new Date(req.body.date),
-             Genre: req.body.genre,
-             adress: req.body.adress,
-             Ville: req.body.ville,
-             codePostal: req.body.codePostale,
-             pic: uploadPic.secure_url,
-         })
-         res.status(201).json({ message: "edited profile", emailchange: emailchange });
-     } catch (error) {
-         res.json({ message: "something went wrong!!" });
-     }
-     
- }
+
  
  // Show Ville 
  exports.showVille =  async (req, res ) => {

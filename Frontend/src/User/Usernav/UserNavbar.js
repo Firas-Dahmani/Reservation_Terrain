@@ -5,7 +5,7 @@ import { logout } from "../../Redux-dep/actions/authActions";
 import { useDispatch } from 'react-redux';
 
 
-function AdminNavbar() {
+function UserNavbar() {
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
@@ -26,16 +26,7 @@ function AdminNavbar() {
                             <Link className="nav-link "  to='/' >Accueil</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link "  to='/addowner' >Propriétaire</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link "  to='/ville' >Ville</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link "  to='/stade' >Stade</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link "  to='/profile' >Profile</Link>
+                            <Link className="nav-link "  to='/userprofile' >Profile</Link>
                         </li>
                         <li className="nav-item">
                                 <Link className="nav-link " onClick={logoutHandler} label="LOGOUT" to='/registerlogin' >DÉCONNECTER</Link>
@@ -49,4 +40,4 @@ function AdminNavbar() {
   )
 }
 
-export default AdminNavbar
+export default UserNavbar

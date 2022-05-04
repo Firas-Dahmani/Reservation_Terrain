@@ -4,6 +4,8 @@ import Navbar from './../indexnav/Navbar';
 import { Link } from 'react-router-dom';
 import AdminHome from './../../admin/adminhome/AdminHome';
 import { sessionService } from 'redux-react-session';
+import OwnerHome from "../../Owner/OwnerHome/OwnerHome";
+import UserHome from './../../User/UserHome/UserHome';
 
 function Home() {
     const [Role, setRole] = useState("")
@@ -20,6 +22,12 @@ function Home() {
     <>
       {Role === 'Admin' ?
         <AdminHome/>
+      :
+      Role === 'Owner' ?
+        <OwnerHome />
+      :
+      Role === 'User' ?
+        <UserHome/>
       :
       <>
         <Navbar />
@@ -59,8 +67,9 @@ function Home() {
         <div className="header-shape-1"></div>
         <div className="header-shape-2"></div>
       </div>
-      </>  
-    }
+      </>
+        
+      }
     </>
   );
 }

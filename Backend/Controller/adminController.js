@@ -435,7 +435,7 @@ exports.changePhoto = async (req, res) => {
     await User.find({_id : USER_ID})
         .then(async ()=> {
             const uploadPic = await cloudinary.uploader.upload(req.body.pic , {
-                public_id: req.body.tel+"-"+req.body.firstname+"-"+req.body.email,
+                public_id: USER_ID,
                 folder:"photoProfile"
             })
             await User.updateOne({_id : USER_ID}, {
@@ -476,6 +476,18 @@ exports.editProfile = async (req, res) => {
         password
     } = req.body
 
+    let objForUpdate = {}
+
+    if(firstName) objForUpdate.firstName = firstName
+    if(lastName) objForUpdate.lastName = lastName
+    if(email) objForUpdate.email = email
+    if(tel) objForUpdate.tel = tel
+    if(date) objForUpdate.birthDay = date
+    if(genre) objForUpdate.Genre = genre
+    if(adress) objForUpdate.adress = adress
+    if(ville) objForUpdate.Ville = ville
+    if(password) objForUpdate.password = password
+
     await User.find({_id: USER_ID})
         .then(async (user)=> {
             if(password){
@@ -505,16 +517,7 @@ exports.editProfile = async (req, res) => {
                         })
                     })
             } else {
-                await User.updateOne({ _id: USER_ID}, {
-                    firstName: firstName || user[0].firstName,
-                    lastName: lastName || user[0].lastName,
-                    email: email || user[0].email,
-                    tel: tel || user[0].tel,
-                    birthDay: new Date(date) || user[0].birthDay.split('T')[0],
-                    Genre: genre || user[0].Genre,
-                    adress: adress || user[0].adress,
-                    Ville: ville || user[0].Ville
-                })
+                await User.updateOne({ _id: USER_ID}, {$set : objForUpdate}, { omitUndefined: 1})
                 .then(()=> {
                     res.json({
                         status: "SUCCESS",

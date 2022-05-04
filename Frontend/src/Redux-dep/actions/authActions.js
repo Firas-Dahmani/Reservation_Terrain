@@ -51,13 +51,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
               sessionService.saveSession(token).then(()=> {
 
                 sessionService.saveUser(data).then(()=> {
-                  if(userDATA.role === 'Admin'){
-                    navigate('/')
-                  } else if (userDATA.role === 'Owner'){
-                    navigate('/owner')
-                  }else if (userDATA.role === 'User'){
-                    navigate('/user')
-                  }
+                  navigate('/')
                 })
 
               })

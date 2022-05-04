@@ -32,22 +32,7 @@ function DrawerCom() {
                         <ListItemText className="nav-link "  >Accueil</ListItemText>
                     </ListItemIcon>
                 </ListItemButton>
-                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/addowner' component={Link}>
-                    <ListItemIcon>
-                        <ListItemText className="nav-link "  >Propriétaire</ListItemText>
-                    </ListItemIcon>
-                </ListItemButton>
-                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/ville' component={Link}>
-                    <ListItemIcon>
-                        <ListItemText className="nav-link "  >VILLE</ListItemText>
-                    </ListItemIcon>
-                </ListItemButton>
-                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/stade' component={Link}>
-                    <ListItemIcon>
-                        <ListItemText className="nav-link "  >STADE</ListItemText>
-                    </ListItemIcon>
-                </ListItemButton>
-                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/profile' component={Link}>
+                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/userprofile' component={Link}>
                     <ListItemIcon>
                         <ListItemText className="nav-link "  >PROFILE</ListItemText>
                     </ListItemIcon>

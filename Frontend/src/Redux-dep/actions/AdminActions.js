@@ -47,7 +47,6 @@ import {
 } from "../constant/AdminConstant";
 import  axios  from 'axios';
 import { sessionService } from 'redux-react-session';
-import { logout } from "./authActions";
 
 // User
 

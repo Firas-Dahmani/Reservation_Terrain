@@ -16,6 +16,8 @@ import { sessionService } from 'redux-react-session';
 import { useState } from 'react';
 import StadeCrud from './admin/stadeCRUD/StadeCrud';
 import Profile from './admin/Profile/Profile';
+import OwnerProfile from './Owner/OwnerProfile/OwnerProfile';
+import UserProfile from './User/UserProfile/UserProfile';
 
 
 function App() {
@@ -60,6 +62,20 @@ function App() {
               <Route path="/stade" element={<AuthRoute><StadeCrud /> </AuthRoute>} />
               <Route path="/ville" element={<AuthRoute><VilleCRUD /> </AuthRoute>} />
               <Route path="/profile" element={<AuthRoute><Profile /> </AuthRoute>} />
+            </>
+        }
+        {/* Owner Router */}
+        {
+          Role === "Owner"  && 
+            <>
+              <Route path="/ownerprofile" element={<AuthRoute><OwnerProfile /> </AuthRoute>} />
+            </>
+        }
+        {/* User Router */}
+        {
+          Role === "User"  && 
+            <>
+              <Route path="/userprofile" element={<AuthRoute><UserProfile /> </AuthRoute>} />
             </>
         }
         {/* ERROR */}

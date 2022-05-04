@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const ownerController = require("../Controller/ownerController")
 const verifyToken = require("../middlewares/verifyToken")
+const verifyRole = require("../middlewares/verifyRole")
 
-router.post("/addReservation", verifyToken.protect, ownerController.addReservation )
-router.get("/allReservation", verifyToken.protect, ownerController.getAllReservation )
-router.get("/Reservation/:id", verifyToken.protect, ownerController.getReservationById )
+//Profile
+router.post('/profile', verifyToken.protect,verifyRole("Owner"), ownerController.profileUserView)
+router.post('/updatepic', verifyToken.protect,verifyRole("Owner"), ownerController.changePhoto)
+router.post('/updateprofile', verifyToken.protect,verifyRole("Owner"), ownerController.editProfile)
 
 module.exports = router;

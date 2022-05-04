@@ -17,15 +17,18 @@ function LoginRegister() {
     const [email, setEmail] = useState("");
     const [tel, setTel] = useState("");
     const [date, setDate] = useState("");
-    const [genre, setGenre] = useState("Genre");
+    const [genre, setGenre] = useState("");
     const [adress, setAdress] = useState("");
     const [ville, setVille] = useState("");
     const [poste, setPoste] = useState("Poste");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [pic] = useState("https://bootdey.com/img/Content/avatar/avatar7.png");
+    const [ErrorMessage, setErrorMessage] = useState("");
+
     let navigate = useNavigate();
     const dispatch = useDispatch();
+
     const userRegister = useSelector((state) => state.authRegister);
     const { error } = userRegister;
 
@@ -45,7 +48,38 @@ function LoginRegister() {
                 pic,
                 navigate
             ]
-            dispatch(register(variableRegister)) 
+
+            // Input validation
+            let regFirstName = /^[a-zA-Z]+$/
+            let regLastName = /^[a-zA-Z]+$/
+            let regEmail = /\S+@\S+\.\S+/
+            let regPhone = /((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})/
+            let regAdress = /^[a-zA-Z0-9\s,'-]*$/
+
+            if(!regFirstName.test(firstname)){
+                setErrorMessage("Prénom non valide !")
+            }else if(!regLastName.test(lastname)){
+                setErrorMessage("Nom non valide !")
+            }else if(!regEmail.test(email)){
+                setErrorMessage("Email non valide !")
+            }else if(!regPhone.test(tel)){
+                setErrorMessage("Telephone non valide !")
+            }else if(date === ""){
+                setErrorMessage("Date non valide !")
+            }else if(genre === ""){
+                setErrorMessage("Genre non valide !")
+            }else if(ville === ""){
+                setErrorMessage("Ville non valide !")
+            }else if(!regAdress.test(adress) || adress === ""){
+                setErrorMessage("Adress non valide !")
+            }else if(password.length < 8){
+                setErrorMessage("Password should have minimum length 8 !")
+            }else if(password !== confirmPassword){
+                setErrorMessage("Password not match !")
+            } else {
+                setErrorMessage("")
+                dispatch(register(variableRegister)) 
+            }
     }
 
     //Verification Register
@@ -54,13 +88,23 @@ function LoginRegister() {
     /* Login code  */
     const [emailLogin, setEmailLogin] = useState("");
     const [passwordLogin, setPasswordLogin] = useState("");
+    const [ErrorMessageLogin, setErrorMessageLogin] = useState("");
+
     const userLogin = useSelector((state) => state.authLogin);
     const err = userLogin.error;
 
   
     const handleSubmitLogin = async (event) =>{
       event.preventDefault();
-      dispatch(login(emailLogin, passwordLogin, navigate))
+
+        if(emailLogin === ""){
+            setErrorMessageLogin("Enter your email !")
+        }if(passwordLogin === ""){
+            setErrorMessageLogin("Enter your password !")
+        }else {
+            setErrorMessageLogin("")
+            dispatch(login(emailLogin, passwordLogin, navigate))
+        }
     }
 
   return (
@@ -71,19 +115,16 @@ function LoginRegister() {
                         <div className="signin-signup ">
                             {/* register */}
                             <Form onSubmit={handleSubmitRegister} className="sign-up-form " >
-                                <h2 className="title">Register</h2>
+                                <h2 className="title">S'inscrire</h2>
                                 {error && <AlertCompnenet error={error}/>}
+                                {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
                                 <div className="formAll">
-                                {/* <div className="Photo">
-                                    <Form.Group className=" mb-3 photo"   controlId="pic">
-                                    <RenderImage setPicRegister = {setPicRegister}  pic = {pic}/>
-                                    </Form.Group >
-                                </div> */}
                                 <div className="formRegister ">
                                     <div className="firstlastname">
                                         <Form.Group className=" mb-3 firstname" controlId="firstname">
-                                        <Form.Label>First Name</Form.Label>
-                                        <Form.Control required  className="input-field"
+                                        <Form.Label>Prénom</Form.Label>
+                                        <Form.Control   
+                                            className="input-field"
                                             autoFocus
                                             type="firstName"
                                             value={firstname}
@@ -91,8 +132,9 @@ function LoginRegister() {
                                         />
                                         </Form.Group >
                                         <Form.Group className=" mb-3 lastname"  controlId="lastname">
-                                        <Form.Label>Last Name</Form.Label>
-                                        <Form.Control required  className="input-field"
+                                        <Form.Label>Nom</Form.Label>
+                                        <Form.Control  
+                                            className="input-field"
                                             autoFocus
                                             type="lastName"
                                             value={lastname}
@@ -102,8 +144,8 @@ function LoginRegister() {
                                     </div>
                                     <Form.Group className=" mb-3 email"  controlId="email">
                                     <Form.Label>Email</Form.Label>
-                                    <Form.Control required  className="input-field"
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                    <Form.Control   
+                                        className="input-field"
                                         autoComplete="off" 
                                         spellCheck="false"
                                         autoFocus
@@ -114,9 +156,9 @@ function LoginRegister() {
                                     </Form.Group >
                                     <div className="telDate">
                                         <Form.Group className=" mb-3 tel"  controlId="tel">
-                                        <Form.Label>Phone Number</Form.Label>
-                                        <Form.Control required  className="input-field"
-                                            pattern="((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})"
+                                        <Form.Label>Téléphone</Form.Label>
+                                        <Form.Control  
+                                            className="input-field"
                                             autoFocus
                                             type="tel"
                                             value={tel}
@@ -124,8 +166,8 @@ function LoginRegister() {
                                         />
                                         </Form.Group >
                                         <Form.Group className=" mb-3 "  controlId="dob">
-                                            <Form.Label>Select Date</Form.Label>
-                                            <Form.Control required 
+                                            <Form.Label>Date de naissance</Form.Label>
+                                            <Form.Control 
                                             className="birthday"
                                             type="date" 
                                             name="dob" 
@@ -137,18 +179,17 @@ function LoginRegister() {
                                     </div>
                                     <div className="genreRole " >
                                         <Form.Group className=" mb-3 genre"  controlId="genre">
-                                            <Form.Control required  
+                                            <Form.Control  
                                                 as="select"
                                                 custom ="true"
                                                 defaultValue={genre}
                                                 onChange={(e) => setGenre(e.target.value)}>
-                                                <option disabled="disabled">Genre</option>
                                                 <option value="Homme">Homme</option>
                                                 <option value="Femme">Femme</option>
                                             </Form.Control >
                                         </Form.Group>
                                         <Form.Group className=" mb-3 role"  controlId="poste">
-                                            <Form.Control required  
+                                            <Form.Control  
                                                 as="select"
                                                 custom ="true"
                                                 defaultValue={poste}
@@ -166,7 +207,8 @@ function LoginRegister() {
                                     <div className="Ville">
                                     <Form.Group className=" mb-3 adress"  controlId="adress">
                                     <Form.Label>Adress</Form.Label>
-                                    <Form.Control required  className="input-field"
+                                    <Form.Control  
+                                        className="input-field"
                                         autoFocus
                                         type="adress"
                                         value={adress}
@@ -175,7 +217,8 @@ function LoginRegister() {
                                     </Form.Group >
                                     <Form.Group className=" mb-3 ville"  controlId="ville">
                                     <Form.Label>Ville</Form.Label>
-                                    <Form.Control required  className="input-field"
+                                    <Form.Control 
+                                        className="input-field"
                                         autoFocus
                                         type="ville"
                                         value={ville}
@@ -185,19 +228,18 @@ function LoginRegister() {
                                     </div>
                                     <div className="Password">
                                         <Form.Group className=" mb-3 pass"   controlId="password">
-                                        <Form.Label>Password</Form.Label>
+                                        <Form.Label>Mot de passe</Form.Label>
                                         <Form.Control 
-                                        required  
-                                        className="input-field"
+                                            className="input-field"
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                         />
                                         </Form.Group >
                                         <Form.Group className=" mb-3 confirmepass"   controlId="confirmPassword">
-                                        <Form.Label>Confirme Password</Form.Label>
-                                        <Form.Control required  
-                                        className="input-field"
+                                        <Form.Label>Confirmez</Form.Label>
+                                        <Form.Control 
+                                            className="input-field"
                                             type="Password"
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value) }
@@ -215,10 +257,10 @@ function LoginRegister() {
                             <Form onSubmit={handleSubmitLogin}  className="sign-in-form">
                             <h2 className="title">Login</h2>
                                 {err && <AlertCompnenet error={err}/>}
+                                {ErrorMessageLogin && <AlertCompnenet error={ErrorMessageLogin}/>}
                                 <Form.Group className=" mb-3 emailLogin"  controlId="emailLogin">
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control required  
-                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                <Form.Control 
                                 className="input-field"
                                     autoFocus
                                     type="email"

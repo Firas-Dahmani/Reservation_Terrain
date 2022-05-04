@@ -1,4 +1,3 @@
-import AdminNavbar from './../adminnav/Navbar';
 import { Link } from 'react-router-dom';
 import Form  from 'react-bootstrap/Form';
 import { useState, useEffect } from 'react';
@@ -7,17 +6,18 @@ import RenderImage from './Image/Image';
 import './Profile.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionService } from 'redux-react-session';
-import { contactMeesageDeleteAction, contactMeesageSeenAction, profileSeenAction, updatePicAction, updateUserProfile } from '../../Redux-dep/actions/AdminActions';
 import Loading from '../../loading/Loading';
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
+import { UserprofileSeenAction, UserupdatePicAction, UserupdateUserProfile } from '../../Redux-dep/actions/UserActions';
+import UserNavbar from './../Usernav/UserNavbar';
 
-function Profile() {
+function UserProfile() {
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [tel, setTel] = useState("");
     const [date, setDate] = useState("");
-    const [genre, setGenre] = useState("Genre");
+    const [genre, setGenre] = useState("");
     const [adress, setAdress] = useState("");
     const [ville, setVille] = useState("");
     const [password, setPassword] = useState("");
@@ -30,35 +30,27 @@ function Profile() {
 
     
 
-    const profileSeen = useSelector((state) => state.profileSeen)
-    const { seeProfile, loading, error } = profileSeen
+    const profileSeen = useSelector((state) => state.UserprofileSeen)
+    const { seeProfile : seeUserProfile, loading, error } = profileSeen
 
-    const contactMessageSeen = useSelector((state) => state.contactMessageSeen)
-    const { Message, loading:contactMessageSeenLoading, error:contactMessageSeenERROR } = contactMessageSeen
-
-    const updatePic = useSelector((state) => state.updatePic)
+    const updatePic = useSelector((state) => state.UserupdatePic)
     const { success : UploadPhotoSUCCESS, loading : LoadUploadPhoto } = updatePic
 
-    const contactMessageDelete = useSelector((state) => state.contactMessageDelete)
-    const { success : deleteMessageSUCCESS, loading : deleteMessageLoading, error: deleteMessageError } = contactMessageDelete
-
-    const userUpdate = useSelector((state) => state.userUpdate)
+    const userUpdate = useSelector((state) => state.UserUpdate)
     const { success : userUpdateSUCCESS, loading : userUpdateLoading, error: userUpdateError } = userUpdate
     
     sessionService.loadUser()
         .then((User) => {
+            
             setUserID(User.data[0]._id)
         })
 
     useEffect(()=> {
-        dispatch(updatePicAction(UserID, pic))
-    }, [dispatch,
-        UserID,
-        pic
-    ])
+        dispatch(UserupdatePicAction(UserID, pic))
+    }, [pic])
 
     useEffect(()=> {
-        dispatch(profileSeenAction(UserID))
+        dispatch(UserprofileSeenAction(UserID))
     },[dispatch,
         UploadPhotoSUCCESS,
         UserID,
@@ -66,27 +58,17 @@ function Profile() {
     ])
 
 
-    useEffect(()=> {
-        dispatch(contactMeesageSeenAction(UserID))
-    },[dispatch,
-        UserID,
-        deleteMessageSUCCESS
-    ])
-
-    const handleDelete = (id) =>{
-        dispatch(contactMeesageDeleteAction(id))
-      }
-
       const handleSubmit = async (event) =>{
         event.preventDefault();
+            if(date.type !== undefined){ setDate(seeUserProfile?.birthDay)}
 
-            const variableUpdateProfile = [
+            const variableUpdateOwnerProfile = [
                 UserID,
                 firstname,
                 lastname,
                 email, 
                 tel,
-                date.type === undefined ? seeProfile?.birthDay : date,
+                date ,
                 genre,
                 adress,
                 ville,
@@ -97,33 +79,30 @@ function Profile() {
                 setErrorMessage("Password not match !")
             } else {
                 setErrorMessage("")
-                dispatch(updateUserProfile(variableUpdateProfile))
+                dispatch(UserupdateUserProfile(variableUpdateOwnerProfile))
             } 
     }
 
 
     return (
     <>
-        <AdminNavbar />
+        <UserNavbar />
         {
-            loading || userUpdateLoading || deleteMessageLoading || LoadUploadPhoto || contactMessageSeenLoading ?
+            loading || userUpdateLoading || LoadUploadPhoto  ?
                 <Loading />
             :
             <>
                 <div className="container">
                 {userUpdateError && <AlertCompnenet error={userUpdateError}/>}
-                {deleteMessageError && <AlertCompnenet error={deleteMessageError}/>}
-                {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
-                {contactMessageSeenERROR && <AlertCompnenet error={contactMessageSeenERROR}/>}
                 {error && <AlertCompnenet error={error}/>}
                     <div className="row">
                         <div className="col-lg-4">
                             <div className="profile-card-4 z-depth-3">
                                 <div className="card text-center">
                                     <div className=" mb-3">
-                                        <RenderImage setPicRegister = {setPic}  pic = {seeProfile?.pic}/>
-                                        <h5 className=" text-black">{seeProfile?.firstName + " " + seeProfile?.lastName}</h5>
-                                        <h6 className="text-black">{seeProfile?.role}</h6>
+                                        <RenderImage setPicRegister = {setPic}  pic = {seeUserProfile?.pic}/>
+                                        <h5 className=" text-black">{seeUserProfile?.firstName + " " + seeUserProfile?.lastName}</h5>
+                                        <h6 className="text-black">{seeUserProfile?.role}</h6>
                                     </div>
                                     <div className="card-body">
                                         <ul className="list-group shadow-none">
@@ -132,7 +111,7 @@ function Profile() {
                                             <i className="fa fa-phone-square"></i>
                                         </div>
                                         <div className="list-details">
-                                            <span>{seeProfile?.tel}</span>
+                                            <span>{seeUserProfile?.tel}</span>
                                         </div>
                                         </li>
                                         <li className="list-group-item">
@@ -140,7 +119,7 @@ function Profile() {
                                             <i className="fa fa-envelope"></i>
                                         </div>
                                         <div className="list-details">
-                                            <span>{seeProfile?.email}</span>
+                                            <span>{seeUserProfile?.email}</span>
                                         </div>
                                         </li>
                                         </ul>
@@ -155,13 +134,10 @@ function Profile() {
                                 <div className="card-body">
                                     <ul className="nav nav-pills nav-pills-primary nav-justified">
                                         <li className="nav-item">
-                                            <Link to="/profile" data-target="#profile" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">Profile</span></Link>
+                                            <Link to="/userprofile" data-target="#profile" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">OwnerProfile</span></Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link to="/profile" data-target="#messages" data-toggle="pill" className="nav-link"><i className="icon-envelope-open"></i> <span className="hidden-xs">Messages</span></Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link to="/profile" data-target="#edit" data-toggle="pill" className="nav-link"><i className="icon-note"></i> <span className="hidden-xs">Edit</span></Link>
+                                            <Link to="/userprofile" data-target="#edit" data-toggle="pill" className="nav-link"><i className="icon-note"></i> <span className="hidden-xs">Edit</span></Link>
                                         </li>
                                     </ul>
                                     <div className="tab-content p-3">
@@ -171,61 +147,35 @@ function Profile() {
                                                 <div className="col-md-6">
                                                     <h6>Date de naissance</h6>
                                                     <p>
-                                                        {seeProfile?.birthDay.split('T')[0]}
+                                                        {seeUserProfile?.birthDay.split('T')[0]}
                                                     </p>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <h6>Sexe</h6>
                                                     <p>
-                                                        {seeProfile?.Genre}
+                                                        {seeUserProfile?.Genre}
                                                     </p>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <h6>Ville</h6>
                                                     <p>
-                                                        {seeProfile?.Ville}
+                                                        {seeUserProfile?.Ville}
                                                     </p>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <h6>Adress</h6>
                                                     <p>
-                                                        {seeProfile?.adress}
+                                                        {seeUserProfile?.adress}
                                                     </p>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="tab-pane" id="messages">
-                                            <table className="table table-hover table-striped">
-                                                <tbody> 
-                                                    {
-                                                        Message && Message.length !== 0 ? 
-
-                                                        Message.map((item, i)=> (                                   
-                                                            <tr key={i}>
-                                                                <td>
-                                                                    <div className='text-left '><strong>Nom : </strong> {item.name} </div>
-                                                                    <div className='text-left '><strong>Email : </strong> {item.email}</div>
-                                                                    <div className='text-left '><strong>Téléphone : </strong> {item.phone}</div>
-                                                                    <div className=''>
-                                                                        <div className="messages-list">{item.message}</div>
-                                                                        <span className=" text-primary float-left font-weight-bold ">{item.createAt.split('T')[0]}</span> 
-                                                                        <i className="fa fa-trash delete float-right" onClick={()=>handleDelete(item._id)}></i>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        )) 
-                                                    :
-                                                        <tr><td><strong>Pas de message !</strong></td></tr>
-                                                    }
-                                                </tbody> 
-                                            </table>
                                         </div>
                                         <div className="tab-pane"  id="edit">
                                             <div className="card">
                                                 <div className="card-body">
                                                     <ul className="nav nav-pills nav-pills-primary nav-justified">
                                                         <li className="nav-item">
-                                                            <Link to="#" data-target="#update" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">Edit Profile</span></Link>
+                                                            <Link to="#" data-target="#update" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">Edit OwnerProfile</span></Link>
                                                         </li>
                                                         <li className="nav-item">
                                                             <Link to="#" data-target="#change" data-toggle="pill" className="nav-link"><i className="icon-envelope-open"></i> <span className="hidden-xs">Change Password</span></Link>
@@ -241,7 +191,7 @@ function Profile() {
                                                                         <Form.Control   className="form-control"
                                                                             autoFocus
                                                                             type="firstName"
-                                                                            defaultValue={seeProfile?.firstName}
+                                                                            defaultValue={seeUserProfile?.firstName}
                                                                             onChange={(e) => setFirstName(e.target.value)}
                                                                         />
                                                                     </Form.Group >
@@ -251,7 +201,7 @@ function Profile() {
                                                                             className="form-control"
                                                                             autoFocus
                                                                             type="lastName"
-                                                                            defaultValue={seeProfile?.lastName}
+                                                                            defaultValue={seeUserProfile?.lastName}
                                                                             onChange={(e) => setLastName(e.target.value)}
                                                                         />
                                                                     </Form.Group >
@@ -265,7 +215,7 @@ function Profile() {
                                                                                 spellCheck="false"
                                                                                 autoFocus
                                                                                 type="email"
-                                                                                defaultValue={seeProfile?.email}
+                                                                                defaultValue={seeUserProfile?.email}
                                                                                 onChange={(e) => setEmail(e.target.value)}
                                                                             />
                                                                         </Form.Group >
@@ -275,9 +225,8 @@ function Profile() {
                                                                                 className="form-control" 
                                                                                 as="select"
                                                                                 custom ="true"
-                                                                                defaultValue={seeProfile?.Genre}
+                                                                                defaultValue={seeUserProfile?.Genre}
                                                                                 onChange={(e) => setGenre(e.target.value)}>
-                                                                                <option disabled="disabled">Sexe</option>
                                                                                 <option value="Homme">Homme</option>
                                                                                 <option value="Femme">Femme</option>
                                                                             </Form.Control >
@@ -290,7 +239,7 @@ function Profile() {
                                                                                 pattern="((\+|00)216)?([2579][0-9]{7}|(3[012]|4[01]|8[0128])[0-9]{6}|42[16][0-9]{5})"
                                                                                 autoFocus
                                                                                 type="tel"
-                                                                                defaultValue={seeProfile?.tel}
+                                                                                defaultValue={seeUserProfile?.tel}
                                                                                 onChange={(e) => setTel(e.target.value)}
                                                                             />
                                                                         </Form.Group >
@@ -300,7 +249,7 @@ function Profile() {
                                                                             className='form-control'
                                                                             type="date" 
                                                                             name="dob" 
-                                                                            defaultValue={seeProfile?.birthDay.split('T')[0]}
+                                                                            defaultValue={seeUserProfile?.birthDay.split('T')[0]}
                                                                             placeholder="Date of Birth"
                                                                             onChange={(e) => setDate(e.target.value)} 
                                                                             />
@@ -312,7 +261,7 @@ function Profile() {
                                                                             <Form.Control   className="form-control"
                                                                                 autoFocus
                                                                                 type="adress"
-                                                                                defaultValue={seeProfile?.adress}
+                                                                                defaultValue={seeUserProfile?.adress}
                                                                                 onChange={(e) => setAdress(e.target.value)}
                                                                             />
                                                                         </Form.Group >
@@ -321,7 +270,7 @@ function Profile() {
                                                                             <Form.Control   className="form-control"
                                                                                 autoFocus
                                                                                 type="ville"
-                                                                                defaultValue={seeProfile?.Ville}
+                                                                                defaultValue={seeUserProfile?.Ville}
                                                                                 onChange={(e) => setVille(e.target.value)}
                                                                             />
                                                                         </Form.Group >
@@ -377,4 +326,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default UserProfile

@@ -30,7 +30,7 @@ app.get('/',(req,res)=>{
 
 // use all routes
 app.use('/api', authRoutes)
-app.use('/', playerRoutes)
+app.use('/user', playerRoutes)
 app.use('/', contactRoutes)
 app.use('/admin', adminRoutes)
 app.use('/owner', ownerRoutes)

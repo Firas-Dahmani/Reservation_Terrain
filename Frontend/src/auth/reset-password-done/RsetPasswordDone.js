@@ -11,6 +11,8 @@ function ResetPasswordDone() {
   const {userId, resetString} = useParams()
   const [confirmPassword, setConfirmPassword] = useState("");
   const [password, setPassword] = useState("");
+  const [ErrorMessage, setErrorMessage] = useState("");
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const authResetPassword = useSelector((state) => state.authResetPassword);
@@ -18,7 +20,12 @@ function ResetPasswordDone() {
 
   const handleSubmit = async (event) =>{
     event.preventDefault();
-    dispatch(ResetPassword(userId, resetString ,password, navigate))
+    if(password !== confirmPassword){
+      setErrorMessage("Password are not matched !")
+    }else {
+      setErrorMessage("")
+      dispatch(ResetPassword(userId, resetString ,password, navigate))
+    }
   }
   return (
     <div className="containerr sign-up-mode">
@@ -27,6 +34,7 @@ function ResetPasswordDone() {
           <Form onSubmit={handleSubmit} className="sign-up-form">
             <h2 className="title">Reset Password?</h2>
             {err && <AlertCompnenet error={err}/>}
+            {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
             <Form.Group className=" mb-3 pass"   controlId="password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control 

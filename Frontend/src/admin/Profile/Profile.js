@@ -17,7 +17,7 @@ function Profile() {
     const [email, setEmail] = useState("");
     const [tel, setTel] = useState("");
     const [date, setDate] = useState("");
-    const [genre, setGenre] = useState("Genre");
+    const [genre, setGenre] = useState("");
     const [adress, setAdress] = useState("");
     const [ville, setVille] = useState("");
     const [password, setPassword] = useState("");
@@ -79,6 +79,7 @@ function Profile() {
 
       const handleSubmit = async (event) =>{
         event.preventDefault();
+        if(date.type !== undefined){ setDate(seeProfile?.birthDay)}
 
             const variableUpdateProfile = [
                 UserID,
@@ -86,7 +87,7 @@ function Profile() {
                 lastname,
                 email, 
                 tel,
-                date.type === undefined ? seeProfile?.birthDay : date,
+                date,
                 genre,
                 adress,
                 ville,
@@ -277,7 +278,6 @@ function Profile() {
                                                                                 custom ="true"
                                                                                 defaultValue={seeProfile?.Genre}
                                                                                 onChange={(e) => setGenre(e.target.value)}>
-                                                                                <option disabled="disabled">Sexe</option>
                                                                                 <option value="Homme">Homme</option>
                                                                                 <option value="Femme">Femme</option>
                                                                             </Form.Control >

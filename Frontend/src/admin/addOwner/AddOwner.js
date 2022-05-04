@@ -34,6 +34,7 @@ function AddOwner() {
         setAdress("")
         setVille("")
     },[userInfo])
+
     const handleSubmit = async (event) =>{
         event.preventDefault();
         const variableRegister = [
@@ -142,9 +143,7 @@ function AddOwner() {
                                         <Form.Group className="col-md-8 form-group mb-3"  controlId="email">
                                             <Form.Label className='col-form-label'>Adresse e-mail</Form.Label>
                                             <Form.Control 
- 
                                             placeholder="Your email" 
-                                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                             className="form-control"
                                             type="email"
                                             value={email}
@@ -154,7 +153,6 @@ function AddOwner() {
                                         <Form.Group className="col-md-4 form-group mb-3"  controlId="phone">
                                             <Form.Label className='col-form-label'>Téléphone</Form.Label>
                                             <Form.Control 
- 
                                             placeholder="Phone #" 
                                             className="form-control"
                                             type="phone"
