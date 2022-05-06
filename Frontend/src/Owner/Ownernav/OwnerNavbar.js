@@ -26,6 +26,9 @@ function OwnerNavbar() {
                             <Link className="nav-link "  to='/' >Accueil</Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link "  to='/ownerstade' >Stade</Link>
+                        </li>
+                        <li className="nav-item">
                             <Link className="nav-link "  to='/ownerprofile' >Profile</Link>
                         </li>
                         <li className="nav-item">

@@ -18,6 +18,8 @@ import StadeCrud from './admin/stadeCRUD/StadeCrud';
 import Profile from './admin/Profile/Profile';
 import OwnerProfile from './Owner/OwnerProfile/OwnerProfile';
 import UserProfile from './User/UserProfile/UserProfile';
+import UserNotAvail from './Error/UserNotAvail/UserNotAvail';
+import OwnerStadeCrud from './Owner/OwnerAddStade/OwnerAddStade';
 
 
 function App() {
@@ -25,10 +27,12 @@ function App() {
   const { checked } = session;
 
   const [Role, setRole] = useState("")
+  const [Avail, setAvail] = useState()
 
   sessionService.loadUser()
     .then((User) => {
       setRole(User.data[0].role)
+      setAvail(User.data[0].isAvail)
     })
     .catch(()=> {
       setRole("No User")
@@ -69,14 +73,17 @@ function App() {
           Role === "Owner"  && 
             <>
               <Route path="/ownerprofile" element={<AuthRoute><OwnerProfile /> </AuthRoute>} />
+              <Route path="/ownerstade" element={<AuthRoute><OwnerStadeCrud /> </AuthRoute>} />
             </>
         }
         {/* User Router */}
         {
-          Role === "User"  && 
+          Role === "User"  && Avail === true ? 
             <>
               <Route path="/userprofile" element={<AuthRoute><UserProfile /> </AuthRoute>} />
             </>
+            : 
+            <Route path="/notavail" element={<AuthRoute><UserNotAvail /> </AuthRoute>} />
         }
         {/* ERROR */}
         <Route path="*" element={<NotFound />} />

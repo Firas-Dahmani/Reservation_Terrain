@@ -32,6 +32,11 @@ function DrawerCom() {
                         <ListItemText className="nav-link "  >Accueil</ListItemText>
                     </ListItemIcon>
                 </ListItemButton>
+                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/ownerstade' component={Link}>
+                    <ListItemIcon>
+                        <ListItemText className="nav-link "  >STADE</ListItemText>
+                    </ListItemIcon>
+                </ListItemButton>
                 <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/ownerprofile' component={Link}>
                     <ListItemIcon>
                         <ListItemText className="nav-link "  >PROFILE</ListItemText>

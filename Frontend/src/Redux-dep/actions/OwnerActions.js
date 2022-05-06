@@ -2,12 +2,24 @@ import {
     OWNER_PROFILE_SEEN_FAIL, 
     OWNER_PROFILE_SEEN_REQUEST, 
     OWNER_PROFILE_SEEN_SUCCESS, 
+    OWNER_STADE_ADD_FAIL, 
+    OWNER_STADE_ADD_REQUEST, 
+    OWNER_STADE_ADD_SUCCESS, 
+    OWNER_STADE_DELETE_FAIL, 
+    OWNER_STADE_DELETE_REQUEST, 
+    OWNER_STADE_DELETE_SUCCESS, 
+    OWNER_STADE_SEEN_FAIL, 
+    OWNER_STADE_SEEN_REQUEST, 
+    OWNER_STADE_SEEN_SUCCESS, 
     OWNER_UPDATE_PIC_FAIL,
     OWNER_UPDATE_PIC_REQUEST,
     OWNER_UPDATE_PIC_SUCCESS,
     OWNER_USER_UPDATE_FAIL,
     OWNER_USER_UPDATE_REQUEST,
-    OWNER_USER_UPDATE_SUCCESS
+    OWNER_USER_UPDATE_SUCCESS,
+    OWNER_VILLE_SEEN_FAIL,
+    OWNER_VILLE_SEEN_REQUEST,
+    OWNER_VILLE_SEEN_SUCCESS
 } from "../constant/OwnerConstant"
 import  axios  from 'axios';
 import { sessionService } from 'redux-react-session';
@@ -170,3 +182,189 @@ export const OwnerprofileSeenAction = (USER_ID) => async (dispatch) => {
       })
     }
   }
+
+  //Stade
+export const OwnerstadeSeenAction = (Ville_ID,User_ID) => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: OWNER_STADE_SEEN_REQUEST })
+      sessionService.loadUser()
+        .then(async (User) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${User.token}`,
+          }}
+
+          await axios.post("http://localhost:5000/owner/getOwnerstade",
+            {
+              User_ID,
+              Ville_ID
+            },
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: OWNER_STADE_SEEN_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const {stade} = data
+                dispatch({ type: OWNER_STADE_SEEN_SUCCESS, payload: stade })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: OWNER_STADE_SEEN_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const OwnerstadeAddAction = (User_ID, Ville_ID, stadeName, Tel) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: OWNER_STADE_ADD_REQUEST })
+      
+      const {
+        session: { user },
+      } = getState();
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+      }};
+
+      await axios.post(`http://localhost:5000/owner/addOwnerstade`,
+      {
+        User_ID, 
+        Ville_ID, 
+        stadeName, 
+        Tel
+      },
+      config
+
+      ).then(response => {
+          const {data} = response
+
+          if(data.status === 'FAILED'){
+            dispatch({
+              type: OWNER_STADE_ADD_FAIL,
+              payload: data.message})
+
+          }else if(data.status === 'SUCCESS') {
+            const {ville} = data
+            dispatch({ type: OWNER_STADE_ADD_SUCCESS, payload: ville })
+          }
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: OWNER_STADE_ADD_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const OwnerstadeDeleteAction = (id) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: OWNER_STADE_DELETE_REQUEST })
+      
+      const {
+        session: { user },
+      } = getState();
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+      }};
+
+      await axios.post(`http://localhost:5000/owner/removeStade`,
+      {
+        id
+      },
+      config
+
+      ).then(response => {
+          const {data} = response
+
+          if(data.status === 'FAILED'){
+            dispatch({
+              type: OWNER_STADE_DELETE_FAIL,
+              payload: data.message})
+
+          }else if(data.status === 'SUCCESS') {
+            const {ville} = data
+            dispatch({ type: OWNER_STADE_DELETE_SUCCESS, payload: ville })
+          }
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: OWNER_STADE_DELETE_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+//Ville
+export const OwnervilleSeenAction = () => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: OWNER_VILLE_SEEN_REQUEST })
+      sessionService.loadUser()
+        .then(async (User) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${User.token}`,
+          }}
+
+          await axios.post("http://localhost:5000/owner/getVille",
+            {},
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: OWNER_VILLE_SEEN_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const {ville} = data
+                dispatch({ type: OWNER_VILLE_SEEN_SUCCESS, payload: ville })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: OWNER_VILLE_SEEN_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}

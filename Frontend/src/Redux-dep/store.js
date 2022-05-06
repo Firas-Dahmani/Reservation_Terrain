@@ -5,7 +5,7 @@ import { authLoginReducer, authRegisterReducer, authEmailVerifReducer, authReset
 import { sessionReducer, sessionService } from 'redux-react-session' 
 import { contactReducer } from './reducer/contactReducer';
 import { userAccepteReducer, userSeenReducer, userDeleteReducer, addOwnerReducer, villeSeenReducer, villeDeleteReducer, villeAddReducer, stadeSeenReducer, stadeAddReducer, stadeDeleteReducer, profileSeenReducer, updatePicReducer, contactMessageSeenReducer, contactMessageDeleteReducer, userUpdateReducer } from './reducer/AdminReducers';
-import { OwnerprofileSeenReducer, OwnerupdatePicReducer, OwnerUpdateReducer } from "./reducer/OwnerReducers";
+import { OwnerprofileSeenReducer, OwnerstadeAddReducer, OwnerstadeDeleteReducer, OwnerstadeSeenReducer, OwnerupdatePicReducer, OwnerUpdateReducer, OwnervilleSeenReducer } from "./reducer/OwnerReducers";
 import { UserprofileSeenReducer, UserupdatePicReducer, UserUpdateReducer } from "./reducer/UserReducers";
 
 const reducer = combineReducers({
@@ -42,6 +42,10 @@ const reducer = combineReducers({
     UserprofileSeen:UserprofileSeenReducer,
     UserupdatePic:UserupdatePicReducer,
     UserUpdate:UserUpdateReducer,
+    OwnerstadeSeen:OwnerstadeSeenReducer,
+    OwnerstadeAdd:OwnerstadeAddReducer,
+    OwnerstadeDelete:OwnerstadeDeleteReducer,
+    OwnervilleSeen:OwnervilleSeenReducer,
 
 })
 

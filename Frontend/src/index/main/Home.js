@@ -1,21 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import Navbar from './../indexnav/Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AdminHome from './../../admin/adminhome/AdminHome';
 import { sessionService } from 'redux-react-session';
 import OwnerHome from "../../Owner/OwnerHome/OwnerHome";
 import UserHome from './../../User/UserHome/UserHome';
 
 function Home() {
+
+    let navigate = useNavigate()
     const [Role, setRole] = useState("")
+    const [Avail, setAvail] = useState()
     
     
     useEffect(()=> {
       sessionService.loadUser()
-        .then(user => setRole(user.data[0].role))
+        .then((user) => {
+          setRole(user.data[0].role)
+          setAvail(user.data[0].isAvail)
+        })
         .catch(()=> console.log("Not Connected"))
     },[Role])
+
+    useEffect(()=>{
+      if(Role === 'User' && Avail === false){
+        navigate('/notavail')
+      }
+    })
 
     
   return (
