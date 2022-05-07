@@ -70,11 +70,18 @@
     position: fixed;
     top: 0;
     left: 0;
+    margin-left: 60px;
     display: table;
     height: 100%;
     width: 100%;
     background-color: #fff;
     z-index: 99999;
+}
+
+@media (max-width: 600px)
+{.preloader {
+        margin-left: 0px;
+    }
 }
 
 .preloader .loader {

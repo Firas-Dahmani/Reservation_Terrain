@@ -111,12 +111,14 @@ function Profile() {
                 <Loading />
             :
             <>
-                <div className="container">
-                {userUpdateError && <AlertCompnenet error={userUpdateError}/>}
-                {deleteMessageError && <AlertCompnenet error={deleteMessageError}/>}
-                {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
-                {contactMessageSeenERROR && <AlertCompnenet error={contactMessageSeenERROR}/>}
-                {error && <AlertCompnenet error={error}/>}
+                <section className='main-wrapper'>
+                <div className="container-fluid">
+                    <div className="row">
+                    {userUpdateError && <AlertCompnenet error={userUpdateError}/>}
+                    {deleteMessageError && <AlertCompnenet error={deleteMessageError}/>}
+                    {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
+                    {contactMessageSeenERROR && <AlertCompnenet error={contactMessageSeenERROR}/>}
+                    {error && <AlertCompnenet error={error}/>}
                     <div className="row">
                         <div className="col-lg-4">
                             <div className="profile-card-4 z-depth-3">
@@ -156,17 +158,17 @@ function Profile() {
                                 <div className="card-body">
                                     <ul className="nav nav-pills nav-pills-primary nav-justified">
                                         <li className="nav-item">
-                                            <Link to="/profile" data-target="#profile" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">Profile</span></Link>
+                                            <Link to="#" data-target="#profil" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">Profile</span></Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link to="/profile" data-target="#messages" data-toggle="pill" className="nav-link"><i className="icon-envelope-open"></i> <span className="hidden-xs">Messages</span></Link>
+                                            <Link to="#" data-target="#messages" data-toggle="pill" className="nav-link"><i className="icon-envelope-open"></i> <span className="hidden-xs">Messages</span></Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link to="/profile" data-target="#edit" data-toggle="pill" className="nav-link"><i className="icon-note"></i> <span className="hidden-xs">Edit</span></Link>
+                                            <Link to="#" data-target="#edit" data-toggle="pill" className="nav-link"><i className="icon-note"></i> <span className="hidden-xs">Edit</span></Link>
                                         </li>
                                     </ul>
                                     <div className="tab-content p-3">
-                                        <div className="tab-pane active show" id="profile">
+                                        <div className="tab-pane active show" id="profil">
                                             <h5 className="mb-3">A-propos</h5>
                                             <div className="row">
                                                 <div className="col-md-6">
@@ -333,7 +335,7 @@ function Profile() {
                                                         </div>
                                                         <div className="tab-pane"  id="change">
                                                             <h5 className="mb-5">Changer le mot de passe</h5>
-                                                            <Form onSubmit={handleSubmit}>
+                                                            <Form onSubmit={handleSubmit} className="editform">
                                                                 {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
                                                                 <div className="row">
                                                                     <Form.Group className=" form-group mb-5"   controlId="Password">
@@ -370,7 +372,9 @@ function Profile() {
                             </div>
                         </div>    
                     </div>
+                    </div>
                 </div>
+                </section>
             </>
         }
     </>

@@ -15,7 +15,8 @@
   background-color: #e55039aa;
 }
 .container-Empty{
-    overflow-x: hidden
+    overflow-x: hidden;
+    margin-left: 60px;
     }
     
     .row-container{
