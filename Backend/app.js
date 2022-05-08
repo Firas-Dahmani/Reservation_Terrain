@@ -3,9 +3,6 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 
-
-const PORT = process.env.PORT || 3000
-
 // all routes
 var playerRoutes = require('./routes/playerRoute')
 var adminRoutes = require('./routes/adminRoutes')
@@ -35,8 +32,7 @@ app.use('/', contactRoutes)
 app.use('/admin', adminRoutes)
 app.use('/owner', ownerRoutes)
 
+ app.listen(process.env.PORT, () =>
+  console.log(`Server started on ${process.env.PORT}`)
+);
 
-// for debugging
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
-})

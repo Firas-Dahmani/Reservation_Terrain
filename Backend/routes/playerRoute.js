@@ -9,4 +9,5 @@ router.post('/profile', verifyToken.protect,verifyRole("User"), playerController
 router.post('/updatepic', verifyToken.protect,verifyRole("User"), playerController.changePhoto)
 router.post('/updateprofile', verifyToken.protect,verifyRole("User"), playerController.editProfile)
 
+
 module.exports = router;

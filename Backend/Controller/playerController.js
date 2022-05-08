@@ -165,22 +165,16 @@ exports.getAllStade = async (req, res) => {
      }
  }
 
- exports.getReservationById = async (req, res) => {
+ exports.getAllUsers = async (req, res, next) => {
     try {
-        const reservation = await Reservation.findById(req.params.id)
-        res.status(200).json(reservation)
-    } catch (error) {
-        res.status(404).json({message : "Reservation Not Found !"})
+      const users = await User.find({ _id: { $ne: req.params.id } }).select([
+        "email",
+        "firstName",
+        "pic",
+        "_id",
+      ]);
+      return res.json(users);
+    } catch (ex) {
+      next(ex);
     }
-}
-
-exports.getAllReservation = async (req, res) => {
-    const time = req.body.time
-    const hour = req.body.hour 
-    try {
-        const reservations = await Reservation.find({ownerId: req.user._id, startTime : time, hours: hour, reservDate : {$gte:req.body.reservDate}})
-        res.status(200).json(reservations)
-    } catch (error) {
-        res.status(404).json({message : " Some ERROR !"})
-    }
-}
+  };

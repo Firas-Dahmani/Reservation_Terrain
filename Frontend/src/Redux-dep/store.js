@@ -6,7 +6,7 @@ import { sessionReducer, sessionService } from 'redux-react-session'
 import { contactReducer } from './reducer/contactReducer';
 import { userAccepteReducer, userSeenReducer, userDeleteReducer, addOwnerReducer, villeSeenReducer, villeDeleteReducer, villeAddReducer, stadeSeenReducer, stadeAddReducer, stadeDeleteReducer, profileSeenReducer, updatePicReducer, contactMessageSeenReducer, contactMessageDeleteReducer, userUpdateReducer } from './reducer/AdminReducers';
 import { OwnerprofileSeenReducer, OwnerstadeAddReducer, OwnerstadeDeleteReducer, OwnerstadeSeenReducer, OwnerupdatePicReducer, OwnerUpdateReducer, OwnervilleSeenReducer } from "./reducer/OwnerReducers";
-import { UserprofileSeenReducer, UserupdatePicReducer, UserUpdateReducer } from "./reducer/UserReducers";
+import {  UserprofileSeenReducer, UserupdatePicReducer, UserUpdateReducer } from "./reducer/UserReducers";
 
 const reducer = combineReducers({
     // auth Reducers
@@ -38,15 +38,14 @@ const reducer = combineReducers({
     OwnerprofileSeen:OwnerprofileSeenReducer,
     OwnerupdatePic:OwnerupdatePicReducer,
     OwnerUpdate:OwnerUpdateReducer,
-    // User Reducers
-    UserprofileSeen:UserprofileSeenReducer,
-    UserupdatePic:UserupdatePicReducer,
-    UserUpdate:UserUpdateReducer,
     OwnerstadeSeen:OwnerstadeSeenReducer,
     OwnerstadeAdd:OwnerstadeAddReducer,
     OwnerstadeDelete:OwnerstadeDeleteReducer,
     OwnervilleSeen:OwnervilleSeenReducer,
-
+    // User Reducers
+    UserprofileSeen:UserprofileSeenReducer,
+    UserupdatePic:UserupdatePicReducer,
+    UserUpdate:UserUpdateReducer,
 })
 
 const inistialState = {}
