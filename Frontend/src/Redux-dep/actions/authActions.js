@@ -11,6 +11,9 @@ import {
     USER_RESET_PASSWORD_SEND_REQUEST,
     USER_RESET_PASSWORD_SEND_SUCCESS,
     USER_RESET_PASSWORD_SEND_FAIL,
+    AUTH_VILLE_SEEN_FAIL,
+    AUTH_VILLE_SEEN_SUCCESS,
+    AUTH_VILLE_SEEN_REQUEST,
 } from '../constant/authConstant';
 import  axios  from 'axios';
 import { sessionService } from 'redux-react-session';
@@ -229,6 +232,40 @@ export const ResetPassword = (userId, resetString ,newPassword, navigate) => asy
         console.log(error);
           dispatch({
               type: USER_RESET_PASSWORD_SEND_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const authVilleSeenAction = () => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: AUTH_VILLE_SEEN_REQUEST })
+      await axios.get("http://localhost:5000/api/getVille",
+            config
+          )
+          .then(response => {
+              const {data} = response
+
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: AUTH_VILLE_SEEN_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const {ville} = data
+                dispatch({ type: AUTH_VILLE_SEEN_SUCCESS, payload: ville })
+              }
+          })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: AUTH_VILLE_SEEN_FAIL,
               payload:
                   error.response && error.response.data.message
                   ? error.response.data.message

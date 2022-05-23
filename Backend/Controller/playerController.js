@@ -1,9 +1,12 @@
 const User = require('../models/user')
 const Stade = require('../models/stade')
 const Ville = require('../models/Ville')
-const Reservation = require('../models/reservation')
+const Event = require('../models/Events')
 const cloudinary = require("../Utlis/cloudinary")
 var bcrypt = require('bcrypt');
+const Equipe = require('../models/Equipe')
+const moment = require('moment')
+var mongoose = require('mongoose')
 
 
 /// User 
@@ -143,38 +146,444 @@ exports.editProfile = async (req, res) => {
 }
 
 
-exports.getAllStade = async (req, res) => {
+exports.CreateGroupe = async (req, res) => {
+    const { groupeName, ADMINID} = req.body
 
-    try {
-        await Stade.find({ userId: req.user._id , villeid: req.body.id })
-        .then(result => res.json({ message: result }))
-    } catch (error) {
-        console.log(error);
-        res.json({ message: "some error!" })
-    } 
- }
+    await User.find({_id : ADMINID})
+        .then(async ()=> {
+            let equipe = new Equipe({
+                name: groupeName,
+                adminId : ADMINID,
+                isAdmin:true
+            })
 
+            await equipe.save()
+                .then((result) => {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Equipe Saved Successfuly ",
+                        equipe : result
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while Saving Equipe !!!"
+                    })
+                })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding admin of groupe !!!"
+            })
+        })
+}
+
+exports.findUserById = async (req, res) => {
+    const { id } = req.params
+
+    await User.find({_id: id})
+        .select("firstName")
+        .select("lastName")
+        .select("email")
+        .select("tel")
+        .select("birthDay")
+        .select("Genre")
+        .select("adress")
+        .select("VilleID")
+        .select("Poste")
+        .select("pic")
+        .select("equipes")
+    .then((result)=> {
+        res.json({
+            status: "SUCCESS",
+            message: "user founded successfuly",
+            User: result
+        })
+    })
+    .catch(()=> {
+        res.json({
+            status: "FAILED",
+            message: "An error occured while finding user !!!"
+        })
+    })
+}
+
+exports.addMemberEquipe = async (req, res)=> {
+    const {ADMINID, EQUIPEID, USERID} = req.body
+
+     await Equipe.find({_id: EQUIPEID})
+            .then(async (equipe)=> {
+                if(equipe.length === 0){
+                    res.json({
+                        status: "FAILED",
+                        message: "Cree une equipe pour ajouter le membres !!!"
+                    })
+                } else {
+                    await User.find({_id : USERID})
+                    .then(async (useraded)=> {
+                        let checkUserInMemeber = false
+                        
+                        equipe[0].members.map((equipeSearch)=> {
+                            if(equipeSearch.UserID.equals(USERID)  ){
+                                checkUserInMemeber = true
+                            }
+                        })
+
+                        if(checkUserInMemeber){
+                            res.json({
+                                status: "FAILED",
+                                message: "User have been added "
+                            })
+                        } else {
+
+                            await Equipe.updateOne(
+                                {"$and":[{_id : EQUIPEID}, {adminId:ADMINID}]},
+                                {$push: {members: {UserID:useraded[0]._id,Name:useraded[0].firstName,Pic:useraded[0].pic}}}
+                            )
+                            .then(async ()=> {
+                                await User.updateOne(
+                                    {_id : useraded[0]._id},
+                                    {$push: {equipes: {_id:equipe[0]._id,name: equipe[0].name}}}
+                                )
+                                .then(()=> {
+                                    res.json({
+                                        status: "SUCCESS",
+                                        message: "User Updated successfuly"
+                                    })
+                                })
+                                .catch(()=> {
+                                    res.json({
+                                        status: "FAILED",
+                                        message: "An error occured while update user !!!"
+                                    })
+                                })
+                            })
+                            .catch(()=> {
+                                res.json({
+                                    status: "FAILED",
+                                    message: "An error occured while Adding the member !!!"
+                                })
+                            })
+                        }
+
+                    })
+                    .catch((err)=> {
+                        console.log(err);
+                        res.json({
+                            status: "FAILED",
+                            message: "An error occured while finding Users !!!"
+                        })
+                    })
+                }
+            })
+            .catch(()=> {
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while finding Equipe !!!"
+                })
+            })
+}
+
+exports.deleteEquipe =  async (req, res) => {
+    const { id } = req.params
+
+    await Equipe.find({ _id : id })
+    .then(async (equipe)=> {
+            await Equipe.deleteOne({_id: id })
+            .then(() =>{
+                Promise.all(equipe[0].members.map(async (element)=> {
+                    await User.updateOne({_id: element.UserID}, 
+                        {
+                            $pull: { equipes:{_id: equipe[0]._id} } 
+                        }
+                    );
+                }))
+                .then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Equipe deleted successfuly !"
+                    })
+                })
+                
+                
+            })
+            .catch((err)=> {
+                console.log(err);
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while Deleting Equipe !"
+                })
+            })
+    })
+    .catch(() => {
+        res.json({
+            status: "FAILED",
+            message: "An error occured while finding Equipe !!"
+        })
+    })   
+}
+
+exports.deleteUserFromEquipe = async (req, res) => {
+    const {USERID, EQUIPEID} = req.body
+
+    
+    await Equipe.find({ _id : EQUIPEID })
+        .then(async ()=> {
+            await User.updateMany({_id: USERID}, 
+                {
+                    $pull: { equipes:{_id: new mongoose.Types.ObjectId(EQUIPEID)} }
+                }
+            ).then(async ()=> {
+                await Equipe.updateMany({_id: EQUIPEID}, 
+                    {
+                        $pull: { members:{ UserID: new mongoose.Types.ObjectId(USERID)} }
+                    }
+                ).then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Member deleted successfuly !"
+                    })
+                })
+                .catch((err)=> {
+                    console.log(err);
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while deleting user from Equipe !"
+                    })
+                })
+            })
+            .catch((err)=> {
+                console.log(err);
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while deleting equipe from User !"
+                })
+            })
+            
+        })
+        .catch((err)=>{
+            console.log(err);
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding Equipe !"
+            })
+        })  
+}
+
+
+
+exports.searchUsers = async (req, res) => {
  
- // Show Ville 
- exports.showVille =  async (req, res ) => {
-     try {
-         await Ville.find({}).then(v => res.json(v))
-     } catch (error) {
-         console.log(error);
-         res.status(404).json({message : "some error while finding Ville by admin"});
-     }
- }
+    const { Poste , playerName , ville , USERID} = req.body
+    
+    
+    
+    let Name = new RegExp(playerName, 'ig')
+    let query = User.find({
+        '$and':[
+            {
+                '$or': [
+                    { firstName: Name }, 
+                    { lastName: Name }
+                ]
+            },
+            {role:'User'}
+        ]
+    })
 
- exports.getAllUsers = async (req, res, next) => {
-    try {
-      const users = await User.find({ _id: { $ne: req.params.id } }).select([
-        "email",
-        "firstName",
-        "pic",
-        "_id",
-      ]);
-      return res.json(users);
-    } catch (ex) {
-      next(ex);
+
+    if (Poste !== null && Poste !== ""){
+        query = query.regex('Poste', new RegExp(Poste,'i'))
     }
-  };
+
+    if (ville !== null && ville !== ""){
+        query = query.regex('VilleID', new RegExp(ville, 'ig'))
+    }
+
+    await User.find({_id : USERID})
+        .then(async ()=> {
+            await query
+                .then((result)=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Users find successfuly",
+                        Users : result
+                    })
+                })
+                .catch((err)=> {
+                    console.log(err);
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while searching User !!!"
+                    })
+                })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding User !!!"
+            })
+        })
+
+}
+
+exports.SeeOwnEquipe = async (req, res) => {
+    const {USERID} = req.body
+
+    await User.findById(USERID)
+        .then(async (user)=> {
+            await Equipe.find({adminId: user?._id})
+                .then((result)=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Equipe found successfuly!!",
+                        equipe : result
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while finding Equipe!!"
+                    })
+                })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding User!!"
+            })
+        })
+}
+
+//Stade 
+exports.SearchStade = async (req, res) => {
+    const {USERID, stadename, villeID} = req.body
+
+
+    let stadeNamesearch = new RegExp(stadename, 'ig')
+    let querysearch = {}
+
+    if (stadename !== null && stadename !== ""){
+         querysearch.stadeName = stadeNamesearch
+    }
+
+    if (villeID !== null && villeID !== ""){
+        querysearch.villeid = villeID
+   }
+
+    let query = Stade.find(querysearch)
+
+    await User.findById(USERID)
+        .then(async ()=> {
+            await query
+                .then((result)=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Satde founded successfuly",
+                        satde: result
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while finding satde!!"
+                    })
+                })
+        })
+        .catch((err)=> {
+            console.log(err);
+                res.json({
+                    status: "FAILED",
+                    message: "An error occured while finding User!!"
+                })
+        })
+}
+
+exports.CreateEvent = async (req, res) => {
+    const {start, end, title, StadeID} = req.body
+
+    console.log(start);
+    console.log(moment(req.query.start).toDate());
+
+    await Event.find({
+        '$and':[
+            {start:{ $gte: moment(start).toDate() }},
+            {end:{ $lte:moment(end).toDate()}}
+        ]
+        })
+        .then(async (result)=> {
+            console.log(result.length > 0);
+            if(result.length > 0){
+                res.json({
+                    status: "FAILED",
+                    message: "This time have been reserved !!"
+                })
+
+            } else {
+                const event = new Event({
+                    start,
+                    end,
+                    title
+                })
+            
+                await event.save()
+                    .then(async (events)=> {
+                        await Stade.updateOne(
+                            {_id : StadeID},
+                            {$push: {events: events._id}}
+                        )
+                        .then(()=> {
+                            res.json({
+                                status: "SUCCESS",
+                                message: "User Added to Event successfuly",
+                                events:events
+                            })
+                        })
+                        .catch(()=> {
+                            res.json({
+                                status: "FAILED",
+                                message: "An error occured while Adding the Event !!!"
+                            })
+                        })
+                    })
+                    .catch((err)=> {
+                        console.log(err);
+                        res.json({
+                            status: "FAILED",
+                            message: "An error occured while saving event!!"
+                        })
+                    })
+            }
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding event!!"
+            })
+        })
+}
+
+exports.getEvent = async (req, res)=> {
+    await Event.find({
+        start: { $gte: moment(req.query.start).toDate() },
+        end: { $lte: moment(req.query.end).toDate() }
+    })
+    .then((result)=> {
+        res.json({
+            status: "SUCCESS",
+            message: "event founded successfuly!!",
+            event : result
+        })
+    })
+    .catch(() => {
+        res.json({
+            status: "FAILED",
+            message: "An error occured while finding event!!"
+        })
+    })
+}
+
+
+

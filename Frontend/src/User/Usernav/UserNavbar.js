@@ -29,6 +29,9 @@ function UserNavbar() {
                             <Link className="nav-link "  to='/userprofile' >Profile</Link>
                         </li>
                         <li className="nav-item">
+                                <Link className="nav-link "  to='/useraddequipe' >Ajouter Membre</Link>
+                        </li> 
+                        <li className="nav-item">
                                 <Link className="nav-link " onClick={logoutHandler} label="LOGOUT" to='/registerlogin' >DÉCONNECTER</Link>
                         </li> 
                     </ul>

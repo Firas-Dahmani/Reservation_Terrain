@@ -20,6 +20,9 @@ import OwnerProfile from './Owner/OwnerProfile/OwnerProfile';
 import UserProfile from './User/UserProfile/UserProfile';
 import UserNotAvail from './Error/UserNotAvail/UserNotAvail';
 import OwnerStadeCrud from './Owner/OwnerAddStade/OwnerAddStade';
+import Calendar from './Utils/Calendar/Calendar';
+import SeeUser from './User/SeeUser/SeeUser';
+import UserAddEquipe from './User/UserAddEquipe/UserAddEquipe';
 
 
 function App() {
@@ -45,6 +48,7 @@ function App() {
         <Routes>
         {/* Root */}
         <Route path="/" element={<Home />} />
+        <Route path="/calendar" element={<Calendar />} />
         <Route path="/about" element={<BasicRoute><About /></BasicRoute>} />
         <Route path="/contact" element={<BasicRoute><Contact /></BasicRoute>} />
         {/* Login Register */}
@@ -81,6 +85,8 @@ function App() {
           Role === "User"  && Avail === true ? 
             <>
               <Route path="/userprofile" element={<AuthRoute><UserProfile /> </AuthRoute>} />
+              <Route path="/:id" element={<AuthRoute><SeeUser /> </AuthRoute>} />
+              <Route path="/useraddequipe" element={<AuthRoute><UserAddEquipe /> </AuthRoute>} />
             </>
             : 
             <Route path="/notavail" element={<AuthRoute><UserNotAvail /> </AuthRoute>} />

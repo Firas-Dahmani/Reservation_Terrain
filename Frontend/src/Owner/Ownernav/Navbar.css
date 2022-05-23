@@ -1,82 +1,105 @@
-.navbar-area {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9;
-}
 
-.sticky {
-    position: fixed;
-    background-color: #fff;
-    box-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.5);
-}
-
-.navbar {
-    position: relative;
-    padding: 5px 0;
-}
-
-.navbar-area span {
-    display: contents;
-    color: #38424d;
-    font-size: 30px;
-}
-
-.navbar-brand .image {
-    max-width: 150px;
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px),
-(max-width: 767px) {
-    .navbar-collapse {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        padding: 5px 12px;
-        background-color: #fff;
-        box-shadow: 0 15px 20px 0 rgb(0 0 0 / 10%);
-    }
-}
-
-.navbar-light .navbar-toggler {
-    color: transparent;
-    border-color: transparent;
-}
-
-.navbar-toggler:focus {
-    box-shadow: none;
-}
-
-.navbar-nav .nav-item {
-    position: relative;
-    margin-left: 40px;
-}
-
-.navbar-nav .nav-item .nav-link {
-    position: relative;
+.header {
     padding: 10px 0;
-    font-size: 18px;
-    font-weight: 400;
-    color: #38424d;
+    background: #fff;
+    margin-bottom: 70px;
+    margin-left: 90px;
+    padding-right: 15px;
+    border-radius: 16px 0px 0px 0px;
+
 }
 
-.navbar-nav .nav-item .nav-link.active,
-.navbar-nav .nav-item .nav-link:hover {
-    color: #ff846f;
+.header .header-left .menu-toggle-btn{
+    float: right;
+}
+
+.header .header-left .menu-toggle-btn .main-btn {
+    padding: 0px 15px;
+    height: 46px;
+    line-height: 46px;
+    border-radius: 10px; 
 }
 
 
-
-@media only screen and (min-width: 768px) and (max-width: 991px),
-(max-width: 767px) {
-    .navbar-nav .nav-item .nav-link::before {
-        position: relative;
-    }
+.header .header-right {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 10px;
 }
 
-.navbar-nav .nav-item .nav-link.active::before,
-.navbar-nav .nav-item .nav-link:hover::before {
-    opacity: 1;
+.header .header-right button {
+    border: 1px solid #efefef;
+    background: rgba(239, 239, 239, 0.5);
+    border-radius: 10px;
+    height: 46px;
+    width: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.header .header-right button::after {
+    display: none;
+}
+
+.header .header-right button span {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #4a6cf7;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -8px;
+    right: -6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.header .header-right .profile-box .profile-info {
+    margin: 0 5px;
+}
+
+.header .header-right .profile-box .profile-info .info {
+    display: flex;
+    align-items: center;
+}
+
+.header .header-right .profile-box .profile-info .info .image {
+    border: 2px solid #f9f9f9;
+    -webkit-box-shadow: 0px 21px 25px rgba(218, 223, 227, 0.8);
+    -moz-box-shadow: 0px 21px 25px rgba(218, 223, 227, 0.8);
+    box-shadow: 0px 21px 25px rgba(218, 223, 227, 0.8);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin-left: 50px;
+    position: relative;
+}
+
+.header .header-right .profile-box .profile-info .info .image .status {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #e5e5e5;
+    background: #219653;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    top: auto;
+}
+
+.header .header-right  h6 {
+    font-size: 14px;
+    margin-bottom: 0px;
+    padding-left: 5px;
+    font-weight: 600;
+    line-height: 1; }
+
+.header .header-right .profile-box .profile-info .info .image img {
+    width: 100%;
+    border-radius: 50%;
 }

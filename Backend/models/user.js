@@ -31,7 +31,7 @@ var userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    Ville: {
+    VilleID: {
         type: String,
         required: true,
     },
@@ -56,7 +56,11 @@ var userSchema = mongoose.Schema({
     },
     verified: {
         type: Boolean, default: false
-    }
+    },
+    equipes: {
+        type: Array,
+        default: []
+    },
 }, { timestamp: true }
 )
 

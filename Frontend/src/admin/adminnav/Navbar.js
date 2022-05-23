@@ -251,31 +251,31 @@ export default function SideNavbar() {
             <header className="header">
             <div className="container-fluid">
             <div className="row">
-                <div class="col-lg-5 col-md-5 col-6 ">
-                <div class=" header-right d-flex align-items-center">
+                <div className="col-lg-5 col-md-5 col-6 ">
+                <div className=" header-right d-flex align-items-center">
                     {/* <!-- profile start --> */}
-                    <div class="profile-box ml-15">
+                    <div className="profile-box ml-15">
                     <button
-                        class="dropdown-toggle bg-transparent border-0"
+                        className="dropdown-toggle bg-transparent border-0"
                         type="button"
                         id="profile"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                     >
-                        <div class="profile-info">
-                        <div class="info">
+                        <div className="profile-info">
+                        <div className="info">
                             
-                            <div class="image">
+                            <div className="image">
                             <img
                                 src={pic}
                                 alt=""
                             />
-                            <span class="status"></span>
+                            <span className="status"></span>
                             </div>
                             <h6>{prenom} {nom}</h6>
                         </div>
                         </div>
-                        <i class="lni lni-chevron-down"></i>
+                        <i className="lni lni-chevron-down"></i>
                     </button>
                     </div>
                     {/* <!-- profile end --> */}

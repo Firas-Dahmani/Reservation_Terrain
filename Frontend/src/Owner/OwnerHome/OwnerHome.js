@@ -5,7 +5,13 @@ function OwnerHome() {
   return (
     <>
         <OwnerNavbar />
-        <div>OwnerHome</div>
+        <div className="main-wrapper">
+            <div className="container-fluid">
+                <div className="row">
+                  <div>OwnerHome</div>
+                </div>
+            </div>
+        </div>
     </>
   )
 }

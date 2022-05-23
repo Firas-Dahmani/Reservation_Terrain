@@ -14,6 +14,6 @@ router.post('/getOwnerstade', verifyToken.protect,verifyRole("Owner"), ownerCont
 router.post('/removeStade', verifyToken.protect,verifyRole("Owner"), ownerController.deleteStade)
 
 //Ville
-router.post('/getVille', verifyToken.protect,verifyRole("Owner"), ownerController.showVille)
+router.post('/getVille', ownerController.showVille)
 
 module.exports = router;

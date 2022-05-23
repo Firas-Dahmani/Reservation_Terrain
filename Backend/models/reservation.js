@@ -9,32 +9,20 @@ const reservationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    reservDate: {
-        type: Date, 
-        default: Date.now
-    },
-    startTime: {
-        type: String,
-        required: true
-    },
-    endTime : {
-        type: String,
-        required: true
-    },
     ville: {
         type: String,
         required: true
     },
-    hours: {
-        type: Number,
-        required: true
+    img: {
+        type: String,
     },
     prix: {
         type: Number,
         required: true
     },
-    isAvail: {
-        type: Boolean, default: true
+    events: {
+        type: Array,
+        default:[]
     }
 }) 
 

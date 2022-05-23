@@ -144,7 +144,7 @@ exports.editProfile = async (req, res) => {
 
 // Add Stade 
 exports.addStade =  async (req, res) => {
-    const {User_ID, Ville_ID, stadeName, Tel} = req.body
+    const {User_ID, Ville_ID, stadeName, Tel, description, prix, adress} = req.body
     const StadeUpper = stadeName.toUpperCase()
 
     await User.find({_id : User_ID})
@@ -163,7 +163,10 @@ exports.addStade =  async (req, res) => {
                                 userId : User_ID,
                                 villeid : Ville_ID, 
                                 stadeName : stadeName, 
-                                stadetel : Tel
+                                stadetel : Tel, 
+                                desc: description,
+                                prix: prix,
+                                adress : adress
                             })
                             
                             stade.save()
@@ -174,7 +177,8 @@ exports.addStade =  async (req, res) => {
                                         stade : resultat
                                     })
                                 })
-                                .catch(()=> {
+                                .catch((err)=> {
+                                    console.log(err);
                                     res.json({
                                         status: "FAILED",
                                         message: "An error occured while saving Stade !!"

@@ -56,72 +56,78 @@ function VilleCRUD() {
     return (
       <>
         <AdminNavbar />
-        <div  className='container-Empty'>
-        <div className="d-flex justify-content-center row-container">
-            <div className="row">
-            <div className="col">
-                <h3 className="text-center text-page mb-5 animated pulse infinite" >
-                  Liste des villes 
-                </h3>
-                {error && <AlertCompnenet error={error}/>}
-                {errorDelete && <AlertCompnenet error={errorDelete}/>}
-                {errorAdd && <AlertCompnenet error={errorAdd}/>}
-                {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
+        <div className="main-wrapper">
+            <div className="container-fluid">
+                <div className="row">
+                <div  className=''>
+                    <div className="d-flex justify-content-center row-container">
+                        <div className="row">
+                        <div className="col">
+                            <h3 className="text-center text-page mb-5 animated pulse infinite" >
+                              Liste des villes 
+                            </h3>
+                            {error && <AlertCompnenet error={error}/>}
+                            {errorDelete && <AlertCompnenet error={errorDelete}/>}
+                            {errorAdd && <AlertCompnenet error={errorAdd}/>}
+                            {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <Form onSubmit={handleSubmit}>
+                    <Form.Group className="col-md-6 form-group mb-5"  controlId="Ville">
+                        <Form.Label className='col-form-label'>Ville</Form.Label>
+                        <Form.Control 
+                        placeholder="Ville Name" 
+                        className="form-control"
+                        type="ville"
+                        value={Ville}
+                        onChange={(e) => setVille(e.target.value)}
+                        />
+                    </Form.Group >
+                    <Button type="submit" className='main-btn'>
+                      Ajouter
+                    </Button>
+                    </Form>
+                    
+                    <div className="container" id="container">
+                      <div className="row">
+                        <div className="col-12">
+                          {loading || loadingDelete || loadingAdd ?
+                              <Loading/>
+                            :
+                            <table className="table table-image">
+                            <thead>
+                              <tr>
+                                <td scope="col">Nom de ville</td>
+                                <td scope="col">Supprimer Ville</td>
+                              </tr>
+                            </thead>
+                            {
+                                ville && ville.length !== 0 ?
+                                ville.map((item, i) => ( 
+                                      <tbody key={i}>
+                                      <tr>
+                                        <td scope="row">{item.villeName}</td>
+                                        <td ><Link to={`/ville`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></td>
+                                      </tr>
+                                    </tbody>
+                                    ))
+                                :
+                                <tbody>
+                                  <tr>
+                                    <th>*</th>
+                                    <th>*</th>
+                                  </tr>
+                                </tbody>
+                            }
+                          </table>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                </div>
             </div>
-            </div>
-        </div>
-        </div>
-        <Form onSubmit={handleSubmit}>
-        <Form.Group className="col-md-6 form-group mb-5"  controlId="Ville">
-            <Form.Label className='col-form-label'>Ville</Form.Label>
-            <Form.Control 
-            placeholder="Ville Name" 
-            className="form-control"
-            type="ville"
-            value={Ville}
-            onChange={(e) => setVille(e.target.value)}
-            />
-        </Form.Group >
-        <Button type="submit" className='main-btn'>
-          Ajouter
-        </Button>
-        </Form>
-        
-        <div className="container" id="container">
-          <div className="row">
-            <div className="col-12">
-              {loading || loadingDelete || loadingAdd ?
-                  <Loading/>
-                :
-                <table className="table table-image">
-                <thead>
-                  <tr>
-                    <td scope="col">Nom de ville</td>
-                    <td scope="col">Supprimer Ville</td>
-                  </tr>
-                </thead>
-                {
-                    ville && ville.length !== 0 ?
-                    ville.map((item, i) => ( 
-                          <tbody key={i}>
-                          <tr>
-                            <td scope="row">{item.villeName}</td>
-                            <td ><Link to={`/ville`}  onClick={()=>handleDelete(item._id)}><i className="fa fa-trash delete" ></i></Link></td>
-                          </tr>
-                        </tbody>
-                        ))
-                    :
-                    <tbody>
-                      <tr>
-                        <th>*</th>
-                        <th>*</th>
-                      </tr>
-                    </tbody>
-                }
-              </table>
-              }
-            </div>
-          </div>
         </div>
       </>
     )

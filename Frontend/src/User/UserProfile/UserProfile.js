@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 import Loading from '../../loading/Loading';
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
-import { UserprofileSeenAction, UserupdatePicAction, UserupdateUserProfile } from '../../Redux-dep/actions/UserActions';
+import { deleteUserFromEquipeAction, UserprofileSeenAction,  UserupdatePicAction, UserupdateUserProfile } from '../../Redux-dep/actions/UserActions';
 import UserNavbar from './../Usernav/UserNavbar';
+import EquipeComponent from './EquipeComponent';
 
 function UserProfile() {
     const [firstname, setFirstName] = useState("");
@@ -33,28 +34,37 @@ function UserProfile() {
     const profileSeen = useSelector((state) => state.UserprofileSeen)
     const { seeProfile : seeUserProfile, loading, error } = profileSeen
 
+
     const updatePic = useSelector((state) => state.UserupdatePic)
     const { success : UploadPhotoSUCCESS, loading : LoadUploadPhoto } = updatePic
 
     const userUpdate = useSelector((state) => state.UserUpdate)
     const { success : userUpdateSUCCESS, loading : userUpdateLoading, error: userUpdateError } = userUpdate
     
+    const deleteUserFromEquipe = useSelector((state) => state.deleteUserFromEquipe)
+    const { success:deleteUserFromEquipeSuccess, loading:deleteUserFromEquipeLoading, error:deleteUserFromEquipeError } = deleteUserFromEquipe
+
     sessionService.loadUser()
         .then((User) => {
-            
             setUserID(User.data[0]._id)
         })
 
     useEffect(()=> {
-        dispatch(UserupdatePicAction(UserID, pic))
-    }, [pic])
+        if(UserID){
+            dispatch(UserupdatePicAction(UserID, pic))
+        }
+    }, [dispatch,pic])
 
+    
     useEffect(()=> {
-        dispatch(UserprofileSeenAction(UserID))
+        if(UserID){
+            dispatch(UserprofileSeenAction(UserID))
+        }
     },[dispatch,
         UploadPhotoSUCCESS,
         UserID,
-        userUpdateSUCCESS
+        userUpdateSUCCESS,
+        deleteUserFromEquipeSuccess
     ])
 
 
@@ -81,6 +91,10 @@ function UserProfile() {
                 setErrorMessage("")
                 dispatch(UserupdateUserProfile(variableUpdateOwnerProfile))
             } 
+    }
+
+    const handledeleteUserfromEquipe = (EquipeID) =>{
+        dispatch(deleteUserFromEquipeAction(UserID,EquipeID))
     }
 
 
@@ -159,7 +173,7 @@ function UserProfile() {
                                                 <div className="col-md-6">
                                                     <h6>Ville</h6>
                                                     <p>
-                                                        {seeUserProfile?.Ville}
+                                                        {seeUserProfile?.VilleID}
                                                     </p>
                                                 </div>
                                                 <div className="col-md-6">
@@ -169,6 +183,18 @@ function UserProfile() {
                                                     </p>
                                                 </div>
                                             </div>
+                                            <div className="col-md mb-5">
+                                                <h6>Equipe auxquelles j'appartiens</h6>
+                                                {
+                                                    seeUserProfile?.equipes.length > 0 ?
+                                                        seeUserProfile?.equipes.map((element,key)=> 
+                                                                <a href="" className="badge badge-dark badge-pill" key={key}>{element.name} <i className="fa fa-trash delete" onClick={()=>handledeleteUserfromEquipe(element?._id)} style={{paddingLeft:"5px"}}></i></a> 
+                                                        )
+                                                    :
+                                                    <strong>No Equipe</strong>
+                                                }
+                                            </div>
+                                            <EquipeComponent UserID={UserID}/>
                                         </div>
                                         <div className="tab-pane"  id="edit">
                                             <div className="card">

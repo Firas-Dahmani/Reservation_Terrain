@@ -10,5 +10,7 @@ router.get('/verified/:e', authController.EmailVerified)
 router.post('/reqPasswordReset', authController.PasswordResetReq)
 router.post('/PasswordResetDone', authController.resetPassword)
 
+router.get('/getVille', authController.showVille)
+
 
 module.exports = router;

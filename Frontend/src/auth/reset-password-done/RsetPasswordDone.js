@@ -40,7 +40,6 @@ function ResetPasswordDone() {
                 <Form.Control 
                     required  
                     className="input-field"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -49,7 +48,6 @@ function ResetPasswordDone() {
             <Form.Group className=" mb-3 confirmepass"   controlId="confirmPassword">
                 <Form.Label>Confirme Password</Form.Label>
                 <Form.Control required  
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                     className="input-field"
                     type="Password"
                     value={confirmPassword}

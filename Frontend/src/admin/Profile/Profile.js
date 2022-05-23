@@ -51,14 +51,18 @@ function Profile() {
         })
 
     useEffect(()=> {
-        dispatch(updatePicAction(UserID, pic))
+        if(UserID){
+            dispatch(updatePicAction(UserID, pic))
+        }
     }, [dispatch,
         UserID,
         pic
     ])
 
     useEffect(()=> {
-        dispatch(profileSeenAction(UserID))
+        if(UserID){
+            dispatch(profileSeenAction(UserID))
+        }
     },[dispatch,
         UploadPhotoSUCCESS,
         UserID,
@@ -67,7 +71,9 @@ function Profile() {
 
 
     useEffect(()=> {
-        dispatch(contactMeesageSeenAction(UserID))
+        if(UserID){
+            dispatch(contactMeesageSeenAction(UserID))
+        }
     },[dispatch,
         UserID,
         deleteMessageSUCCESS
@@ -114,9 +120,7 @@ function Profile() {
                 <section className='main-wrapper'>
                 <div className="container-fluid">
                     <div className="row">
-                    {userUpdateError && <AlertCompnenet error={userUpdateError}/>}
                     {deleteMessageError && <AlertCompnenet error={deleteMessageError}/>}
-                    {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
                     {contactMessageSeenERROR && <AlertCompnenet error={contactMessageSeenERROR}/>}
                     {error && <AlertCompnenet error={error}/>}
                     <div className="row">
@@ -186,7 +190,7 @@ function Profile() {
                                                 <div className="col-md-6">
                                                     <h6>Ville</h6>
                                                     <p>
-                                                        {seeProfile?.Ville}
+                                                        {seeProfile?.VilleID}
                                                     </p>
                                                 </div>
                                                 <div className="col-md-6">

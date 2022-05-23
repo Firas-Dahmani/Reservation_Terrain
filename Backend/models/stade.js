@@ -16,6 +16,22 @@ var stadeSchema = mongoose.Schema({
     stadetel: {
         type: Number,
         required: true
+    },
+    desc: {
+        type: String,
+        required: true
+    },
+    prix: {
+        type: String,
+        required: true
+    },
+    adress: {
+        type: String,
+        required: true
+    },
+    events: {
+        type: Array,
+        default:[]
     }
 })
 module.exports = mongoose.model('stade',stadeSchema)

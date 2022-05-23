@@ -1,12 +1,12 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { authLoginReducer, authRegisterReducer, authEmailVerifReducer, authResetPasswordReducer } from './reducer/authReduces';
+import { authLoginReducer, authRegisterReducer, authEmailVerifReducer, authResetPasswordReducer, authVilleSeenReducer } from './reducer/authReduces';
 import { sessionReducer, sessionService } from 'redux-react-session' 
 import { contactReducer } from './reducer/contactReducer';
 import { userAccepteReducer, userSeenReducer, userDeleteReducer, addOwnerReducer, villeSeenReducer, villeDeleteReducer, villeAddReducer, stadeSeenReducer, stadeAddReducer, stadeDeleteReducer, profileSeenReducer, updatePicReducer, contactMessageSeenReducer, contactMessageDeleteReducer, userUpdateReducer } from './reducer/AdminReducers';
 import { OwnerprofileSeenReducer, OwnerstadeAddReducer, OwnerstadeDeleteReducer, OwnerstadeSeenReducer, OwnerupdatePicReducer, OwnerUpdateReducer, OwnervilleSeenReducer } from "./reducer/OwnerReducers";
-import {  UserprofileSeenReducer, UserupdatePicReducer, UserUpdateReducer } from "./reducer/UserReducers";
+import {  AddMembreReducer, CreateEquipeReducer, DeleteEquipeReducer, deleteUserFromEquipeReducer, playerSearchReducer, UserFindByIDReducer, UserprofileSeenReducer, UserSeeOwnEquipeReducer, UserupdatePicReducer, UserUpdateReducer } from "./reducer/UserReducers";
 
 const reducer = combineReducers({
     // auth Reducers
@@ -14,6 +14,7 @@ const reducer = combineReducers({
     authRegister: authRegisterReducer,
     authEmailVerif:authEmailVerifReducer,
     authResetPassword: authResetPasswordReducer,
+    authVilleSeen:authVilleSeenReducer,
     // Index reducers
     contact : contactReducer,
     //Admin Reducers
@@ -46,6 +47,13 @@ const reducer = combineReducers({
     UserprofileSeen:UserprofileSeenReducer,
     UserupdatePic:UserupdatePicReducer,
     UserUpdate:UserUpdateReducer,
+    UserSeeOwnEquipe:UserSeeOwnEquipeReducer,
+    UserFindByID:UserFindByIDReducer,
+    CreateEquipe:CreateEquipeReducer,
+    DeleteEquipe:DeleteEquipeReducer,
+    playerSearch:playerSearchReducer,
+    AddMembre:AddMembreReducer,
+    deleteUserFromEquipe:deleteUserFromEquipeReducer,
 })
 
 const inistialState = {}

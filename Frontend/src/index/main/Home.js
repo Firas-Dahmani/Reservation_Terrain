@@ -21,7 +21,7 @@ function Home() {
           setAvail(user.data[0].isAvail)
         })
         .catch(()=> console.log("Not Connected"))
-    },[Role])
+    })
 
     useEffect(()=>{
       if(Role === 'User' && Avail === false){

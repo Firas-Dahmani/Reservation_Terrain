@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate,Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { register,login } from '../../Redux-dep/actions/authActions';
+import { register,login, authVilleSeenAction } from '../../Redux-dep/actions/authActions';
 import './loginregister.css'
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
 import Navbar from './../../index/indexnav/Navbar';
@@ -19,7 +19,7 @@ function LoginRegister() {
     const [date, setDate] = useState("");
     const [genre, setGenre] = useState("");
     const [adress, setAdress] = useState("");
-    const [ville, setVille] = useState("");
+    const [ville, setVille] = useState("Ville");
     const [poste, setPoste] = useState("Poste");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,6 +28,20 @@ function LoginRegister() {
 
     let navigate = useNavigate();
     const dispatch = useDispatch();
+
+    useEffect(()=> {
+        dispatch(authVilleSeenAction())
+        },[dispatch]
+    )
+
+    const authVilleSeen = useSelector((state) => state.authVilleSeen)
+    const { 
+        ville:VilleID, 
+        loading: loadingSeeVille, 
+        error: errorSeeVille
+    } = authVilleSeen
+
+    
 
     const userRegister = useSelector((state) => state.authRegister);
     const { error } = userRegister;
@@ -184,6 +198,7 @@ function LoginRegister() {
                                                 custom ="true"
                                                 defaultValue={genre}
                                                 onChange={(e) => setGenre(e.target.value)}>
+                                                <option disabled value="">Sexe</option>
                                                 <option value="Homme">Homme</option>
                                                 <option value="Femme">Femme</option>
                                             </Form.Control >
@@ -215,15 +230,21 @@ function LoginRegister() {
                                         onChange={(e) => setAdress(e.target.value)}
                                     />
                                     </Form.Group >
-                                    <Form.Group className=" mb-3 ville"  controlId="ville">
-                                    <Form.Label>Ville</Form.Label>
-                                    <Form.Control 
-                                        className="input-field"
-                                        autoFocus
-                                        type="ville"
-                                        value={ville}
-                                        onChange={(e) => setVille(e.target.value)}
-                                    />
+                                    <Form.Group className=" mp-3 " controlId="poste">
+                                        <Form.Control 
+                                            required  
+                                            as="select"
+                                            custom ="true"
+                                            defaultValue={ville}
+                                            onChange={(e) => setVille(e.target.value)}>
+                                            <option value="Ville"  disabled="disabled">Ville</option>
+                                            {
+                                            VilleID && VilleID.length !== 0 &&
+                                            VilleID.map((item, i) => ( 
+                                                <option  value={item.villeName} key={i}>{item.villeName}</option>  
+                                            ))
+                                            }
+                                        </Form.Control >
                                     </Form.Group >
                                     </div>
                                     <div className="Password">

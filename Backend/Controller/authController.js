@@ -8,6 +8,7 @@ var bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
+const Ville = require('../models/Ville')
 
 
  // create reusable transporter object using the default SMTP transport
@@ -51,7 +52,7 @@ exports.registerUser = async (req, res) =>{
                 birthDay: new Date(req.body.date),
                 Genre: req.body.genre,
                 adress: req.body.adress,
-                Ville: req.body.ville,
+                VilleID: req.body.ville,
                 Poste: req.body.poste,
                 password: req.body.password,
                 role: 'User',
@@ -498,6 +499,26 @@ exports.resetPassword = (req, res) => {
             res.json({
                 status: "FAILED",
                 message: "Checking for existing password reset record failed!"
+            })
+        })
+}
+
+
+// Show Ville 
+exports.showVille =  async (req, res ) => {
+
+    await Ville.find({})
+        .then((result)=> {
+            res.json({
+                status: "SUCCESS",
+                message: "Ville find successfuly!",
+                ville : result
+            })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding ville !"
             })
         })
 }

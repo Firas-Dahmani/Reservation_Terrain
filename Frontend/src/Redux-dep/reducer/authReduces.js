@@ -10,6 +10,9 @@ import { USER_LOGIN_REQUEST,
          USER_RESET_PASSWORD_SEND_REQUEST,
          USER_RESET_PASSWORD_SEND_SUCCESS,
          USER_RESET_PASSWORD_SEND_FAIL,
+         AUTH_VILLE_SEEN_FAIL,
+         AUTH_VILLE_SEEN_SUCCESS,
+         AUTH_VILLE_SEEN_REQUEST,
     } from './../constant/authConstant';
 
 export const authLoginReducer = (state = {}, action) => {
@@ -70,6 +73,22 @@ export const authResetPasswordReducer = (state = {}, action) => {
         
         case USER_RESET_PASSWORD_SEND_FAIL:
             return {loading : false, error: action.error};
+
+        default:
+            return state;
+    }
+}
+
+export const authVilleSeenReducer = (state = {}, action) => {
+    switch (action.type){
+        case AUTH_VILLE_SEEN_REQUEST:
+            return {loading : true};
+        
+        case AUTH_VILLE_SEEN_SUCCESS:
+            return {loading : false, ville: action.payload};
+        
+        case AUTH_VILLE_SEEN_FAIL:
+            return {loading : false, error: action.payload};
 
         default:
             return state;
