@@ -69,7 +69,7 @@ export default function OwnerNavbar() {
           backgroundColor: 'transparent',
           margin: '14px 14px',
           padding: '12px 0px',
-          borderBottom: '1px solid lightgray',
+          borderBottom: '1px solid black',
           alignItems: 'flex-end',
         }}
       >
@@ -89,13 +89,13 @@ export default function OwnerNavbar() {
             display: { xs: 'none', sm: 'initial' },
             fontSize: '18px',
             fontWeight: 600,
-            color: 'lightgray',
+            color: 'black',
             width: '154px',
             marginLeft: open ? '0px' : '8px',
             paddingBottom: '3px',
           }}
         >
-          ADMIN PANEL
+          OWNER PANEL
         </Typography>
       </Box>
 
@@ -138,7 +138,7 @@ export default function OwnerNavbar() {
                       color="secondary"
                       variant="dot"
                     >
-                      <key.icon sx={{ fontSize: '20px', color: 'lightgray' }} />
+                      <key.icon sx={{ fontSize: '20px', color: 'black' }} />
                     </Badge>
                   </ListItemIcon>
 
@@ -151,7 +151,7 @@ export default function OwnerNavbar() {
                       display: 'inline',
                       margin: '0px',
                       overflowX: 'hidden',
-                      color: 'lightgray',
+                      color: 'black',
                       whiteSpace: 'nowrap',
                       minWidth: '126px',
                     }}
@@ -182,11 +182,11 @@ export default function OwnerNavbar() {
           alignContents: 'center',
           margin: '14px 14px',
           padding: '12px 4px',
-          borderTop: '1px solid lightgray',
+          borderTop: '1px solid black',
         }}
         onClick={logoutHandler}
       >
-        <IconButton sx={{ color: 'lightGray' }}>
+        <IconButton sx={{ color: 'black' }}>
           <ExitToAppIcon />
         </IconButton>
         
@@ -197,7 +197,7 @@ export default function OwnerNavbar() {
           sx={{
             display: { xs: 'none', sm: 'initial' },
             fontSize: '18px',
-            color: 'lightgray',
+            color: 'black',
             width: '154px',
             marginLeft: open ? '0px' : '8px',
             paddingTop: '10px',
@@ -235,7 +235,7 @@ export default function OwnerNavbar() {
                     borderRight: '0px',
                     borderRadius: '0px 10px 10px 0px',
                     boxShadow: theme.shadows[8],
-                    backgroundColor: open ? '#11101D' : '#11101D',
+                    backgroundColor: open ? '#fff' : '#fff',
                     transition: theme.transitions.create('width', {
                     easing: theme.transitions.easing.sharp,
                     duration: open
@@ -295,7 +295,7 @@ export default function OwnerNavbar() {
                                 }}
                                 >
                                 <MenuIcon
-                                    sx={{ fontSize: '25px', color: open ? 'lightgray' : 'lightGray' }}
+                                    sx={{ fontSize: '25px', color: open ? 'black' : 'black' }}
                                 ></MenuIcon>
                             </Button>
                         </div>

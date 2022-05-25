@@ -4,6 +4,7 @@ const Ville = require('../models/Ville')
 const Reservation = require('../models/reservation')
 const cloudinary = require("../Utlis/cloudinary")
 var bcrypt = require('bcrypt');
+const Event = require('../models/Events')
 
 
 /// User 
@@ -84,7 +85,7 @@ exports.editProfile = async (req, res) => {
     if(date) objForUpdate.birthDay = date
     if(genre) objForUpdate.Genre = genre
     if(adress) objForUpdate.adress = adress
-    if(ville) objForUpdate.Ville = ville
+    if(ville) objForUpdate.VilleID = ville
     if(password) objForUpdate.password = password
 
     await User.find({_id: USER_ID})
@@ -278,56 +279,54 @@ exports.showVille =  async (req, res ) => {
 }
 
 
-// Create Reservation
-exports.addReservation = async (req, res) => {
-    
-    try {
-        const {
-            stadeid,
-            reservDate,
-            startTime,
-            endTime,
-            ville,
-            hours,
-            prix
-        } = req.body
+exports.OwnergetEvent = async (req, res)=> {
+    const {ownerid} = req.body 
 
-        await User.find({_id: req.user._id})
-        await Stade.find({_id: req.body.stadeid})
-        const reservation = await new Reservation({
-            userId : req.user._id,
-            stadeId : stadeid,
-            reservDate : reservDate,
-            startTime: startTime,
-            endTime:endTime,
-            ville:ville,
-            hours:hours,
-            prix : prix
+    console.log(ownerid);
+    await Event.find({
+        OwnerId : ownerid
+    })
+    .then((result)=> {
+        res.json({
+            status: "SUCCESS",
+            message: "event founded successfuly!!",
+            event : result
         })
-        await reservation.save()
-        res.json({message : "Reservation added"});
-    } catch (error) {
-        console.log(error);
-        res.status(404).json({message : "some error while adding Reservation by Center Owner"});
-    }
+    })
+    .catch(() => {
+        res.json({
+            status: "FAILED",
+            message: "An error occured while finding event!!"
+        })
+    })
+}
+
+exports.deleteEvent = async (req, res) => {
+    const { id } = req.body
+
+        await Event.find({ _id : id })
+        .then(()=> {
+                Event.deleteOne({ _id: id })
+                .then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Event deleted successfuly!"
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while Updating Event !"
+                    })
+                })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding Event !"
+            })
+        })
 
 }
 
-exports.getReservationById = async (req, res) => {
-    try {
-        const reservation = await Reservation.findById(req.params.id)
-        res.status(200).json(reservation)
-    } catch (error) {
-        res.status(404).json({message : "Reservation Not Found !"})
-    }
-}
-
-exports.getAllReservation = async (req, res) => {
-    try {
-        const reservation = await Reservation.find({ownerId: req.user._id})
-        res.status(200).json(reservation)
-    } catch (error) {
-        res.status(404).json({message : " Some ERROR !"})
-    }
-}
 

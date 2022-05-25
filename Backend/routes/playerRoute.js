@@ -19,9 +19,10 @@ router.post('/seeequipe', verifyToken.protect,verifyRole("User"), playerControll
 router.post('/deleteuserfromequipe', verifyToken.protect,verifyRole("User"), playerController.deleteUserFromEquipe)
 
 //search satde
-router.get('/searchstade', verifyToken.protect,verifyRole("User"), playerController.SearchStade)
+router.post('/searchstade', verifyToken.protect,verifyRole("User"), playerController.SearchStade)
 router.post('/createEvent', playerController.CreateEvent)
-router.get('/getEvent', playerController.getEvent)
+router.post('/getEvent', playerController.getEvent)
+router.post('/getstadebyID/:id', verifyToken.protect,verifyRole("User"),playerController.getStadeByID)
 
 
 module.exports = router;

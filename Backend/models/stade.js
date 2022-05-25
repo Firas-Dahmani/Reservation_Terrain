@@ -28,10 +28,6 @@ var stadeSchema = mongoose.Schema({
     adress: {
         type: String,
         required: true
-    },
-    events: {
-        type: Array,
-        default:[]
     }
 })
 module.exports = mongoose.model('stade',stadeSchema)

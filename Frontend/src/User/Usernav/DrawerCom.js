@@ -42,6 +42,11 @@ function DrawerCom() {
                         <ListItemText className="nav-link "  >Ajouter Membre</ListItemText>
                     </ListItemIcon>
                 </ListItemButton>
+                <ListItemButton  onClick={()=> setOpenDrawer(false) } to='/reserver' component={Link}>
+                    <ListItemIcon>
+                        <ListItemText className="nav-link "  >Reserver</ListItemText>
+                    </ListItemIcon>
+                </ListItemButton>
                 <ListItemButton onClick={()=> {setOpenDrawer(false); logoutHandler()} } to='/registerlogin'  component={Link}>
                     <ListItemIcon>
                         <ListItemText >DÉCONNECTER</ListItemText>

@@ -8,9 +8,15 @@ import {
     EQUIPE_DELETE_FAIL,
     EQUIPE_DELETE_REQUEST,
     EQUIPE_DELETE_SUCCESS,
+    GET_STADE_FAIL,
+    GET_STADE_REQUEST,
+    GET_STADE_SUCCESS,
     PLAYER_SEARCH_FAIL,
     PLAYER_SEARCH_REQUEST,
     PLAYER_SEARCH_SUCCESS,
+    SEARCH_STADE_FAIL,
+    SEARCH_STADE_REQUEST,
+    SEARCH_STADE_SUCCESS,
     USER_CREATEEQUIPE_FAIL,
     USER_CREATEEQUIPE_REQUEST,
     USER_CREATEEQUIPE_SUCCESS,
@@ -186,6 +192,38 @@ export const deleteUserFromEquipeReducer = (state = {}, action) => {
             return {loading : false, success : true};
         
         case DELETE_USER_FROM_EQUIPE_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const SearchSatdeReducer = (state = {}, action) => {
+    switch (action.type){
+        case SEARCH_STADE_REQUEST:
+            return {loading : true};
+        
+        case SEARCH_STADE_SUCCESS:
+            return {loading : false, Stade : action.payload};
+        
+        case SEARCH_STADE_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const getStadeReducer = (state = {}, action) => {
+    switch (action.type){
+        case GET_STADE_REQUEST:
+            return {loading : true};
+        
+        case GET_STADE_SUCCESS:
+            return {loading : false, stade : action.payload};
+        
+        case GET_STADE_FAIL:
             return {loading : false, error: action.payload};
 
         default:

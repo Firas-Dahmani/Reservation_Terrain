@@ -1,6 +1,5 @@
 const User = require('../models/user')
 const Stade = require('../models/stade')
-const Ville = require('../models/Ville')
 const Event = require('../models/Events')
 const cloudinary = require("../Utlis/cloudinary")
 var bcrypt = require('bcrypt');
@@ -482,7 +481,7 @@ exports.SearchStade = async (req, res) => {
                     res.json({
                         status: "SUCCESS",
                         message: "Satde founded successfuly",
-                        satde: result
+                        stade: result
                     })
                 })
                 .catch(()=> {
@@ -502,10 +501,9 @@ exports.SearchStade = async (req, res) => {
 }
 
 exports.CreateEvent = async (req, res) => {
-    const {start, end, title, StadeID} = req.body
+    const {start, end, title, StadeID, ownerid , userid} = req.body
 
-    console.log(start);
-    console.log(moment(req.query.start).toDate());
+    
 
     await Event.find({
         '$and':[
@@ -514,15 +512,18 @@ exports.CreateEvent = async (req, res) => {
         ]
         })
         .then(async (result)=> {
-            console.log(result.length > 0);
+            console.log(result.length > 0 || moment(start).toDate() < Date.now() );
             if(result.length > 0){
                 res.json({
                     status: "FAILED",
-                    message: "This time have been reserved !!"
+                    message: "This time have been reserved or out !!"
                 })
 
             } else {
                 const event = new Event({
+                    UserId:userid,
+                    OwnerId:ownerid,
+                    StadeID,
                     start,
                     end,
                     title
@@ -530,22 +531,10 @@ exports.CreateEvent = async (req, res) => {
             
                 await event.save()
                     .then(async (events)=> {
-                        await Stade.updateOne(
-                            {_id : StadeID},
-                            {$push: {events: events._id}}
-                        )
-                        .then(()=> {
-                            res.json({
-                                status: "SUCCESS",
-                                message: "User Added to Event successfuly",
-                                events:events
-                            })
-                        })
-                        .catch(()=> {
-                            res.json({
-                                status: "FAILED",
-                                message: "An error occured while Adding the Event !!!"
-                            })
+                        res.json({
+                            status: "SUCCESS",
+                            message: "User Added to Event successfuly",
+                            events:events
                         })
                     })
                     .catch((err)=> {
@@ -566,9 +555,12 @@ exports.CreateEvent = async (req, res) => {
 }
 
 exports.getEvent = async (req, res)=> {
+    const {userid, ownerid} = req.body 
     await Event.find({
         start: { $gte: moment(req.query.start).toDate() },
-        end: { $lte: moment(req.query.end).toDate() }
+        end: { $lte: moment(req.query.end).toDate() },
+        OwnerId : ownerid,
+        UserId:userid
     })
     .then((result)=> {
         res.json({
@@ -585,5 +577,21 @@ exports.getEvent = async (req, res)=> {
     })
 }
 
+exports.getStadeByID = async (req, res) => {
+    const { id } = req.params
 
-
+    await Stade.findById(id)
+        .then((result)=> {
+            res.json({
+                status: "SUCCESS",
+                message: "Stade founded successfuly!!",
+                stade : result
+            })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding Stade!!"
+            })
+        })
+}

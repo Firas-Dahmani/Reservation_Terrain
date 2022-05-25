@@ -5,8 +5,8 @@ import { authLoginReducer, authRegisterReducer, authEmailVerifReducer, authReset
 import { sessionReducer, sessionService } from 'redux-react-session' 
 import { contactReducer } from './reducer/contactReducer';
 import { userAccepteReducer, userSeenReducer, userDeleteReducer, addOwnerReducer, villeSeenReducer, villeDeleteReducer, villeAddReducer, stadeSeenReducer, stadeAddReducer, stadeDeleteReducer, profileSeenReducer, updatePicReducer, contactMessageSeenReducer, contactMessageDeleteReducer, userUpdateReducer } from './reducer/AdminReducers';
-import { OwnerprofileSeenReducer, OwnerstadeAddReducer, OwnerstadeDeleteReducer, OwnerstadeSeenReducer, OwnerupdatePicReducer, OwnerUpdateReducer, OwnervilleSeenReducer } from "./reducer/OwnerReducers";
-import {  AddMembreReducer, CreateEquipeReducer, DeleteEquipeReducer, deleteUserFromEquipeReducer, playerSearchReducer, UserFindByIDReducer, UserprofileSeenReducer, UserSeeOwnEquipeReducer, UserupdatePicReducer, UserUpdateReducer } from "./reducer/UserReducers";
+import { OwnerprofileSeenReducer, OwnerstadeAddReducer, OwnerstadeDeleteReducer, OwnerstadeSeenReducer, OwnerupdatePicReducer, OwnerUpdateReducer, OwnervilleSeenReducer, showReservationReducer } from "./reducer/OwnerReducers";
+import {  AddMembreReducer, CreateEquipeReducer, DeleteEquipeReducer, deleteUserFromEquipeReducer, getStadeReducer, playerSearchReducer, SearchSatdeReducer, UserFindByIDReducer, UserprofileSeenReducer, UserSeeOwnEquipeReducer, UserupdatePicReducer, UserUpdateReducer } from "./reducer/UserReducers";
 
 const reducer = combineReducers({
     // auth Reducers
@@ -43,6 +43,7 @@ const reducer = combineReducers({
     OwnerstadeAdd:OwnerstadeAddReducer,
     OwnerstadeDelete:OwnerstadeDeleteReducer,
     OwnervilleSeen:OwnervilleSeenReducer,
+    showReservation:showReservationReducer,
     // User Reducers
     UserprofileSeen:UserprofileSeenReducer,
     UserupdatePic:UserupdatePicReducer,
@@ -54,6 +55,8 @@ const reducer = combineReducers({
     playerSearch:playerSearchReducer,
     AddMembre:AddMembreReducer,
     deleteUserFromEquipe:deleteUserFromEquipeReducer,
+    SearchSatde:SearchSatdeReducer,
+    getStade:getStadeReducer,
 })
 
 const inistialState = {}

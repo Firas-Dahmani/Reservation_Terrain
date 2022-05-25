@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { sessionService } from 'redux-react-session';
 import Loading from '../../loading/Loading';
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
-import { OwnerprofileSeenAction, OwnerupdatePicAction, OwnerupdateUserProfile } from '../../Redux-dep/actions/OwnerActions';
+import { OwnerprofileSeenAction, OwnerupdatePicAction, OwnerupdateUserProfile, OwnervilleSeenAction } from '../../Redux-dep/actions/OwnerActions';
 import OwnerNavbar from '../Ownernav/OwnerNavbar';
 
 function OwnerProfile() {
@@ -19,7 +19,7 @@ function OwnerProfile() {
     const [date, setDate] = useState("");
     const [genre, setGenre] = useState("");
     const [adress, setAdress] = useState("");
-    const [ville, setVille] = useState("");
+    const [ville, setVilleID] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [pic, setPic] = useState("");
@@ -36,26 +36,41 @@ function OwnerProfile() {
     const updatePic = useSelector((state) => state.OwnerupdatePic)
     const { success : UploadPhotoSUCCESS, loading : LoadUploadPhoto } = updatePic
 
+    const villeSeen = useSelector((state) => state.OwnervilleSeen)
+    const { 
+        ville:VilleID, 
+        loading: loadingSeeVille, 
+        error: errorSeeVille
+    } = villeSeen
+
     const userUpdate = useSelector((state) => state.OwnerUpdate)
     const { success : userUpdateSUCCESS, loading : userUpdateLoading, error: userUpdateError } = userUpdate
     
     sessionService.loadUser()
         .then((User) => {
-            
             setUserID(User.data[0]._id)
         })
 
     useEffect(()=> {
+        if(UserID){
         dispatch(OwnerupdatePicAction(UserID, pic))
-    }, [pic])
+        }
+    }, [dispatch,pic])
 
     useEffect(()=> {
-        dispatch(OwnerprofileSeenAction(UserID))
+        if(UserID){
+            dispatch(OwnerprofileSeenAction(UserID))
+        }
     },[dispatch,
         UploadPhotoSUCCESS,
         UserID,
         userUpdateSUCCESS
     ])
+
+    useEffect(()=> {
+        dispatch(OwnervilleSeenAction())
+        },[dispatch]
+    )
 
 
       const handleSubmit = async (event) =>{
@@ -137,14 +152,14 @@ function OwnerProfile() {
                                         <div className="card-body">
                                             <ul className="nav nav-pills nav-pills-primary nav-justified">
                                                 <li className="nav-item">
-                                                    <Link to="/ownerprofile" data-target="#profile" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">OwnerProfile</span></Link>
+                                                    <Link to="/ownerprofile" data-target="#ownerprofile" data-toggle="pill" className="nav-link active show"><i className="icon-user"></i> <span className="hidden-xs">OwnerProfile</span></Link>
                                                 </li>
                                                 <li className="nav-item">
                                                     <Link to="/ownerprofile" data-target="#edit" data-toggle="pill" className="nav-link"><i className="icon-note"></i> <span className="hidden-xs">Edit</span></Link>
                                                 </li>
                                             </ul>
                                             <div className="tab-content p-3">
-                                                <div className="tab-pane active show" id="profile">
+                                                <div className="tab-pane active" id="ownerprofile">
                                                     <h5 className="mb-3">A-propos</h5>
                                                     <div className="row">
                                                         <div className="col-md-6">
@@ -185,7 +200,7 @@ function OwnerProfile() {
                                                                 </li>
                                                             </ul>
                                                             <div className="tab-content p-3">
-                                                                <div className="tab-pane active" id="update">
+                                                                <div className="tab-pane active show" id="update">
                                                                     <h5 className="mb-3">Editer le profil</h5>
                                                                     <Form onSubmit={handleSubmit}  >
                                                                         <div className="row">
@@ -259,7 +274,7 @@ function OwnerProfile() {
                                                                                 </Form.Group>
                                                                             </div>
                                                                             <div className="row">
-                                                                                <Form.Group className="col-md-6 form-group mb-5adress"  controlId="adress">
+                                                                                <Form.Group className="col-md-6 form-group mb-5"  controlId="adress">
                                                                                     <Form.Label>Adress</Form.Label>
                                                                                     <Form.Control   className="form-control"
                                                                                         autoFocus
@@ -268,15 +283,23 @@ function OwnerProfile() {
                                                                                         onChange={(e) => setAdress(e.target.value)}
                                                                                     />
                                                                                 </Form.Group >
-                                                                                <Form.Group className="col-md-6 form-group mb-5ville"  controlId="ville">
-                                                                                    <Form.Label>Ville</Form.Label>
-                                                                                    <Form.Control   className="form-control"
-                                                                                        autoFocus
-                                                                                        type="ville"
-                                                                                        defaultValue={seeOwnerProfile?.Ville}
-                                                                                        onChange={(e) => setVille(e.target.value)}
-                                                                                    />
-                                                                                </Form.Group >
+                                                                                <Form.Group className="col-md-4 mb-3 "  controlId="poste">
+                                                                                <Form.Label>Ville</Form.Label>
+                                                                                <Form.Control 
+                                                                                    required  
+                                                                                    as="select"
+                                                                                    custom ="true"
+                                                                                    defaultValue={seeOwnerProfile?.VilleID}
+                                                                                    onChange={(e) => setVilleID(e.target.value)}>
+                                                                                    <option value="Ville"  disabled="disabled">Ville</option>
+                                                                                    {
+                                                                                    VilleID && VilleID.length !== 0 &&
+                                                                                    VilleID.map((item, i) => ( 
+                                                                                        <option  value={item.villeName} key={i}>{item.villeName}</option>  
+                                                                                    ))
+                                                                                    }
+                                                                                </Form.Control >
+                                                                            </Form.Group>
                                                                             </div>
                                                                         <Button  type="submit"  className="btn solid"/* disabled={!validateForm() || loading} */>
                                                                             Modifier

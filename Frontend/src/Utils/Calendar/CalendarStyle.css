@@ -1,0 +1,12 @@
+.rootCalendar{
+    display: "flex";
+    flex-direction : "column";
+    justify-content: "center";
+    align-items: "center";
+    padding-bottom: 10;
+}
+
+.scheduler {
+    padding-top: 20;
+    width: "80vw";
+  }

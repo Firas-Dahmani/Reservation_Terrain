@@ -1,4 +1,7 @@
 import { 
+  EVENT_SEEN_FAIL,
+    EVENT_SEEN_REQUEST,
+    EVENT_SEEN_SUCCESS,
     OWNER_PROFILE_SEEN_FAIL, 
     OWNER_PROFILE_SEEN_REQUEST, 
     OWNER_PROFILE_SEEN_SUCCESS, 
@@ -230,7 +233,7 @@ export const OwnerstadeSeenAction = (Ville_ID,User_ID) => async (dispatch) => {
       }
 }
 
-export const OwnerstadeAddAction = (User_ID, Ville_ID, stadeName, Tel) => async (dispatch, getState) => {
+export const OwnerstadeAddAction = (User_ID, Ville_ID, stadeName, Tel,description, prix, adress) => async (dispatch, getState) => {
   try {
       dispatch({ type: OWNER_STADE_ADD_REQUEST })
       
@@ -248,7 +251,10 @@ export const OwnerstadeAddAction = (User_ID, Ville_ID, stadeName, Tel) => async 
         User_ID, 
         Ville_ID, 
         stadeName, 
-        Tel
+        Tel,
+        description,
+        prix,
+        adress
       },
       config
 
@@ -361,6 +367,49 @@ export const OwnervilleSeenAction = () => async (dispatch) => {
         console.log(error);
           dispatch({
               type: OWNER_VILLE_SEEN_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const OwnergetEventAction = (ownerid) => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: EVENT_SEEN_REQUEST })
+      sessionService.loadUser()
+        .then(async (User) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${User.token}`,
+          }}
+
+          await axios.post('http://localhost:5000/owner/OwnergetEvent',
+            {ownerid},
+            config
+          )
+          .then(response => {
+              const {data} = response
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: EVENT_SEEN_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const {event} = data
+                
+                dispatch({ type: EVENT_SEEN_SUCCESS ,payload: event })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: EVENT_SEEN_FAIL,
               payload:
                   error.response && error.response.data.message
                   ? error.response.data.message

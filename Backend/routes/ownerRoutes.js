@@ -12,6 +12,7 @@ router.post('/updateprofile', verifyToken.protect,verifyRole("Owner"), ownerCont
 router.post('/addOwnerstade', verifyToken.protect,verifyRole("Owner"), ownerController.addStade)
 router.post('/getOwnerstade', verifyToken.protect,verifyRole("Owner"), ownerController.getAllStade)
 router.post('/removeStade', verifyToken.protect,verifyRole("Owner"), ownerController.deleteStade)
+router.post('/OwnergetEvent', verifyToken.protect,verifyRole("Owner"), ownerController.OwnergetEvent)
 
 //Ville
 router.post('/getVille', ownerController.showVille)

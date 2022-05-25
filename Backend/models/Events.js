@@ -1,5 +1,8 @@
 var mongoose = require('mongoose')
 var eventSchema = mongoose.Schema({
+    UserId:String,
+    OwnerId:String,
+    StadeID:String,
     start:Date,
     end:Date,
     title : String,

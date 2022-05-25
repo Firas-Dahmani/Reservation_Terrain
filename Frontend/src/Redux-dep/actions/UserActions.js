@@ -10,9 +10,15 @@ import {
   EQUIPE_DELETE_FAIL,
   EQUIPE_DELETE_REQUEST,
   EQUIPE_DELETE_SUCCESS,
+  GET_STADE_FAIL,
+  GET_STADE_REQUEST,
+  GET_STADE_SUCCESS,
   PLAYER_SEARCH_FAIL,
   PLAYER_SEARCH_REQUEST,
   PLAYER_SEARCH_SUCCESS,
+  SEARCH_STADE_FAIL,
+  SEARCH_STADE_REQUEST,
+  SEARCH_STADE_SUCCESS,
   USER_CREATEEQUIPE_FAIL,
   USER_CREATEEQUIPE_REQUEST,
   USER_CREATEEQUIPE_SUCCESS,
@@ -490,6 +496,94 @@ export const deleteUserFromEquipeAction = (USERID,EQUIPEID) => async (dispatch) 
         console.log(error);
           dispatch({
               type: DELETE_USER_FROM_EQUIPE_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const SearchStadeAction = (USERID, stadename, villeID) => async (dispatch) => {
+  try {
+
+    let config = {}
+      dispatch({ type: SEARCH_STADE_REQUEST })
+      sessionService.loadUser()
+        .then(async (User) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${User.token}`,
+          }}
+
+          await axios.post('http://localhost:5000/user/searchstade',
+            {USERID, stadename, villeID},
+            config
+          )
+          .then(response => {
+              const {data} = response
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: SEARCH_STADE_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const {stade} = data
+                
+                dispatch({ type: SEARCH_STADE_SUCCESS, payload: stade })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: SEARCH_STADE_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const getStadeAction = (id) => async (dispatch) => {
+  try {
+
+    let config = {}
+      dispatch({ type: GET_STADE_REQUEST })
+      sessionService.loadUser()
+        .then(async (User) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${User.token}`,
+          }}
+
+          await axios.post(`http://localhost:5000/user/getstadebyID/${id}`,
+            {},
+            config
+          )
+          .then(response => {
+              const {data} = response
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: GET_STADE_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {
+                const {stade} = data
+                
+                dispatch({ type: GET_STADE_SUCCESS, payload: stade })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: GET_STADE_FAIL,
               payload:
                   error.response && error.response.data.message
                   ? error.response.data.message

@@ -30,6 +30,9 @@ function UserNavbar() {
                         </li>
                         <li className="nav-item">
                                 <Link className="nav-link "  to='/useraddequipe' >Ajouter Membre</Link>
+                        </li>
+                        <li className="nav-item">
+                                <Link className="nav-link "  to='/reserver' >Reserver</Link>
                         </li> 
                         <li className="nav-item">
                                 <Link className="nav-link " onClick={logoutHandler} label="LOGOUT" to='/registerlogin' >DÉCONNECTER</Link>

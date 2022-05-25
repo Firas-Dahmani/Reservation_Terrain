@@ -23,6 +23,9 @@ import OwnerStadeCrud from './Owner/OwnerAddStade/OwnerAddStade';
 import Calendar from './Utils/Calendar/Calendar';
 import SeeUser from './User/SeeUser/SeeUser';
 import UserAddEquipe from './User/UserAddEquipe/UserAddEquipe';
+import Reserver from './User/Reserver.js/Reserver';
+import ShowStade from './User/ShowStade/ShowStade';
+import ShowReservation from './Owner/ShowReservation/ShowReservation';
 
 
 function App() {
@@ -78,6 +81,7 @@ function App() {
             <>
               <Route path="/ownerprofile" element={<AuthRoute><OwnerProfile /> </AuthRoute>} />
               <Route path="/ownerstade" element={<AuthRoute><OwnerStadeCrud /> </AuthRoute>} />
+              <Route path="/showreservation" element={<AuthRoute><ShowReservation /> </AuthRoute>} />
             </>
         }
         {/* User Router */}
@@ -87,6 +91,8 @@ function App() {
               <Route path="/userprofile" element={<AuthRoute><UserProfile /> </AuthRoute>} />
               <Route path="/:id" element={<AuthRoute><SeeUser /> </AuthRoute>} />
               <Route path="/useraddequipe" element={<AuthRoute><UserAddEquipe /> </AuthRoute>} />
+              <Route path="/reserver" element={<AuthRoute><Reserver /> </AuthRoute>} />
+              <Route path="/Stade/:idStade" element={<AuthRoute><ShowStade /> </AuthRoute>} />
             </>
             : 
             <Route path="/notavail" element={<AuthRoute><UserNotAvail /> </AuthRoute>} />

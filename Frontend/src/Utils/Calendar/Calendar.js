@@ -7,8 +7,9 @@ import EventModal from './EventModal';
 import axios from "axios"
 import moment from 'moment';
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
+import './CalendarStyle.css'
 
-function Calendar() {
+function Calendar({UserId, OwnerId}) {
     const [modalOpen, setModalOpen] = useState(false);
     const calendarRef = useRef(null)
     const [events, setEvents] = useState([])
@@ -24,7 +25,13 @@ function Calendar() {
     }
 
     async function handleEventAdd (data) {
-        const postResponse = await axios.post('http://localhost:5000/user/createEvent', data.event)
+        const postResponse = await axios.post('http://localhost:5000/user/createEvent', {
+            userid:UserId,
+            ownerid:OwnerId,
+            start: moment(data.event.start).toDate(),
+            end: moment(data.event.end).toDate(),
+            title: data.event.title
+        })
 
         if(postResponse.data.status === 'FAILED'){
             setErrorMessage(postResponse.data.message)
@@ -33,17 +40,22 @@ function Calendar() {
     }
 
     async function handleDateSet (data) {
-        const response = await axios.get('http://localhost:5000/user/getEvent?start='+
-        moment(data.start).toISOString() + '&end='+ moment(data.end).toISOString())
+        const response = await axios.post('http://localhost:5000/user/getEvent?start='+
+        moment(data.start).toISOString() + '&end='+ moment(data.end).toISOString(), 
+        {
+            userid:UserId,
+            ownerid:OwnerId
+        })
 
         setEvents(response.data.event)
     }
 
+
   return (
-    <section>
+    <section className='rootCalendar'>
         {ErrorMessage && <AlertCompnenet error={ErrorMessage}/>}
         <button className='btn' onClick={()=> setModalOpen(true)}>ADD EVENT</button>
-        <div style={{position:'relative', zIndex: 0}}>
+        <div style={{position:'relative', zIndex: 0}} className='scheduler'>
             <FullCalendar
                 ref={calendarRef}
                 events={events}
@@ -59,7 +71,7 @@ function Calendar() {
             />
         </div>
 
-        <EventModal isOpen={modalOpen} onClose= {()=> setModalOpen(false)} onEventAded={event => onEventAded(event)} />
+        <EventModal isOpen={modalOpen} onClose= {()=> setModalOpen(false)} onEventAded={event => onEventAded(event)} UserId={UserId} OwnerId={OwnerId}/>
     </section>
   )
 }
