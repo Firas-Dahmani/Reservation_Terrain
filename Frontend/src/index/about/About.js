@@ -14,9 +14,7 @@ function About() {
                 À propos de nous
               </h1>
               <p className="text wow fadeInLeftBig" data-wow-duration="3s" data-wow-delay="0.4s">
-                Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Aspernatur fugiat qui tenetur sit vero delectus vitae suscipit nostrum
-                aliquam exercitationem necessitatibus veniam placeat, voluptatibus harum.
+              C’est une application simple à utiliser, indispensable pour les footballeurs amateurs qui auront la possibilité de choisir le terrain de foot qui leurs convient. 
               </p>
             </div>
           </div>

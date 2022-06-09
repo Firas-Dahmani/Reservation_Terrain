@@ -10,6 +10,7 @@ import { sessionService } from 'redux-react-session';
 import { contactMeesageDeleteAction, contactMeesageSeenAction, profileSeenAction, updatePicAction, updateUserProfile } from '../../Redux-dep/actions/AdminActions';
 import Loading from '../../loading/Loading';
 import AlertCompnenet from './../../Error/Alert/AlertCompnenet';
+import { villeSeenAction } from './../../Redux-dep/actions/AdminActions';
 
 function Profile() {
     const [firstname, setFirstName] = useState("");
@@ -19,7 +20,7 @@ function Profile() {
     const [date, setDate] = useState("");
     const [genre, setGenre] = useState("");
     const [adress, setAdress] = useState("");
-    const [ville, setVille] = useState("");
+    const [ville, setVilleID] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [pic, setPic] = useState("");
@@ -32,6 +33,17 @@ function Profile() {
 
     const profileSeen = useSelector((state) => state.profileSeen)
     const { seeProfile, loading, error } = profileSeen
+
+    const villeSeen = useSelector((state) => state.villeSeen)
+    const { 
+        ville:VilleID, 
+        loading: loadingSeeVille, 
+        error: errorSeeVille
+    } = villeSeen
+
+    useEffect(()=> {
+        dispatch(villeSeenAction())
+        },[dispatch])
 
     const contactMessageSeen = useSelector((state) => state.contactMessageSeen)
     const { Message, loading:contactMessageSeenLoading, error:contactMessageSeenERROR } = contactMessageSeen
@@ -86,6 +98,7 @@ function Profile() {
       const handleSubmit = async (event) =>{
         event.preventDefault();
         if(date.type !== undefined){ setDate(seeProfile?.birthDay)}
+
 
             const variableUpdateProfile = [
                 UserID,
@@ -322,15 +335,23 @@ function Profile() {
                                                                                 onChange={(e) => setAdress(e.target.value)}
                                                                             />
                                                                         </Form.Group >
-                                                                        <Form.Group className="col-md-6 form-group mb-5ville"  controlId="ville">
-                                                                            <Form.Label>Ville</Form.Label>
-                                                                            <Form.Control   className="form-control"
-                                                                                autoFocus
-                                                                                type="ville"
-                                                                                defaultValue={seeProfile?.Ville}
-                                                                                onChange={(e) => setVille(e.target.value)}
-                                                                            />
-                                                                        </Form.Group >
+                                                                        <Form.Group className="col-md-4 mb-3 "  controlId="poste">
+                                                                                <Form.Label>Ville</Form.Label>
+                                                                                <Form.Control 
+                                                                                    required  
+                                                                                    as="select"
+                                                                                    custom ="true"
+                                                                                    defaultValue={seeProfile?.VilleID}
+                                                                                    onChange={(e) => setVilleID(e.target.value)}>
+                                                                                    <option value="Ville"  disabled="disabled">Ville</option>
+                                                                                    {
+                                                                                    VilleID && VilleID.length !== 0 &&
+                                                                                    VilleID.map((item, i) => ( 
+                                                                                        <option  value={item.villeName} key={i}>{item.villeName}</option>  
+                                                                                    ))
+                                                                                    }
+                                                                                </Form.Control >
+                                                                            </Form.Group>
                                                                     </div>
                                                                 <Button  type="submit"  className="btn solid"/* disabled={!validateForm() || loading} */>
                                                                     Modifier

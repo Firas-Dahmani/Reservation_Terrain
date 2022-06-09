@@ -1,10 +1,22 @@
+require('dotenv').config()
 const User = require('../models/user')
 const Ville = require('../models/Ville')
 const Stade = require('../models/stade')
 const ContactMessage = require('../models/Contact')
+const nodemailer = require("nodemailer");
 const cloudinary = require("../Utlis/cloudinary")
 const { v4: uuidv4 } = require('uuid');
 var bcrypt = require('bcrypt');
+
+
+
+let transporter = nodemailer.createTransport({
+    service:"gmail",
+    auth: {
+      user: process.env.AUTH_EMAil, // generated ethereal user
+      pass: process.env.AUTH_PASS, // generated ethereal password
+    },
+  });
 
 // Home page 
 // See user owner and player ==> accept -- delete user
@@ -30,15 +42,37 @@ exports.seeUser = async (req, res) => {
 
 exports.acceptUser = async (req, res) => {
     const { id } = req.params
+    const {email} = req.body
+
+     // send mail with defined transport object
+     const mailOptions =  {
+        from: process.env.AUTH_EMAil, // sender address
+        to: email, // list of receivers
+        subject: "Admin Accept Your Account ✔", // Subject line
+        text: "Hey", // plain text body
+        html: `    <p>Admin Accept your profile , you can use app now.</p><p>SoccerLand</p>`, // html body
+    };
 
         await User.find({ _id : id })
         .then(()=> {
                 User.updateOne({ _id: id }, { isAvail: true })
                 .then(()=> {
-                    res.json({
-                        status: "SUCCESS",
-                        message: "User acceptes successfuly!"
-                    })
+                    transporter
+                        .sendMail(mailOptions)
+                        .then(()=> {
+                            // email sent and verification record saved
+                            res.json({
+                                status: "SUCCESS",
+                                message: "User acceptes successfuly!"
+                            })
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            res.json({
+                                status: "FAILED",
+                                message: "Verification email failed!"
+                            })
+                        })
                 })
                 .catch(()=> {
                     res.json({
@@ -243,7 +277,7 @@ exports.deleteVille = async (req, res) => {
 
 // Add Stade 
 exports.addStade =  async (req, res) => {
-    const {User_ID, Ville_ID, stadeName, Tel} = req.body
+    const {User_ID, Ville_ID, stadeName, Tel, description, prix, adress} = req.body
     const StadeUpper = stadeName.toUpperCase()
 
     await User.find({_id : User_ID})
@@ -262,7 +296,10 @@ exports.addStade =  async (req, res) => {
                                 userId : User_ID,
                                 villeid : Ville_ID, 
                                 stadeName : stadeName, 
-                                stadetel : Tel
+                                stadetel : Tel,
+                                desc: description,
+                                prix: prix,
+                                adress : adress
                             })
                             
                             stade.save()
@@ -485,7 +522,7 @@ exports.editProfile = async (req, res) => {
     if(date) objForUpdate.birthDay = date
     if(genre) objForUpdate.Genre = genre
     if(adress) objForUpdate.adress = adress
-    if(ville) objForUpdate.Ville = ville
+    if(ville) objForUpdate.VilleID = ville
     if(password) objForUpdate.password = password
 
     await User.find({_id: USER_ID})

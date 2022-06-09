@@ -5,7 +5,7 @@ import { authLoginReducer, authRegisterReducer, authEmailVerifReducer, authReset
 import { sessionReducer, sessionService } from 'redux-react-session' 
 import { contactReducer } from './reducer/contactReducer';
 import { userAccepteReducer, userSeenReducer, userDeleteReducer, addOwnerReducer, villeSeenReducer, villeDeleteReducer, villeAddReducer, stadeSeenReducer, stadeAddReducer, stadeDeleteReducer, profileSeenReducer, updatePicReducer, contactMessageSeenReducer, contactMessageDeleteReducer, userUpdateReducer } from './reducer/AdminReducers';
-import { OwnerprofileSeenReducer, OwnerstadeAddReducer, OwnerstadeDeleteReducer, OwnerstadeSeenReducer, OwnerupdatePicReducer, OwnerUpdateReducer, OwnervilleSeenReducer, showReservationReducer } from "./reducer/OwnerReducers";
+import { OwnerDeleteEventReducer, OwnerprofileSeenReducer, OwnerstadeAddReducer, OwnerstadeDeleteReducer, OwnerstadeSeenReducer, OwnerupdatePicReducer, OwnerUpdateReducer, OwnervilleSeenReducer, showReservationReducer } from "./reducer/OwnerReducers";
 import {  AddMembreReducer, CreateEquipeReducer, DeleteEquipeReducer, deleteUserFromEquipeReducer, getStadeReducer, playerSearchReducer, SearchSatdeReducer, UserFindByIDReducer, UserprofileSeenReducer, UserSeeOwnEquipeReducer, UserupdatePicReducer, UserUpdateReducer } from "./reducer/UserReducers";
 
 const reducer = combineReducers({
@@ -44,6 +44,7 @@ const reducer = combineReducers({
     OwnerstadeDelete:OwnerstadeDeleteReducer,
     OwnervilleSeen:OwnervilleSeenReducer,
     showReservation:showReservationReducer,
+    OwnerDeleteEvent:OwnerDeleteEventReducer,
     // User Reducers
     UserprofileSeen:UserprofileSeenReducer,
     UserupdatePic:UserupdatePicReducer,

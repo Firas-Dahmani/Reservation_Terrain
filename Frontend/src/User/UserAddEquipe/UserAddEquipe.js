@@ -186,7 +186,7 @@ function UserAddEquipe() {
                             </div>
                         )
                         :
-                        <strong>Aucun résultat trouver</strong>
+                        <strong className='align-items-center justify-content-center text-center'>Aucun résultat trouver</strong>
                     }
                 </div>
             </div>

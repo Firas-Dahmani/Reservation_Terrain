@@ -38,12 +38,12 @@ function Contact() {
             <div className="row align-items-stretch no-gutters contact-wrap">
               <div className="col-md-8">
                 <div className="form h-100">
-                  <h3>Send us a message</h3>
+                  <h3>Envoie-nous un message</h3>
                   <Form onSubmit={handleSubmit} className="contactform"  id="" >
                   {err && <AlertCompnenet error={err}/>}
                     <div className="row">
-                      <Form.Group className="col-md-6 form-group mb-5"  controlId="name">
-                        <Form.Label className='col-form-label'>Name *</Form.Label>
+                      <Form.Group className="col form-group mb-5"  controlId="name">
+                        <Form.Label className='col-form-label'>Nom *</Form.Label>
                         <Form.Control 
                         required 
                         placeholder="Your name" 
@@ -53,7 +53,9 @@ function Contact() {
                         onChange={(e) => setName(e.target.value)}
                         />
                       </Form.Group >
-                      <Form.Group className="col-md-6 form-group mb-5"  controlId="email">
+                    </div>
+                    <div className="row">
+                    <Form.Group className="col form-group mb-5"  controlId="email">
                         <Form.Label className='col-form-label'>Email</Form.Label>
                         <Form.Control 
                         required 
@@ -66,10 +68,9 @@ function Contact() {
                         />
                       </Form.Group >
                     </div>
-
-                    <div className="">
+                    <div className="row">
                       <Form.Group className="mb-5"  controlId="phone">
-                        <Form.Label className='col-form-label'>Phone</Form.Label>
+                        <Form.Label className='col-form-label'>Telephone</Form.Label>
                         <Form.Control 
                         required 
                         placeholder="Phone #" 
@@ -81,8 +82,8 @@ function Contact() {
                       </Form.Group >
                     </div>
 
-                    <div className="" >
-                      <Form.Group className=" mb-3 "  controlId="message">
+                    <div className="row" >
+                      <Form.Group className="col mb-3 "  controlId="message">
                         <Form.Label className='col-form-label'>Message *</Form.Label>
                         <Form.Control 
                         as="textarea" 
@@ -106,17 +107,19 @@ function Contact() {
               <div className="col-md-4">
                 <div className="contact-info h-100">
                   <h3>Contact Information</h3>
-                  <p className="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, magnam!</p>
+                  <p className="mb-5">Gregio est une agence spécialisée dans la conception et la réalisation de sites/applications Web et Mobiles.</p>
                   <ul className="list-unstyled">
                     <li className="d-flex">
-                      <span className="text">9757 Aspen Lane South Richmond Hill, NY 11419</span>
+                    <span className="wrap-icon fas fa-map-marker-alt mr-3"></span>
+                      <span className="text"> 4054 Sousse, Tunisie</span>
                     </li>
                     <li className="d-flex">
-                      <span className="text">+1 (291) 939 9321</span>
+                    <span className="wrap-icon fas fa-phone mr-3"></span>
+                      <span className="text"> 53 784 010</span>
                     </li>
                     <li className="d-flex">
-                      <span className="wrap-icon icon-envelope mr-3"></span>
-                      <span className="text">info@mywebsite.com</span>
+                      <span className="wrap-icon far fa-envelope mr-3"></span>
+                      <span className="text"> gregiotn@gmail.com</span>
                     </li>
                   </ul>
                 </div>

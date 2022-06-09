@@ -2,6 +2,9 @@ import {
   EVENT_SEEN_FAIL,
     EVENT_SEEN_REQUEST,
     EVENT_SEEN_SUCCESS,
+    OWNER_DELETE_EVENT_FAIL,
+    OWNER_DELETE_EVENT_REQUEST,
+    OWNER_DELETE_EVENT_SUCCESS,
     OWNER_PROFILE_SEEN_FAIL, 
     OWNER_PROFILE_SEEN_REQUEST, 
     OWNER_PROFILE_SEEN_SUCCESS, 
@@ -410,6 +413,47 @@ export const OwnergetEventAction = (ownerid) => async (dispatch) => {
         console.log(error);
           dispatch({
               type: EVENT_SEEN_FAIL,
+              payload:
+                  error.response && error.response.data.message
+                  ? error.response.data.message
+                  : error.message,
+          })
+      }
+}
+
+export const OwnerDeleteEventAction = (id) => async (dispatch) => {
+  try {
+    let config = {}
+      dispatch({ type: OWNER_DELETE_EVENT_REQUEST })
+      sessionService.loadUser()
+        .then(async (User) => {
+          config = {
+            headers: {
+              Authorization: `Bearer ${User.token}`,
+          }}
+
+          await axios.post(`http://localhost:5000/owner/removeEvent/${id}`,
+            {},
+            config
+          )
+          .then(response => {
+              const {data} = response
+              if(data.status === 'FAILED'){
+                dispatch({
+                  type: OWNER_DELETE_EVENT_FAIL,
+                  payload: data.message})
+
+              }else if(data.status === 'SUCCESS') {                
+                dispatch({ type: OWNER_DELETE_EVENT_SUCCESS ,payload: true })
+              }
+          })
+        })
+
+      }
+      catch (error){
+        console.log(error);
+          dispatch({
+              type: OWNER_DELETE_EVENT_FAIL,
               payload:
                   error.response && error.response.data.message
                   ? error.response.data.message

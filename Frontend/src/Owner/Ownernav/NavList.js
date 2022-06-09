@@ -1,6 +1,8 @@
 import Person from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 import CalendarViewWeekIcon from '@mui/icons-material/CalendarViewWeek';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+
 
 
 const NavbarList = [
@@ -36,6 +38,14 @@ const NavbarList = [
     subList: [],
     link:'/ownerstade'
   },
+  {
+    icon: CircleNotificationsIcon,
+    desc: 'Reservation',
+    secondDesc: '',
+    badge: 0,
+    subList: [],
+    link:'/showreservation'
+  }
   
 ];
 

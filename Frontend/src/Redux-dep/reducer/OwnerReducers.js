@@ -2,6 +2,9 @@ import {
     EVENT_SEEN_FAIL,
     EVENT_SEEN_REQUEST,
     EVENT_SEEN_SUCCESS,
+    OWNER_DELETE_EVENT_FAIL,
+    OWNER_DELETE_EVENT_REQUEST,
+    OWNER_DELETE_EVENT_SUCCESS,
     OWNER_PROFILE_SEEN_FAIL,
     OWNER_PROFILE_SEEN_REQUEST, 
     OWNER_PROFILE_SEEN_SUCCESS, 
@@ -147,6 +150,22 @@ export const showReservationReducer = (state = {}, action) => {
             return {loading : false, event: action.payload};
         
         case EVENT_SEEN_FAIL:
+            return {loading : false, error: action.payload};
+
+        default:
+            return state;
+    }
+}
+
+export const OwnerDeleteEventReducer = (state = {}, action) => {
+    switch (action.type){
+        case OWNER_DELETE_EVENT_REQUEST:
+            return {loading : true};
+        
+        case OWNER_DELETE_EVENT_SUCCESS:
+            return {loading : false, success: true};
+        
+        case OWNER_DELETE_EVENT_FAIL:
             return {loading : false, error: action.payload};
 
         default:

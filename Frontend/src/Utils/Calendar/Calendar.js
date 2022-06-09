@@ -25,6 +25,7 @@ function Calendar({UserId, OwnerId}) {
     }
 
     async function handleEventAdd (data) {
+        
         const postResponse = await axios.post('http://localhost:5000/user/createEvent', {
             userid:UserId,
             ownerid:OwnerId,
@@ -50,6 +51,15 @@ function Calendar({UserId, OwnerId}) {
         setEvents(response.data.event)
     }
 
+    const handleEventClick = async (clickInfo) => {
+        console.log(clickInfo.event.start)
+        await axios.post('http://localhost:5000/user/deleteEventUser', {
+            start:clickInfo.event.start,
+            end:clickInfo.event.end
+        })
+        clickInfo.event.remove()
+    }
+
 
   return (
     <section className='rootCalendar'>
@@ -68,6 +78,7 @@ function Calendar({UserId, OwnerId}) {
                 initialView="dayGridMonth"
                 eventAdd={event => handleEventAdd(event)}
                 datesSet={(date)=> handleDateSet(date)}
+                eventClick={(eventInfo) => handleEventClick(eventInfo)}
             />
         </div>
 

@@ -12,7 +12,8 @@ router.post('/updateprofile', verifyToken.protect,verifyRole("Owner"), ownerCont
 router.post('/addOwnerstade', verifyToken.protect,verifyRole("Owner"), ownerController.addStade)
 router.post('/getOwnerstade', verifyToken.protect,verifyRole("Owner"), ownerController.getAllStade)
 router.post('/removeStade', verifyToken.protect,verifyRole("Owner"), ownerController.deleteStade)
-router.post('/OwnergetEvent', verifyToken.protect,verifyRole("Owner"), ownerController.OwnergetEvent)
+router.post('/OwnergetEvent',  ownerController.OwnergetEvent)
+router.post('/removeEvent/:id',  ownerController.deleteEvent)
 
 //Ville
 router.post('/getVille', ownerController.showVille)

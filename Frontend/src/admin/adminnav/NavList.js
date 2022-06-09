@@ -3,6 +3,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import CalendarViewWeekIcon from '@mui/icons-material/CalendarViewWeek';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import RecentActorsIcon from '@mui/icons-material/RecentActors';
 
 
 const NavbarList = [
@@ -52,6 +54,22 @@ const NavbarList = [
     badge: 0,
     subList: [],
     link:'/addowner'
+  },
+  {
+    icon: CircleNotificationsIcon,
+    desc: 'Reservation',
+    secondDesc: '',
+    badge: 0,
+    subList: [],
+    link:'/adminshowreservation'
+  },
+  {
+    icon: RecentActorsIcon,
+    desc: 'Accept User',
+    secondDesc: '',
+    badge: 0,
+    subList: [],
+    link:'/acceptuser'
   }
   
 ];

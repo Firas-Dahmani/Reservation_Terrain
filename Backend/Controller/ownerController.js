@@ -282,7 +282,6 @@ exports.showVille =  async (req, res ) => {
 exports.OwnergetEvent = async (req, res)=> {
     const {ownerid} = req.body 
 
-    console.log(ownerid);
     await Event.find({
         OwnerId : ownerid
     })
@@ -302,7 +301,7 @@ exports.OwnergetEvent = async (req, res)=> {
 }
 
 exports.deleteEvent = async (req, res) => {
-    const { id } = req.body
+    const { id } = req.params
 
         await Event.find({ _id : id })
         .then(()=> {

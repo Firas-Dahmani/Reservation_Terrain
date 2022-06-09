@@ -99,7 +99,7 @@ function SeeUser() {
                                                     <a href="" className="badge badge-dark badge-pill" key={key}>{element.name}</a> 
                                                 )
                                             :
-                                            <strong>No Equipe</strong>
+                                            <strong className="align-items-center justify-content-center text-center">No Equipe</strong>
                                         }
                                     </div>
                                 </div>

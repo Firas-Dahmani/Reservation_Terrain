@@ -270,7 +270,7 @@ function LoginRegister() {
                                 </div>
                                 </div>
                                 <Button   type="submit"  className="btn solid"/* disabled={!validateForm() || loading} */>
-                                    Register
+                                    s'inscrire
                                 </Button>
                             </Form>
 
@@ -290,7 +290,7 @@ function LoginRegister() {
                                 />
                                 </Form.Group >
                                 <Form.Group className=" mb-3 passwordLogin"   controlId="passwordLogin">
-                                <Form.Label>Password</Form.Label>
+                                <Form.Label>Mot de passe</Form.Label>
                                 <Form.Control required  
                                 className="input-field"
                                     type="password"
@@ -299,10 +299,10 @@ function LoginRegister() {
                                 />
                                 </Form.Group >
                                 <p className="social-text" sx={{fontWeight: 'bold'}}>
-                                    <Link to='reset'>Forgot password?</Link>
+                                    <Link to='reset'>Mot de passe oublié?</Link>
                                 </p>
                                 <Button  type="submit"  className="btn solid">
-                                Login
+                                    Connecter
                                 </Button>
                             </Form>
                         </div>
@@ -312,13 +312,13 @@ function LoginRegister() {
 
                         <div className="panel left-panel">
                         <div className="content">
-                            <h3>New User ?</h3>
+                            <h3>Nouvel utilisateur ?</h3>
                             <p>
-                            There’s absolutely no need for me to go to the gym. The name of the cashier at the FoodZone’s I frequent is
-                            Jim, so same thing!
+                                Réserver votre terrain en quelques clics
+                                Convoquer vos joueurs
                             </p>
                             <Button className="btn transparent" id="sign-up-btn" onClick={() => setLoginORregiterClass("sign-up-mode")}>
-                                REGISTER
+                                S'INSCRIRE
                             </Button>
                         </div>
                         <img src={require('../../assets/login.png')} className="image grand" alt="" />
@@ -326,13 +326,13 @@ function LoginRegister() {
 
                         <div className="panel right-panel">
                         <div className="content">
-                            <h3>One of us ?</h3>
+                            <h3>Un de nous ?</h3>
                             <p>
-                            There’s absolutely no need for me to go to the gym. The name of the cashier at the FoodZone’s I frequent is
-                            Jim, so same thing!
+                                Réserver votre terrain en quelques clics
+                                Convoquer vos joueurs
                             </p>
                             <Button className="btn transparent" id="sign-in-btn" onClick={()=> setLoginORregiterClass("sign-in-mode")}>
-                                LOGIN
+                                CONNEXION
                             </Button>
                         </div>
                         <img src={require('../../assets/register.png')} className="image" alt="" />

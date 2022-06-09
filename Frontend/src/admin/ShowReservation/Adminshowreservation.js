@@ -1,17 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { sessionService } from 'redux-react-session';
-import OwnerNavbar from './../Ownernav/OwnerNavbar';
 import { OwnerDeleteEventAction, OwnergetEventAction } from '../../Redux-dep/actions/OwnerActions';
 import Loading from '../../loading/Loading';
 import { format } from 'date-fns';
+import AdminNavbar from './../adminnav/Navbar';
 
-function ShowReservation() {
+function AdminShowReservation() {
 
     const dispatch = useDispatch()
 
     const showReservation = useSelector((state) => state.showReservation)
-    const { event, loading, error } = showReservation
+    const { event , loading, error } = showReservation
 
     const OwnerDeleteEvent = useSelector((state) => state.OwnerDeleteEvent)
     const { success, loading:deleteEveltLoad, error:deleteEveltErr } = OwnerDeleteEvent
@@ -40,7 +40,7 @@ function ShowReservation() {
 
   return (
     <>
-        <OwnerNavbar/>
+        <AdminNavbar />
         {
             loading ? 
             <Loading/>
@@ -90,4 +90,4 @@ function ShowReservation() {
   )
 }
 
-export default ShowReservation
+export default AdminShowReservation

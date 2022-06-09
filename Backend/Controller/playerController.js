@@ -503,7 +503,8 @@ exports.SearchStade = async (req, res) => {
 exports.CreateEvent = async (req, res) => {
     const {start, end, title, StadeID, ownerid , userid} = req.body
 
-    
+    console.log(end);
+    console.log(start);
 
     await Event.find({
         '$and':[
@@ -546,7 +547,8 @@ exports.CreateEvent = async (req, res) => {
                     })
             }
         })
-        .catch(()=> {
+        .catch((err)=> {
+            console.log(err);
             res.json({
                 status: "FAILED",
                 message: "An error occured while finding event!!"
@@ -569,7 +571,8 @@ exports.getEvent = async (req, res)=> {
             event : result
         })
     })
-    .catch(() => {
+    .catch((err) => {
+        console.log(err);
         res.json({
             status: "FAILED",
             message: "An error occured while finding event!!"
@@ -594,4 +597,33 @@ exports.getStadeByID = async (req, res) => {
                 message: "An error occured while finding Stade!!"
             })
         })
+}
+
+exports.deleteEventUser = async (req, res) => {
+    const { start , end } = req.body
+
+        await Event.find({ start , end })
+        .then((result)=> {
+            console.log(result);
+                Event.deleteOne({ _id: result[0]._id })
+                .then(()=> {
+                    res.json({
+                        status: "SUCCESS",
+                        message: "Event deleted successfuly!"
+                    })
+                })
+                .catch(()=> {
+                    res.json({
+                        status: "FAILED",
+                        message: "An error occured while Updating Event !"
+                    })
+                })
+        })
+        .catch(()=> {
+            res.json({
+                status: "FAILED",
+                message: "An error occured while finding Event !"
+            })
+        })
+
 }

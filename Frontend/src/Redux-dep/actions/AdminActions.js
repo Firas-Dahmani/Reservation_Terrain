@@ -95,7 +95,7 @@ export const userSeenAction = () => async (dispatch, getState) => {
         }
 }
 
-export const userAccepteAction = (id) => async (dispatch, getState) => {
+export const userAccepteAction = (id, email) => async (dispatch, getState) => {
   try {
       dispatch({ type: USERS_ACCEPTE_REQUEST })
       
@@ -109,7 +109,7 @@ export const userAccepteAction = (id) => async (dispatch, getState) => {
       }};
 
       await axios.post(`http://localhost:5000/admin/acceptUser/${id}`,
-      {},
+      {email},
        config 
        ).then(response => {
 
@@ -425,7 +425,7 @@ export const stadeSeenAction = (Ville_ID) => async (dispatch) => {
       }
 }
 
-export const stadeAddAction = (User_ID, Ville_ID, stadeName, Tel) => async (dispatch, getState) => {
+export const stadeAddAction = (User_ID, Ville_ID, stadeName, Tel,description, prix, adress) => async (dispatch, getState) => {
   try {
       dispatch({ type: STADE_ADD_REQUEST })
       
@@ -443,7 +443,10 @@ export const stadeAddAction = (User_ID, Ville_ID, stadeName, Tel) => async (disp
         User_ID, 
         Ville_ID, 
         stadeName, 
-        Tel
+        Tel,
+        description, 
+        prix, 
+        adress
       },
       config
 

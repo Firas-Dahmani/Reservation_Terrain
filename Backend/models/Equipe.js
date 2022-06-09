@@ -14,10 +14,7 @@ var equipeSchema = mongoose.Schema({
     createAt: {
         type: Date, 
         default: Date.now
-    },
-    isAdmin: {
-        type: Boolean, default: true
-    },
+    }
 }
 )
 

@@ -20,6 +20,7 @@ router.post('/deleteuserfromequipe', verifyToken.protect,verifyRole("User"), pla
 
 //search satde
 router.post('/searchstade', verifyToken.protect,verifyRole("User"), playerController.SearchStade)
+router.post('/deleteEventUser',playerController.deleteEventUser)
 router.post('/createEvent', playerController.CreateEvent)
 router.post('/getEvent', playerController.getEvent)
 router.post('/getstadebyID/:id', verifyToken.protect,verifyRole("User"),playerController.getStadeByID)

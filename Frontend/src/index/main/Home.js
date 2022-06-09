@@ -54,11 +54,9 @@ function Home() {
           <div className="col-lg-6 col-md-10 firstcolm">
             <div className="header-hero-content">
               <h1 className="header-title wow fadeInLeftBig" data-wow-duration="3s" data-wow-delay="0.2s">
-                <span>Launch YourApp</span> With Confidence and Creative</h1>
+              Lancez votre application avec confiance et créativité</h1>
               <p className="text wow fadeInLeftBig" data-wow-duration="3s" data-wow-delay="0.4s">
-                Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Aspernatur fugiat qui tenetur sit vero delectus vitae suscipit nostrum
-                aliquam exercitationem necessitatibus veniam placeat, voluptatibus harum.
+              Application de réservation pour terrain sportif 100% en ligne. Réservation en ligne pour les sportifs.
               </p>
               <ul className="d-flex">
                 <li>

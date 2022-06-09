@@ -26,6 +26,8 @@ import UserAddEquipe from './User/UserAddEquipe/UserAddEquipe';
 import Reserver from './User/Reserver.js/Reserver';
 import ShowStade from './User/ShowStade/ShowStade';
 import ShowReservation from './Owner/ShowReservation/ShowReservation';
+import AdminShowReservation from './admin/ShowReservation/Adminshowreservation';
+import AcceptUser from './admin/acceptuser/AcceptUser';
 
 
 function App() {
@@ -73,6 +75,8 @@ function App() {
               <Route path="/stade" element={<AuthRoute><StadeCrud /> </AuthRoute>} />
               <Route path="/ville" element={<AuthRoute><VilleCRUD /> </AuthRoute>} />
               <Route path="/profile" element={<AuthRoute><Profile /> </AuthRoute>} />
+              <Route path="/acceptuser" element={<AuthRoute><AcceptUser /> </AuthRoute>} />
+              <Route path="/adminshowreservation" element={<AuthRoute><AdminShowReservation /> </AuthRoute>} />
             </>
         }
         {/* Owner Router */}

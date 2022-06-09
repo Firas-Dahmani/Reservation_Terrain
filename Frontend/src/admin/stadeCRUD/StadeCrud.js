@@ -20,6 +20,9 @@ function StadeCrud() {
     const [UserID, setUserID] = useState("")
     const [Phone, setPhone] = useState("")
     const [ErrorMessage, setErrorMessage] = useState("");
+    const [adress, setAdress] = useState("")
+    const [prix, setPrix] = useState("")
+    const [description, setDesc] = useState("")
 
     const stadeSeen = useSelector((state) => state.stadeSeen)
     const { stade, loading, error } = stadeSeen
@@ -80,9 +83,15 @@ function StadeCrud() {
           setErrorMessage("Stade non valide !")
         }else if(!regPhone.test(Phone)){
           setErrorMessage("Telephone non valide !")
+        }else if(description === ""){
+          setErrorMessage("description non valide !")
+        }else if(prix === ""){
+          setErrorMessage("prix non valide !")
+        }else if(adress === ""){
+          setErrorMessage("adress non valide !")
         } else {
           setErrorMessage("")
-          dispatch(stadeAddAction(UserID, VilleID, Stade, Phone))
+          dispatch(stadeAddAction(UserID, VilleID, Stade, Phone, description, prix, adress))
         }
       } 
 
@@ -147,6 +156,42 @@ function StadeCrud() {
                               />
                           </Form.Group >
                       </div>
+                      <div className="row">
+                                <Form.Group className="col-md-6 form-group mb-5"  controlId="adress">
+                                    <Form.Label className='col-form-label'>Adress</Form.Label>
+                                    <Form.Control 
+                                    placeholder="Adress" 
+                                    className="form-control"
+                                    type="adress"
+                                    value={adress}
+                                    onChange={(e) => setAdress(e.target.value)}
+                                    />
+                                </Form.Group >
+                                <Form.Group className="col-md-6 form-group mb-5"  controlId="prix">
+                                    <Form.Label className='col-form-label'>Prix</Form.Label>
+                                    <Form.Control 
+                                    placeholder="Prix" 
+                                    className="form-control"
+                                    type="prix"
+                                    value={prix}
+                                    onChange={(e) => setPrix(e.target.value)}
+                                    />
+                                </Form.Group >
+                            </div>
+                            <Form.Group className=" mb-3 "  controlId="desc">
+                              <Form.Label className='col-form-label'>Description</Form.Label>
+                              <Form.Control 
+                              as="textarea" 
+                              cols={30} 
+                              rows={4}
+                              required 
+                              placeholder="Des information sur votre stade" 
+                              className="form-control"
+                              
+                              value={description}
+                              onChange={(e) => setDesc(e.target.value)}
+                              />
+                            </Form.Group >
                       <Button type="submit" className='main-btn'>
                           ADD
                       </Button>

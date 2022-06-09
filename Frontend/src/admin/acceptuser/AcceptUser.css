@@ -1,0 +1,105 @@
+
+.main-btn, .main-btn:active {
+    display: inline-block;
+    padding: 0 25px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 55px;
+    border-radius: 5px;
+    background-color: #fe5f59;
+    color: #fff;
+  }
+  
+  .main-btn:hover,.main-btn:focus {
+    background-color: #e55039aa;
+  }
+  .container-Empty{
+      overflow-x: hidden;
+      margin-left: 60px;
+      }
+      
+      .row-container{
+      margin-top: 50px;
+      }
+      
+      .text-page{
+      color: #fe5f59;
+      }
+      
+      .container-Empty img{
+      max-height: 500px;
+      }
+  .container {
+    padding: 1rem 0rem;
+    }
+    .table{
+      margin-top: 50px;
+      margin-bottom: 200px;
+    }
+    h4 {
+      margin: 2rem 0rem 1rem;
+    }
+    
+    .table-image td,
+    .table-image th {
+      vertical-align: middle;
+    }
+    
+    th,td{
+      text-align: center;
+      }
+    thead{
+      font-size: 18px;
+    }
+      td{
+        font-weight: bold;
+        font-size: 17px;
+      }
+    img{
+      transition: 0.5s all ease-in-out;
+    }
+  
+    
+    
+    .delete{
+      cursor: pointer;
+      transition: 0.3s all ease-in-out;
+    }
+    
+    .delete:hover{
+      color: tomato;
+      transform: scale(1.3);
+    }
+  
+    .check{
+      cursor: pointer;
+      transition: 0.3s all ease-in-out;
+    }
+    
+    .check:hover{
+      color: tomato;
+      transform: scale(1.3);
+    }
+    
+    
+    tr{
+      transition: all 300ms ease-in-out;
+    }
+    tr:hover{
+      background-color: #f1f1f1;
+    }
+    @media (max-width: 1000px) {
+      select{
+        min-width: 120px;
+      }
+    }
+    @media (max-width: 767px) {
+      #container{
+        overflow-x: scroll;
+      }
+      h3{
+        font-size: 14px;
+      }
+    
+    }

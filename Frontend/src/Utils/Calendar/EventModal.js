@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Datetime from 'react-datetime';
 import './CalendarStyle.css'
 
-function EventModal({isOpen, onClose, onEventAded,UserId, OwnerId}) {
+function EventModal({isOpen, onClose, onEventAded}) {
     const [title, setTitle] = useState("")
     const [start, setStart] = useState(new Date())
     const [end, setEnd] = useState(new Date())
@@ -12,8 +12,6 @@ function EventModal({isOpen, onClose, onEventAded,UserId, OwnerId}) {
         event.preventDefault()
 
         onEventAded({
-            userid:UserId,
-            ownerid:OwnerId,
             title,
             start,
             end
